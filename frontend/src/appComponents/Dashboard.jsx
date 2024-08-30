@@ -7,36 +7,40 @@ import {
   IconSettings,
   IconUserBolt,
 } from "@tabler/icons-react";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { motion } from "framer-motion";
 import { cn } from "../lib/utils";
+import { Route, Routes } from "react-router-dom";
+import Banner from '../assets/banner.jpg'
+
+
 
 export default function Dashboard() {
   const links = [
     {
-      label: "Dashboard",
-      href: "#",
+      label: "Timeline",
+      href: "/dashboard/demo",
       icon: (
         <IconBrandTabler className="flex-shrink-0 w-5 h-5 text-neutral-700 dark:text-neutral-200" />
       ),
     },
     {
-      label: "Profile",
-      href: "#",
+      label: "Board",
+      href: "/dashboard/board",
       icon: (
         <IconUserBolt className="flex-shrink-0 w-5 h-5 text-neutral-700 dark:text-neutral-200" />
       ),
     },
     {
       label: "Settings",
-      href: "#",
+      href: "/board",
       icon: (
         <IconSettings className="flex-shrink-0 w-5 h-5 text-neutral-700 dark:text-neutral-200" />
       ),
     },
     {
       label: "Logout",
-      href: "#",
+      href: "/board",
       icon: (
         <IconArrowLeft className="flex-shrink-0 w-5 h-5 text-neutral-700 dark:text-neutral-200" />
       ),
@@ -77,7 +81,25 @@ export default function Dashboard() {
           </div>
         </SidebarBody>
       </Sidebar>
-      <DashboardInner />
+      <div className="w-full">
+        <div className="flex items-center justify-between w-full p-4 border-b">
+          <div className="flex gap-4">
+            <select name="" id="" className="font-semibold bg-transparent text-sky-800">
+              <option value="">Projects</option>
+              <option value="">skkmo</option>
+              <option value="">ooooooooo</option>
+            </select>
+            <button className="px-4 py-2 font-semibold text-white rounded bg-sky-600">Create</button>
+          </div>
+          <div className="flex gap-4">
+            <div className="p-2 bg-white border rounded-md shadow ">
+              <input placeholder="search" type="text" />
+            </div>
+            <img className="w-12 h-12 rounded-full" src={Banner} />
+          </div>
+        </div>
+        <DashboardInner />
+      </div>
     </div>)
   );
 }
@@ -111,24 +133,8 @@ export const LogoIcon = () => {
 // Dummy dashboard component with content
 const DashboardInner = () => {
   return (
-    (<div className="flex flex-1">
-      <div
-        className="flex flex-col flex-1 w-full h-full gap-2 p-2 bg-white border md:p-10 rounded-tl-2xl border-neutral-200 dark:border-neutral-700 dark:bg-neutral-900">
-        <div className="flex gap-2">
-          {[...new Array(4)].map((i) => (
-            <div
-              key={"first-array" + i}
-              className="w-full h-20 bg-gray-100 rounded-lg dark:bg-neutral-800 animate-pulse"></div>
-          ))}
-        </div>
-        <div className="flex flex-1 gap-2">
-          {[...new Array(2)].map((i) => (
-            <div
-              key={"second-array" + i}
-              className="w-full h-full bg-gray-100 rounded-lg dark:bg-neutral-800 animate-pulse"></div>
-          ))}
-        </div>
-      </div>
-    </div>)
+    <div className="w-full min-h-screen">
+      <Outlet />
+    </div>
   );
 };

@@ -9,6 +9,7 @@ import Demo from "./appComponents/Demo"
 import Auth from './pages/Auth';
 import GitHubRepoInfo from './appComponents/GithubRepoInfo';
 import RegisterVerify from './pages/RegisterVerify';
+import Board from './appComponents/Board';
 
 
 function App() {
@@ -19,9 +20,12 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Auth/>} />
-        <Route path="/dashboard" element={<Dashboard/>} />
-        <Route path="/github" element={<GitHubRepoInfo/>} />
+        <Route path="/" element={<Auth />} />
+        <Route path="/dashboard/*" element={<Dashboard />} >
+          <Route path="board" element={<Board />} />
+          <Route path="demo" element={<Board />} />
+        </Route>
+        <Route path="/github" element={<GitHubRepoInfo />} />
 
       </Routes>
     </Router>

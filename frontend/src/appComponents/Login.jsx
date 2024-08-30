@@ -7,10 +7,15 @@ function Login(props) {
     }
 
   return (
-    <div className=' w-[500px] p-5 flex justify-center items-center flex-col h-[532px]'>
-        <input type="text" className=' my-2 p-2 w-[350px] border rounded-[5px]' placeholder='Enter your email'/>
-        <input type="password" className='my-2 p-2 w-[350px] border rounded-[5px]' placeholder='Enter your password'/>
-        <button className='p-3 px-2 border w-[100px] rounded-[50px] bg-green-500 font-bold text-white'>Login</button>
+    <div className='shadow-lg ml-4 border border-2 w-[500px] px-4 py-2 flex justify-center items-center flex-col h-[350px]'>
+        <input type="text" className=' my-2 p-2 w-[400px] border rounded-[5px]' placeholder='Enter your email'/>
+        <input type="password" className='my-2 p-2 w-[400px] border rounded-[5px]' placeholder='Enter your password'/>
+        <button className="mb-3 p-[3px] relative mt-3 ">
+                    <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full" />
+                    <div className="px-8 py-2 bg-white rounded-full  relative group transition duration-200 text-black hover:bg-transparent hover:text-white ">
+                        Login
+                    </div>
+                </button>
         <p className='' onClick={change}>Dont have account ? Register</p>
     </div>
   )

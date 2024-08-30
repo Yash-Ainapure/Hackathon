@@ -21,7 +21,7 @@ export default function  HeroTitle() {
         className="text-2xl px-4 md:text-4xl lg:text-5xl font-bold text-neutral-700 dark:text-white max-w-4xl leading-relaxed lg:leading-snug text-center mx-auto ">
         Discover the features that make 
         {" "}
-        <Highlight className="text-black dark:text-white">
+        <Highlight className="text-white dark:text-white">
         CoLab so easy to use
         </Highlight>
       </motion.h1>

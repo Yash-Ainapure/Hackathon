@@ -33,8 +33,9 @@ function Auth() {
         </div>
         <HeroTitle/>
         <Hero1/>
-        <Hero2/>
         <Hero3/>
+        <Hero2/>
+        
         <Footer/>
     </div>
   )

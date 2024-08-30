@@ -16,6 +16,7 @@ app.use(express.json());
 // Routes
 app.use("/api/auth", require("./src/routes/authRoutes"));
 app.use("/api/projects", require("./src/routes/projectRoutes"));
+app.use("/api/sendMail", require("./src/routes/mailRoutes"));
 // app.use("/api/quizzes", require("./src/routes/quizRoutes"));
 // app.use('/api/contactUs',require("./src/routes/contactRoutes"));
 

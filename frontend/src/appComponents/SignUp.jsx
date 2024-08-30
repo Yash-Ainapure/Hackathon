@@ -20,7 +20,7 @@ function SignUp(props) {
             </div>
             <p className='mr-4' onClick={change}>Already have account ?</p>
         </div>        
-        <button className='p-3 px-5 mt-2 border w-[100px] rounded-[30px] bg-blue-500 text-white'>Sign Up</button>
+        <button className='p-3 px-5 mt-2 border w-[100px] rounded-[30px] bg-[#6a27bb] text-white'>Sign Up</button>
         <hr className=''/>
         <div>
             <button className='m-2 p-3 px-5 text-white border bg-green-700 rounded-[50px]'>Google</button>

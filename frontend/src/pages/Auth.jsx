@@ -26,7 +26,6 @@ function Auth() {
         
         <img src={Banner} className='w-[800px]' alt="" />
         </div>
-
         <Hero1/>
     </div>
   )

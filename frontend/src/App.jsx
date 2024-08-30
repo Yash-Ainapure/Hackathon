@@ -7,6 +7,7 @@ import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
 import Dashboard from "./appComponents/Dashboard";
 import Demo from "./appComponents/Demo"
 import Auth from './pages/Auth';
+import GitHubRepoInfo from './appComponents/GithubRepoInfo';
 
 
 function App() {
@@ -19,6 +20,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Auth/>} />
         <Route path="/dashboard" element={<Dashboard/>} />
+        <Route path="/github" element={<GitHubRepoInfo/>} />
+
       </Routes>
     </Router>
   )

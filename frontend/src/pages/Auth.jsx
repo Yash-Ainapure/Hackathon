@@ -38,7 +38,6 @@ function Auth() {
         <Hero1/>
         <Hero3/>
         <Hero2/>
-        
         <Footer/>
     </div>
   )

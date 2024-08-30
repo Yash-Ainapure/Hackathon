@@ -8,6 +8,7 @@ import Dashboard from "./appComponents/Dashboard";
 import Demo from "./appComponents/Demo"
 import Auth from './pages/Auth';
 import GitHubRepoInfo from './appComponents/GithubRepoInfo';
+import RegisterVerify from './pages/RegisterVerify';
 
 
 function App() {

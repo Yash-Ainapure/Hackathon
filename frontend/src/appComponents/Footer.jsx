@@ -1,5 +1,7 @@
 import React from 'react'
-
+import GitHubIcon from '@mui/icons-material/GitHub';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import InstagramIcon from '@mui/icons-material/Instagram';
 export default function Footer() {
   return (
     <div className='mt-10 flex flex-col items-center bg-[#181b1b]'>
@@ -12,26 +14,28 @@ export default function Footer() {
       <div className='flex flex-col w-1/5'>
         <h1 className='text-xl font-bold '>Routes</h1>
         
-          <p className='text-sm'>About us</p>
-          <p className='text-sm'>Features</p>
-          <p className='text-sm'>Projects</p>
-          <p className='text-sm'>Dashboard</p>
-          <p className='text-sm'>Sign Up</p>
+          <p className='text-sm my-1'>About us</p>
+          <p className='text-sm my-1'>Features</p>
+          <p className='text-sm my-1'>Projects</p>
+          <p className='text-sm my-1'>Dashboard</p>
+          <p className='text-sm my-1'>Sign Up</p>
           
       </div>
       <div className='flex flex-col w-1/5 '>
         <h1 className='text-xl font-bold '>Others</h1>
         
-          <p>Testimonials</p>
-          <p>Feedback</p>          
+          <p className='text-sm my-1'>Testimonials</p>
+          <p className='text-sm my-1'>Feedback</p>          
           
       </div>
       <div className='flex flex-col w-1/5 '>
         <h1 className='text-xl font-bold '>Get In Touch</h1>
-        
-          <p>Testimonials</p>
-          <p>Feedback</p>          
-          
+        <div className='flex justify-around w-4/5 my-2'>
+        <GitHubIcon/>
+          <WhatsAppIcon/>
+          <InstagramIcon/>
+        </div>
+      
       </div>
       </div>
       <div className=' flex justify-center items-center bg-[#181b1b] text-white w-full h-20'>

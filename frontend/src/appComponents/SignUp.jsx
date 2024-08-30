@@ -6,8 +6,7 @@ function SignUp(props) {
 
     const change=()=>{
         console.log("s");
-        props.type("Login");
-        
+        props.type("Login");       
         
     }
 

@@ -6,6 +6,7 @@ import { useState } from 'react'
 import Hero1 from '../appComponents/Hero1'
 import Navbar from '../appComponents/Navbar'
 import HeroTitle from '../appComponents/HeroTitle'
+import Hero2 from '../appComponents/Hero2'
 
 function Auth() {
 
@@ -30,6 +31,7 @@ function Auth() {
         </div>
         <HeroTitle/>
         <Hero1/>
+        <Hero2/>
     </div>
   )
 }

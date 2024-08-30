@@ -25,7 +25,7 @@ export default function Hero1() {
           className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-white bg-gradient-to-br from-purple-700 to-violet-900 flex flex-col justify-center">
           <p className='text-4xl font-bold'>Projects Tab</p>
           <div className='flex items-center'>
-            <div className='text-md p-4 mt-4 w-2/5'>
+            <div className='text-md p-4 mt-4 w-2/5 font-bold'>
               <li className='my-4'>Scrum boards: Scrum boards help agile teams break large, complex projects into manageable pieces of work so focused teams ship faster.</li>
               <li className='my-4'>Kanban boards: Agile and DevOps teams can use flexible kanban boards to visualize workflows, limit work-in-progress, and maximize efficiency as a team. Templates make it easy to get started quickly and customize as you go.</li>
               <li className='my-4'>Choose your own adventure: Jira Software is flexible enough to mold to your team’s own unique way of working, whether it is Scrum, Kanban, or something in between.</li>
@@ -45,7 +45,7 @@ export default function Hero1() {
           className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-white bg-gradient-to-br from-purple-700 to-violet-900 flex flex-col justify-center">
           <p className='text-4xl font-bold'>Dashboard Tab</p>
           <div className='flex items-center'>
-            <div className='text-md p-4 mt-4 w-2/5'>
+            <div className='text-md p-4 mt-4 w-2/5 font-bold'>
               <li className='my-4'>Scrum boards: Scrum boards help agile teams break large, complex projects into manageable pieces of work so focused teams ship faster.</li>
               <li className='my-4'>Kanban boards: Agile and DevOps teams can use flexible kanban boards to visualize workflows, limit work-in-progress, and maximize efficiency as a team. Templates make it easy to get started quickly and customize as you go.</li>
               <li className='my-4'>Choose your own adventure: Jira Software is flexible enough to mold to your team’s own unique way of working, whether it is Scrum, Kanban, or something in between.</li>
@@ -65,7 +65,7 @@ export default function Hero1() {
         className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-white bg-gradient-to-br from-purple-700 to-violet-900 flex flex-col justify-center">
         <p className='text-4xl font-bold'>Meet Tab</p>
         <div className='flex items-center'>
-          <div className='text-md p-4 mt-4 w-2/5'>
+          <div className='text-md p-4 mt-4 w-2/5 font-bold'>
             <li className='my-4'>Scrum boards: Scrum boards help agile teams break large, complex projects into manageable pieces of work so focused teams ship faster.</li>
             <li className='my-4'>Kanban boards: Agile and DevOps teams can use flexible kanban boards to visualize workflows, limit work-in-progress, and maximize efficiency as a team. Templates make it easy to get started quickly and customize as you go.</li>
             <li className='my-4'>Choose your own adventure: Jira Software is flexible enough to mold to your team’s own unique way of working, whether it is Scrum, Kanban, or something in between.</li>
@@ -85,7 +85,7 @@ export default function Hero1() {
           className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-white bg-gradient-to-br from-purple-700 to-violet-900 flex flex-col justify-center">
           <p className='text-4xl font-bold'>Editor Tab</p>
           <div className='flex items-center'>
-            <div className='text-md p-4 mt-4 w-2/5'>
+            <div className='text-md p-4 mt-4 w-2/5 font-bold'>
               <li className='my-4'>Scrum boards: Scrum boards help agile teams break large, complex projects into manageable pieces of work so focused teams ship faster.</li>
               <li className='my-4'>Kanban boards: Agile and DevOps teams can use flexible kanban boards to visualize workflows, limit work-in-progress, and maximize efficiency as a team. Templates make it easy to get started quickly and customize as you go.</li>
               <li className='my-4'>Choose your own adventure: Jira Software is flexible enough to mold to your team’s own unique way of working, whether it is Scrum, Kanban, or something in between.</li>

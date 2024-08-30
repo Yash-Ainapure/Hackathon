@@ -4,9 +4,11 @@ import SignUp from '../appComponents/SignUp'
 import Banner from '../assets/banner.jpg'
 import { useState } from 'react'
 import Hero1 from '../appComponents/Hero1'
+import Hero3 from '../appComponents/Hero3'
 import Navbar from '../appComponents/Navbar'
-import HeroTitle from '../appComponents/HeroTitle'
 import Hero2 from '../appComponents/Hero2'
+import HeroTitle from '../appComponents/HeroTitle'
+import Footer from '../appComponents/Footer'
 
 function Auth() {
 
@@ -32,6 +34,8 @@ function Auth() {
         <HeroTitle/>
         <Hero1/>
         <Hero2/>
+        <Hero3/>
+        <Footer/>
     </div>
   )
 }

@@ -14,7 +14,7 @@ function Navbar() {
   const user = useSelector(state => state.setUserObjReducer.user);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [profileModal, setProfileModal] = useState(true);
+  const [profileModal, setProfileModal] = useState(false);
   const [showNotificationModal, setShowNotificationModal] = useState(false);
 
 

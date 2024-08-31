@@ -16,8 +16,8 @@ import ListIcon from '@mui/icons-material/List';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import SearchIcon from '@mui/icons-material/Search';
-
-
+import Navbar from "./Navbar";
+import VideoCallIcon from '@mui/icons-material/VideoCall';
 import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
 
 export default function Dashboard() {
@@ -26,10 +26,10 @@ export default function Dashboard() {
   
   const links = [
     {
-      label: "Timeline",
-      href: "/dashboard/timeline",
+      label: "CoMeet",
+      href: "/dashboard/CoMeet",
       icon: (
-        <IconBrandTabler className="flex-shrink-0 w-5 h-5 text-neutral-700 dark:text-neutral-200" />
+        <VideoCallIcon className="flex-shrink-0 w-5 h-5 text-neutral-700 dark:text-neutral-200" />
       ),
     },
     {
@@ -70,7 +70,9 @@ export default function Dashboard() {
   ];
   const [open, setOpen] = useState(false);
   return (
-    (<div
+    (
+    
+    <div
       className={cn(
         "rounded-md flex flex-col md:flex-row bg-gray-100 dark:bg-neutral-800 min-h-screen w-full flex-1 mx-auto border border-neutral-200 dark:border-neutral-700 overflow-hidden",
         // for your use case, use `h-screen` instead of `h-[60vh]`

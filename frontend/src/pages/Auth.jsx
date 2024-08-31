@@ -26,8 +26,10 @@ function Auth() {
 
   return (
     <div className='max-w-full flex flex-col  justify-center ' >
-      <Navbar/>
-        <div className='flex items-center gap-4'>
+      <div className='border py-4 px-4 pl-20'>
+        <h1 className='text-2xl font-bold'>CoLab</h1>
+      </div>
+        <div className='flex items-center gap-4 justify-around ' id='get-started'>
           {
             (authType==="Login")?<Login type={setAuthType}/>:<SignUp type={setAuthType}/>
 

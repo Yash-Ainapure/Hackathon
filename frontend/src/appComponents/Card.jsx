@@ -23,7 +23,7 @@ export default function Card(props) {
             <img src={Banner} className='w-14 h-14 rounded-md'></img>
             <div>
                 <p className='font-medium text-xl'>{props.name}</p>
-                <p className='font-light text-sm'>{props.owner}</p>
+                <p className='font-light text-sm'>{props.ownerName}</p>
             </div>
         </div>
 

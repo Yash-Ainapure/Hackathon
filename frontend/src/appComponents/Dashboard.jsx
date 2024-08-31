@@ -16,23 +16,13 @@ import ListIcon from '@mui/icons-material/List';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import SearchIcon from '@mui/icons-material/Search';
-import { useSelector } from "react-redux";
-import { getProjectsForUser } from "../services/projectService";
+
+
 import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
 
 export default function Dashboard() {
 
-  const user = useSelector(state => state.setUserObjReducer.user);
-  useEffect(()=>{
-   const fetchProjects= async ()=>{
-    console.log("HArd : " +user._id);
-    
-    const userProjects = await getProjectsForUser("66d1f445bf20097cf324f0d6");
-    console.log(userProjects);
-    
-   }
-   fetchProjects();
-  },[])
+  
   
   const links = [
     {

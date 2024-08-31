@@ -22,7 +22,7 @@ function Login(props) {
         localStorage.setItem('auth-token',response.data.token);
         console.log(response.data.user);
         dispatch(setUserObj(response.data.user));
-        navigate('/dashboard', { state: {}});
+        navigate('/Home', { state: {}});
       })
       .catch(error => {
         console.error('Error sending email:', error);

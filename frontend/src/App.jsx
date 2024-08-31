@@ -23,9 +23,10 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={   <VideoStream />} />
+        <Route path="/" element={ <Auth/>} />
         <Route path="/register" element={<RegisterVerify />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/CoMeet" element={<VideoStream />} />
         <Route path="/dashboard/*" element={<Dashboard />} >
           <Route path="board" element={<Board />} />
           <Route path="demo" element={<Board />} />

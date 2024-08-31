@@ -1,22 +1,26 @@
 import React from 'react'
 // import Login from './Login';
 import { useState } from 'react'
+import axios from 'axios';
+import { Navigate } from 'react-router-dom';
 function SignUp(props) {
 
     const [emailValue, setEmailValue] = useState('');
     const [message, setMessage] = useState('');
     
 
-    const sendOTP = async () => {
-        try {
-            const response = await axios.post('http://localhost:3000/sendMail', { emailValue });
-            setMessage(response.data.message);
-            console.log(message);
+    // const sendOTP = async () => {
+    //     try {
+    //         console.log("inside");
             
-        } catch (error) {
-            setMessage('Failed to send OTP. Please try again.');
-        }
-    };
+    //         const response = await axios.post('http://localhost:3000/', { emailValue });
+    //         setMessage(response.data.message);
+    //         console.log(message);
+            
+    //     } catch (error) {
+    //         setMessage('Failed to send OTP. Please try again.');
+    //     }
+    // };
 
 
 
@@ -30,13 +34,16 @@ function SignUp(props) {
     }
 
     const sendEmail = () => {
-        axios({
-            method: 'post',
-            url: '/u',
-            data: {
-                firstName: 'Fred',
-                lastName: 'Flintstone'
-            }
+        console.log("inside send mail");
+        
+        axios.post('http://localhost:3000/api/sendMail', {
+            email: emailValue
+        })
+        .then(response => {
+            console.log('Email sent successfully:', response.data);
+        })
+        .catch(error => {
+            console.error('Error sending email:', error);
         });
     }
 

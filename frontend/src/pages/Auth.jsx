@@ -2,7 +2,8 @@ import React, { useEffect } from 'react'
 import Login from '../appComponents/Login'
 import SignUp from '../appComponents/SignUp'
 
-import Ilustration from '../assets/illustration_1.jpg'
+
+import Banner from '../assets/banner.jpg'
 
 
 import { useState } from 'react'
@@ -32,7 +33,7 @@ function Auth() {
 
           }     
         
-        <img src={Ilustration} className='w-[800px]' alt="" />
+        <img src={Banner} className='w-[800px]' alt="" />
         </div>
         <HeroTitle/>
         <Hero1/>

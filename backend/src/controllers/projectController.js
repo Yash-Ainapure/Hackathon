@@ -6,6 +6,7 @@ const createProject = async (req, res) => {
   const {
     name,
     owner,
+    ownerName,
     projectDescription,
     projectMembers,
     projectAdmins,
@@ -48,6 +49,7 @@ const createProject = async (req, res) => {
     const newProject = new Project({
       name,
       owner,
+      ownerName,
       projectDescription,
       projectAdmins,
       projectMembers,

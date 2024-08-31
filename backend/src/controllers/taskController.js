@@ -1,4 +1,5 @@
 const Task = require("../models/Task");
+const Project = require("../models/Project"); // Ensure Project model is imported
 
 // Utility function to format date as YYYY-MM-DD
 const formatDate = (date) => {
@@ -15,36 +16,45 @@ const createTask = async (req, res) => {
   const {
     taskName,
     taskDescription,
-    status,
     projectId,
     assignedTo,
     startDate,
     endDate,
   } = req.body;
 
-  const validStatuses = ["ToDo", "InProgress", "Finished"];
-  if (!validStatuses.includes(status)) {
-    return res.status(400).json({
-      message: "Invalid status. Valid statuses are 'ToDo', 'InProgress', and 'Finished'.",
-    });
-  }
-
   try {
     const newTask = new Task({
       taskName,
       taskDescription,
-      status,
       projectId,
       assignedTo,
       startDate: formatDate(startDate),
       endDate: formatDate(endDate),
     });
 
+    // Save the task
     await newTask.save();
+
+    // Add the task to the project's toDo array
+    await addTasksToProject(projectId, newTask._id);
+
     res.status(201).json({ message: "Task created successfully", task: newTask });
   } catch (error) {
     console.error("Error creating task:", error);
     res.status(500).json({ message: "Server error" });
+  }
+};
+
+// Function to add a task to the project's toDo array
+const addTasksToProject = async (projectId, taskId) => {
+  try {
+    await Project.findByIdAndUpdate(
+      projectId,
+      { $addToSet: { toDO: taskId } }, // Ensure no duplicates by using $addToSet
+      { new: true } // Return the updated document
+    );
+  } catch (error) {
+    console.error("Error adding task to project:", error);
   }
 };
 
@@ -81,22 +91,30 @@ const updateTask = async (req, res) => {
   }
 };
 
+// Delete a task
 const deleteTask = async (req, res) => {
-    const { taskId } = req.params; 
-  
-    try {
-      const result = await Task.findByIdAndDelete(taskId);
-  
-      if (!result) {
-        return res.status(404).json({ message: "Task not found" });
-      }
-  
-      res.status(200).json({ message: "Task deleted successfully" });
-    } catch (error) {
-      console.error("Error deleting task:", error);
-      res.status(500).json({ message: "Server error" });
+  const { taskId } = req.params;
+
+  try {
+    // Find the task and remove it
+    const result = await Task.findByIdAndDelete(taskId);
+
+    if (!result) {
+      return res.status(404).json({ message: "Task not found" });
     }
-  };
+
+    // Remove the task from the project's toDo list
+    await Project.updateMany(
+      { toDo: taskId },
+      { $pull: { toDo: taskId } }
+    );
+
+    res.status(200).json({ message: "Task deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting task:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
 
 module.exports = {
   createTask,

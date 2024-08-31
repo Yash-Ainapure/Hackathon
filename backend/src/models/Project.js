@@ -12,6 +12,10 @@ const ProjectSchema = new Schema({
     ref: "User",
     required: true,
   },
+  ownerName: {
+    type: String,
+    required: true,
+  },
   projectDescription: {
     type: String,
     required: true,
@@ -24,14 +28,26 @@ const ProjectSchema = new Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-    }
+    },
   ],
   projectMembers: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-    }
+    },
   ],
+  toDO: {
+    type: Array,
+    default: [],
+  },
+  inProgress: {
+    type: Array,
+    default: [],
+  },
+  completed: {
+    type: Array,
+    default: [],
+  },
   startDate: {
     type: Date,
     default: Date.now,

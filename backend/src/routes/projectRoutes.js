@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-
+const sendMail = require('../utils/pushNotification')
 const {
   createProject,
   addMemberInProject,
@@ -23,6 +23,7 @@ router.post("/add-member", async (req, res) => {
 
   try {
     await addMemberInProject(userId, projectId);
+    await sendMail(userId)
     res.status(200).json({ message: "Member added to project successfully" });
   } catch (error) {
     res.status(500).json({ message: "Error adding member to project" });

@@ -4,13 +4,13 @@ import SearchIcon from "@mui/icons-material/Search";
 import CircleNotificationsIcon from "@mui/icons-material/CircleNotifications";
 import CloseIcon from "@mui/icons-material/Close";
 import axios from 'axios';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import { useNavigate } from "react-router-dom";
 //Modal State
 function Navbar() {
 
-  const navigate = useNavigate();
+  const navigateTo = useNavigate();
   const user = useSelector(state => state.setUserObjReducer.user);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -39,7 +39,7 @@ function Navbar() {
   // const [inputValue, setInputValue] = useState("");
   // const [suggestions, setSuggestions] = useState([]);
 
-
+  const navigate = useNavigate();
   const [projectName, setProjectName] = useState('');
   const [description, setDescription] = useState('');
   const [startDate, setStartDate] = useState('');
@@ -107,6 +107,12 @@ function Navbar() {
   //   setInputValue(suggestion);
   //   setSuggestions([]);
   // };
+ 
+  const changeLoginStatus=()=>{
+    localStorage.removeItem('auth-token');
+    navigateTo('/');
+  }
+
   return (
     <div>
       <div className="flex items-center justify-between w-full p-2 px-24 border-b">
@@ -184,7 +190,7 @@ function Navbar() {
               <ManageAccountsIcon />
             </div>
             <div className="absolute bottom-0 flex justify-start w-full p-4 border-t">
-              <p>Log out</p>
+              <p onClick={changeLoginStatus} className="cursor-pointer"> Log out</p>
             </div>
           </div>
         }

@@ -4,6 +4,7 @@ const combined_Reducers = combineReducers({
     counterReducer:counterReducer,
     updateCaptionReducer:updateCaptionReducer,
     setUserObjReducer,
+    
 });
 
 export default combined_Reducers;

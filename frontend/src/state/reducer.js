@@ -12,6 +12,10 @@ const initialUserObj = {
     user : {}
 }
 
+const initialLoginStatus = {
+    loginStatus : "Login",
+}
+
 //reducer function
 
 
@@ -63,4 +67,7 @@ export const setUserObjReducer=(state=initialUserObj,action)=>{
         
     }
 };
+
+
+
 

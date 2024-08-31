@@ -10,6 +10,7 @@ import Auth from './pages/Auth';
 import GitHubRepoInfo from './appComponents/GithubRepoInfo';
 import RegisterVerify from './pages/RegisterVerify';
 import Board from './appComponents/Board';
+import TaskList from './appComponents/TaskList';
 
 
 function App() {
@@ -24,8 +25,10 @@ function App() {
         <Route path="/dashboard/*" element={<Dashboard />} >
           <Route path="board" element={<Board />} />
           <Route path="demo" element={<Board />} />
+          <Route path="list" element={<TaskList />} />
+          <Route path="messages" element={<Board />} />
+          <Route path="githubStats" element={<GitHubRepoInfo />} />
         </Route>
-        <Route path="/github" element={<GitHubRepoInfo />} />
 
       </Routes>
     </Router>

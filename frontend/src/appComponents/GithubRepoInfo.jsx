@@ -6,6 +6,7 @@ const GitHubRepoInfo = () => {
    const [error, setError] = useState(null);
 
    const accessToken = import.meta.env.VITE_GITHUB_TOKEN;
+   console.log(accessToken)
    const username = 'Sami3160'; // Replace with the GitHub username
    useEffect(() => {
       const fetchCommitMessages = async () => {

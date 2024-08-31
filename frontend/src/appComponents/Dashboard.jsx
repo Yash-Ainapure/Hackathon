@@ -10,16 +10,17 @@ import {
 import { Link, Outlet } from "react-router-dom";
 import { motion } from "framer-motion";
 import { cn } from "../lib/utils";
-import { Route, Routes } from "react-router-dom";
 import Banner from '../assets/banner.jpg'
-
-
+import GridViewIcon from '@mui/icons-material/GridView';
+import ListIcon from '@mui/icons-material/List';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import GitHubIcon from '@mui/icons-material/GitHub';
 
 export default function Dashboard() {
   const links = [
     {
       label: "Timeline",
-      href: "/dashboard/demo",
+      href: "/dashboard/timeline",
       icon: (
         <IconBrandTabler className="flex-shrink-0 w-5 h-5 text-neutral-700 dark:text-neutral-200" />
       ),
@@ -28,19 +29,33 @@ export default function Dashboard() {
       label: "Board",
       href: "/dashboard/board",
       icon: (
-        <IconUserBolt className="flex-shrink-0 w-5 h-5 text-neutral-700 dark:text-neutral-200" />
+        <GridViewIcon className="flex-shrink-0 w-5 h-5 text-neutral-700 dark:text-neutral-200" />
       ),
     },
     {
-      label: "Settings",
-      href: "/board",
+      label: "List",
+      href: "/dashboard/list",
       icon: (
-        <IconSettings className="flex-shrink-0 w-5 h-5 text-neutral-700 dark:text-neutral-200" />
+        <ListIcon className="flex-shrink-0 w-5 h-5 text-neutral-700 dark:text-neutral-200" />
+      ),
+    },
+    {
+      label: "Chat",
+      href: "/dashboard/messages",
+      icon: (
+        <ChatBubbleOutlineIcon className="flex-shrink-0 w-5 h-5 text-neutral-700 dark:text-neutral-200" />
+      ),
+    },
+    {
+      label: "Github Stats",
+      href: "/dashboard/githubStats",
+      icon: (
+        <GitHubIcon className="flex-shrink-0 w-5 h-5 text-neutral-700 dark:text-neutral-200" />
       ),
     },
     {
       label: "Logout",
-      href: "/board",
+      href: "/",
       icon: (
         <IconArrowLeft className="flex-shrink-0 w-5 h-5 text-neutral-700 dark:text-neutral-200" />
       ),
@@ -82,17 +97,17 @@ export default function Dashboard() {
         </SidebarBody>
       </Sidebar>
       <div className="w-full">
-        <div className="flex items-center justify-between w-full p-4 border-b">
+        <div className="flex items-center justify-between w-full p-2 border-b">
           <div className="flex gap-4">
             <select name="" id="" className="font-semibold bg-transparent text-sky-800">
               <option value="">Projects</option>
-              <option value="">skkmo</option>
-              <option value="">ooooooooo</option>
+              <option value="">Project 1</option>
+              <option value="">Project 2</option>
             </select>
             <button className="px-4 py-2 font-semibold text-white rounded bg-sky-600">Create</button>
           </div>
           <div className="flex gap-4">
-            <div className="p-2 bg-white border rounded-md shadow ">
+            <div className="flex p-[1px] pl-2 bg-white border rounded-md shadow ">
               <input placeholder="search" type="text" />
             </div>
             <img className="w-12 h-12 rounded-full" src={Banner} />
@@ -133,7 +148,7 @@ export const LogoIcon = () => {
 // Dummy dashboard component with content
 const DashboardInner = () => {
   return (
-    <div className="w-full min-h-screen">
+    <div className="w-full min-h-screen border-l">
       <Outlet />
     </div>
   );

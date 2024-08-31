@@ -44,7 +44,7 @@ function Login(props) {
           Login
         </div>
       </button>
-      <p className='' onClick={change}>Dont have account ? Register</p>
+      <p className='' onClick={change}>Dont have account ? <span className='font-bold hover:text-purple-600 cursor-pointer'>Register</span></p>
     </div>
   )
 }

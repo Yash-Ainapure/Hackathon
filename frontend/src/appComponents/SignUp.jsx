@@ -57,7 +57,7 @@ function SignUp(props) {
                         {/* <label htmlFor="">Email</label>  */}
                         <input type="email" value={emailValue} onChange={(event) => { setEmailValue(event.target.value) }} className='border-2 mx-2 p-2 w-[400px] border rounded-[5px]' placeholder='Enter your email' />
                     </div>
-                    <p className='mr-4' onClick={change}>Already have account ?</p>
+                    <p className='mr-4' onClick={change}><span className=' hover:text-purple-600 cursor-pointer'>Already have account ?</span></p>
                 </div>
                 {/* <button className='p-3 px-5 mt-2 border w-[100px] rounded-[30px] bg-[#6a27bb] text-white'>Sign Up</button> */}
                 <button className="mb-3 p-[3px] relative mt-3 " onClick={sendEmail} >

@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
 const initialLists = {
-   Todo: ['Item 1', 'Item 2', 'Item 3'],
-   InProgress: ['Item 4', 'Item 5'],
-   Done: ['Item 6'],
+   Todo: ['Create backend API', 'frontend integration', 'Bugs solving'],
+   InProgress: ['Payment Gateway Integration', 'Styling'],
+   Done: ['Web Designing'],
 };
 
 const Board = () => {

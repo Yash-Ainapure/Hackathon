@@ -99,7 +99,7 @@ export default function Dashboard() {
           <div>
             <SidebarLink
               link={{
-                label: "Manu Arora",
+                label: "Pawan Malgavi",
                 href: "#",
                 icon: (
                   <img
@@ -114,7 +114,7 @@ export default function Dashboard() {
         </SidebarBody>
       </Sidebar>
       <div className="w-full">
-        <div className="flex items-center justify-between w-full p-2 px-24 border-b">
+        {/* <div className="flex items-center justify-between w-full p-2 px-24 border-b">
           <div className="flex gap-4">
             <select name="" id="" className="font-semibold bg-transparent text-sky-800">
               <option value="">Projects</option>
@@ -133,7 +133,7 @@ export default function Dashboard() {
             </div>
             <CircleNotificationsIcon style={{ fontSize: '45px' }} />
           </div>
-        </div>
+        </div> */}
         <DashboardInner />
       </div>
     </div>)
@@ -150,7 +150,7 @@ export const Logo = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className="font-medium text-black whitespace-pre dark:text-white">
-        Acet Labs
+        CoLab
       </motion.span>
     </Link>)
   );

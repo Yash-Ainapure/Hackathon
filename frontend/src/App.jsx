@@ -12,6 +12,7 @@ import RegisterVerify from './pages/RegisterVerify';
 import Board from './appComponents/Board';
 import TaskList from './appComponents/TaskList';
 import ChatComponent from './appComponents/ChatComponent';
+import Home from './pages/Home';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Auth />} />
         <Route path="/register" element={<RegisterVerify />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/dashboard/*" element={<Dashboard />} >
           <Route path="board" element={<Board />} />
           <Route path="demo" element={<Board />} />

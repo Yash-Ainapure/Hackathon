@@ -12,7 +12,7 @@ const registerUser = async (req, res) => {
   }
 
   const { name, email, password, jobInfo = {}, profilePic = '' } = req.body;
-  console.log(req.body);
+
   try {
     //! Check if user already exists
     const userExists = await User.findOne({ email });
@@ -25,7 +25,7 @@ const registerUser = async (req, res) => {
       name,
       email,
       password: await bcrypt.hash(password, 10),
-      jobInfo: jobInfo || {}, 
+      jobInfo: jobInfo || {},
       profilePic: profilePic || "",
     });
 

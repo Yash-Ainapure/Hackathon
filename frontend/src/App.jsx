@@ -22,6 +22,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Auth />} />
+        <Route path="/register" element={<RegisterVerify />} />
         <Route path="/dashboard/*" element={<Dashboard />} >
           <Route path="board" element={<Board />} />
           <Route path="demo" element={<Board />} />

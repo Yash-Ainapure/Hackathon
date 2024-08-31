@@ -2,13 +2,13 @@ import React from 'react'
 // import Login from './Login';
 import { useState } from 'react'
 import axios from 'axios';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 function SignUp(props) {
 
     const [emailValue, setEmailValue] = useState('');
     const [message, setMessage] = useState('');
     
-
+    const navigate = useNavigate();
     // const sendOTP = async () => {
     //     try {
     //         console.log("inside");
@@ -41,6 +41,7 @@ function SignUp(props) {
         })
         .then(response => {
             console.log('Email sent successfully:', response.data);
+            navigate('/register', { state: { emailId:emailValue,generatedOtp: response.data.otp.otp }});
         })
         .catch(error => {
             console.error('Error sending email:', error);

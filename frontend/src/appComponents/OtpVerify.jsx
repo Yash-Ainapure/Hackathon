@@ -5,7 +5,8 @@ export default function OtpVerify(props) {
     
     const checkOtp = ()=>{
         console.log(otp);
-        return props.check(true)
+        return props.generatedOtp == otp ? props.check(true) : props.check(false);
+       
     }
 
 

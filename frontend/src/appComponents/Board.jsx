@@ -38,13 +38,13 @@ const Board = () => {
    const getListClasses = (key) => {
       switch (key) {
          case 'Todo':
-            return 'relative flex flex-col items-center p-4 pt-12 overflow-x-hidden bg-white border border-gray-300 rounded-md w-80 h-80 text-cyan-600 font-semibold text-sm';
+            return 'relative flex flex-col items-center p-4 pt-12 overflow-x-hidden bg-white border border-gray-300 rounded-lg w-1/4 min-h-60 text-cyan-600 font-semibold text-sm';
          case 'InProgress':
-            return 'relative flex flex-col items-center p-4 pt-12 overflow-x-hidden bg-white border border-gray-300 rounded-md w-80 h-80 text-purple-600';
+            return 'relative flex flex-col items-center p-4 pt-12 overflow-x-hidden bg-white border border-gray-300 rounded-lg w-1/4 text-purple-600 font-semibold text-sm';
          case 'Done':
-            return 'relative flex flex-col items-center p-4 pt-12 overflow-x-hidden bg-white border border-gray-300 rounded-md w-80 h-80 text-green-600';
+            return 'relative flex flex-col items-center p-4 pt-12 overflow-x-hidden bg-white border border-gray-300 rounded-lg w-1/4 text-green-600 font-semibold text-sm';
          default:
-            return 'relative flex flex-col items-center p-4 pt-12 overflow-x-hidden bg-white border border-gray-300 rounded-md w-80 h-80';
+            return 'relative flex flex-col items-center p-4 pt-12 overflow-x-hidden bg-white border border-gray-300 rounded-lg w-1/4 ';
       }
    };
 
@@ -66,7 +66,7 @@ const Board = () => {
          <div>
             <div className='p-2 font-semibold'>Projects/HackEra</div>
          </div>
-         <div className='flex gap-4'>
+         <div className='flex gap-5 mt-10 justify-center'>
             {Object.keys(lists).map((key) => (
                <div
                   key={key}

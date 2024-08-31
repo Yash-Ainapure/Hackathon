@@ -127,7 +127,14 @@ export const SidebarLink = ({
 }) => {
   const { open, animate } = useSidebar();
   return (
-    (<NavLink
+    (<NavLink 
+      onClick={()=>{
+        if(link.href==='/'){
+          
+          localStorage.removeItem('auth-token');   
+          localStorage.removeItem('user-token');         
+        }
+      }}
       to={link.href}
       className={cn("flex items-center justify-start gap-2  group/sidebar py-2", className)}
       {...props}>

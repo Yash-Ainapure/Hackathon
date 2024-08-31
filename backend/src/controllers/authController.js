@@ -101,11 +101,11 @@ const loginUser = async (req, res) => {
 
     // Generate a token
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+      expiresIn: "1h",  
     });
 
     success = true;
-    return res.status(200).json({ token, success });
+    return res.status(200).json({ token, user });
   } catch (error) {
     console.error("Error during user login:", error); // Log the error for debugging purposes
     return res.status(500).json({ message: "Server error", success });

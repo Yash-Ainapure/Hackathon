@@ -34,13 +34,15 @@ function Navbar() {
 
     const projectData = {
       name: projectName,
-      description: description,
+      projectDescription: description,
       startDate: startDate,
       owner:user._id,
+      ownerName:user.name,
     };
 
     try {
-      const response = await axios.post('http://localhost:3000/api/project/createproject', projectData);
+      console.log(user._id)
+      const response = await axios.post('http://localhost:3000/api/projects/createproject', projectData);
       console.log('Project saved successfully:', response.data);
       // Handle successful response here (e.g., display a success message, reset the form)
     } catch (error) {

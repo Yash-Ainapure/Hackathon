@@ -15,6 +15,7 @@ import GridViewIcon from '@mui/icons-material/GridView';
 import ListIcon from '@mui/icons-material/List';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import GitHubIcon from '@mui/icons-material/GitHub';
+import SearchIcon from '@mui/icons-material/Search';
 
 export default function Dashboard() {
   const links = [
@@ -107,8 +108,9 @@ export default function Dashboard() {
             <button className="px-4 py-2 font-semibold text-white rounded bg-sky-600">Create</button>
           </div>
           <div className="flex gap-4">
-            <div className="flex p-[1px] pl-2 bg-white border rounded-md shadow ">
-              <input placeholder="search" type="text" />
+            <div className="flex p-[1px] pl-2 bg-white border rounded-md shadow items-center">
+              <SearchIcon className="flex-shrink-0 w-5 h-5 text-neutral-700 dark:text-neutral-200" />
+              <input className="pl-2" placeholder="Search" type="text" ></input>
             </div>
             <img className="w-12 h-12 rounded-full" src={Banner} />
           </div>
@@ -148,7 +150,7 @@ export const LogoIcon = () => {
 // Dummy dashboard component with content
 const DashboardInner = () => {
   return (
-    <div className="w-full min-h-screen border-l">
+    <div className="w-full min-h-screen overflow-scroll border-l">
       <Outlet />
     </div>
   );

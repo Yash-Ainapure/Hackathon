@@ -39,15 +39,17 @@ export default function Home() {
 
         // Once the projects are fetched, update the state
         setUserProjects(projects);
-        console.log("Fetched user projects:", projects[0]);
-
+        console.log("Fetched user projects:", projects[0].ownerName);
+        
+        console.log("sadasdasdasdasdasdas");
+        console.log(userProjects);
       } catch (error) {
         console.error("Error fetching user projects:", error);
       }
     };
 
     fetchProjects();
-  }, [userProjects]);
+  }, []);
 
   return (
     <>

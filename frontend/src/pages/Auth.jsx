@@ -27,7 +27,8 @@ function Auth() {
   return (
     <div className='max-w-full flex flex-col  justify-center ' >
       <div className='border py-4 px-4 pl-20'>
-        <h1 className='text-2xl font-bold'>CoLab</h1>
+        <img src="" alt="" />
+        <h1 className='text-3xl font-bold '>CO <span className='text-purple-900 font-extrabold '>Lab</span></h1>
       </div>
       <div className='flex items-center gap-4 justify-around ' id='get-started'>
         {

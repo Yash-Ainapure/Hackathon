@@ -1,5 +1,8 @@
 import React from 'react'
 import banner from '../assets/banner.jpg'
+import Ilustration from '../assets/illustration_1.jpg'
+import Ilustration2 from '../assets/illustration_2.jpg'
+import Ilustration3 from '../assets/illustration_3.jpg'
 // export default function Hero1() {
 //   return (
 //     <div className='px-64 px-30 flex justify-center'>
@@ -31,7 +34,7 @@ export default function Hero1() {
               <li className='my-4'>Choose your own adventure: Jira Software is flexible enough to mold to your team’s own unique way of working, whether it is Scrum, Kanban, or something in between.</li>
             </div>
            <div className='w-4/5'>
-           <DummyContent />
+           <DummyContent counter={1} />
            </div>
           </div>
         </div>
@@ -51,7 +54,7 @@ export default function Hero1() {
               <li className='my-4'>Choose your own adventure: Jira Software is flexible enough to mold to your team’s own unique way of working, whether it is Scrum, Kanban, or something in between.</li>
             </div>
            <div className='w-4/5'>
-           <DummyContent />
+           <DummyContent counter={0} />
            </div>
           </div>
         </div>
@@ -71,7 +74,7 @@ export default function Hero1() {
             <li className='my-4'>Choose your own adventure: Jira Software is flexible enough to mold to your team’s own unique way of working, whether it is Scrum, Kanban, or something in between.</li>
           </div>
          <div className='w-4/5'>
-         <DummyContent />
+         <DummyContent counter={1}/>
          </div>
         </div>
       </div>
@@ -91,7 +94,7 @@ export default function Hero1() {
               <li className='my-4'>Choose your own adventure: Jira Software is flexible enough to mold to your team’s own unique way of working, whether it is Scrum, Kanban, or something in between.</li>
             </div>
            <div className='w-4/5'>
-           <DummyContent />
+           <DummyContent counter={3}/>
            </div>
           </div>
         </div>
@@ -110,13 +113,15 @@ export default function Hero1() {
   );
 }
 
-const DummyContent = () => {
+const DummyContent = (props) => {
+  let arr = [banner,Ilustration,Ilustration2,Ilustration3];
+
   return (
     (<img
-      src={banner}
+      src={arr[props.counter]}
       alt="dummy image"
-      width="600"
-      height="500"
+      width="500"
+      height="400"
       className="object-cover object-left-top h-[60%] md:h-[90%]  right-0 rounded-xl mx-auto" />)
   );
 };

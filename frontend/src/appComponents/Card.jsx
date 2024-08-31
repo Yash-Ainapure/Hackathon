@@ -1,8 +1,15 @@
 import React from 'react'
 import Banner from '../assets/banner.jpg'
+import { useNavigate } from 'react-router-dom';
 
 
 export default function Card(props) {
+
+    const navigate1 = useNavigate();
+
+   
+    
+    
     function truncateString(str) {
         const maxLength = 100;
         if (str.length > maxLength) {
@@ -13,12 +20,26 @@ export default function Card(props) {
         }
     }
 
+    const goToProject=()=>{
+        let obj = {
+            name:props.name,
+            owner:props.ownerName,
+            summary:props.summary,
+            toDOCount:props.todoCount,
+            progressCount:props.progressCount,
+            completedCount:props.doneCount,
+        }
+        console.log(obj);
+        
+        navigate1('/dashboard',{ state: {}}); 
+    }
+
     const totalTasks = props.todoCount + props.progressCount + props.doneCount;
   const completedWidth = `${(props.doneCount / totalTasks) * 100}%`;
   const remainingWidth = `${((props.todoCount + props.progressCount) / totalTasks) * 100}%`;
 
     return ( 
-        <div className='flex flex-col border border-slate-300 p-8 m-4 w-[425px]  rounded-md transition-transform transform hover:scale-105 hover:shadow-2xl hover:border-slate-600'>
+        <div id={props.key} onClick={goToProject} className='flex flex-col border border-slate-300 p-8 m-4 w-[425px]  rounded-md transition-transform transform hover:scale-105 hover:shadow-2xl hover:border-slate-600'>
         <div className='flex gap-3 items-center rounded-md'>
             <img src={Banner} className='w-14 h-14 rounded-md'></img>
             <div>

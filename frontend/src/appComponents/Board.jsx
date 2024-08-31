@@ -10,6 +10,7 @@ const Board = () => {
    const [lists, setLists] = useState(initialLists);
    const [draggedItem, setDraggedItem] = useState(null);
    const [draggedFromList, setDraggedFromList] = useState('');
+   const [newTask, setNewTask] = useState('');
 
    const handleDragStart = (item, listKey) => {
       setDraggedItem(item);
@@ -66,7 +67,17 @@ const Board = () => {
          <div>
             <div className='p-2 font-semibold'>Projects/HackEra</div>
          </div>
-         <div className='flex gap-5 mt-10 justify-center'>
+         <div className='flex justify-center'>
+            <div className='w-1/2'>
+               <input value={newTask} onChange={(e)=>setNewTask(e.target.value)} type="text" className="w-full p-2 border border-gray-300 rounded" placeholder="Add a new task" />
+               <button onClick={(e)=>{
+                  e.preventDefault();
+                  setLists({...lists, Todo: [...lists.Todo, newTask]});
+                  setNewTask('');
+               }} className="w-full p-2 mt-2 text-white bg-blue-500 rounded">Add Task</button>
+            </div>
+         </div>
+         <div className='flex justify-center gap-5 mt-10'>
             {Object.keys(lists).map((key) => (
                <div
                   key={key}

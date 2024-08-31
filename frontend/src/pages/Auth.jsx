@@ -25,12 +25,12 @@ function Auth() {
 
 
   return (
-    <div className='max-w-full flex flex-col  justify-center ' >
-      <div className='border py-4 px-4 pl-20'>
+    <div className='flex flex-col justify-center max-w-full ' >
+      <div className='px-4 py-4 pl-20 border'>
         <img src="" alt="" />
-        <h1 className='text-3xl font-bold '>CO <span className='text-purple-900 font-extrabold '>Lab</span></h1>
+        <h1 className='text-3xl font-bold '>CoLab</h1>
       </div>
-      <div className='flex items-center gap-4 justify-around ' id='get-started'>
+      <div className='flex items-center justify-around gap-4 ' id='get-started'>
         {
           (authType === "Login") ? <Login type={setAuthType} /> : <SignUp type={setAuthType} />
 

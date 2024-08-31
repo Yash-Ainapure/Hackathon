@@ -4,13 +4,14 @@ import Paper from '@mui/material/Paper';
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 70 },
-  { field: 'firstName', headerName: 'First name', width: 130 },
-  { field: 'lastName', headerName: 'Last name', width: 130 },
+  { field: 'firstName', headerName: 'First name', width: 130, editable: true },
+  { field: 'lastName', headerName: 'Last name', width: 130, editable: true },
   {
     field: 'age',
     headerName: 'Age',
     type: 'number',
     width: 90,
+    editable: true,
   },
   {
     field: 'fullName',
@@ -18,6 +19,7 @@ const columns = [
     description: 'This column has a value getter and is not sortable.',
     sortable: false,
     width: 160,
+    editable: true,
     valueGetter: (value, row) => `${row.firstName || ''} ${row.lastName || ''}`,
   },
 ];
@@ -47,12 +49,18 @@ const TaskList = () => {
       <div className='w-[90%]'>
         <Paper sx={{ height: 400, width: '100%' }}>
           <DataGrid
+            processRowUpdate={(updatedRow, originalRow) => {
+              
+              console.log(originalRow);
+              console.log(updatedRow);
+            }}
             className='bg-white'
             rows={rows}
             columns={columns}
             initialState={{ pagination: { paginationModel } }}
             pageSizeOptions={[5, 10]}
             checkboxSelection
+
             sx={{ border: 0 }}
           />
         </Paper>

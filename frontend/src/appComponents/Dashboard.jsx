@@ -18,6 +18,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import SearchIcon from '@mui/icons-material/Search';
 import { useSelector } from "react-redux";
 import { getProjectsForUser } from "../services/projectService";
+import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
 
 export default function Dashboard() {
 
@@ -113,7 +114,7 @@ export default function Dashboard() {
         </SidebarBody>
       </Sidebar>
       <div className="w-full">
-        <div className="flex items-center justify-between w-full p-2 border-b">
+        <div className="flex items-center justify-between w-full p-2 px-24 border-b">
           <div className="flex gap-4">
             <select name="" id="" className="font-semibold bg-transparent text-sky-800">
               <option value="">Projects</option>
@@ -127,7 +128,10 @@ export default function Dashboard() {
               <SearchIcon className="flex-shrink-0 w-5 h-5 text-neutral-700 dark:text-neutral-200" />
               <input className="pl-2" placeholder="Search" type="text" ></input>
             </div>
-            <img className="w-12 h-12 rounded-full" src={Banner} />
+            <div className="pr-2">
+              <img className="w-12 h-12 rounded-full" src="https://assets.aceternity.com/manu.png" />
+            </div>
+            <CircleNotificationsIcon style={{ fontSize: '45px' }} />
           </div>
         </div>
         <DashboardInner />

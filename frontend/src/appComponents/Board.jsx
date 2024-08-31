@@ -25,6 +25,7 @@ const Board = () => {
          );
          newLists[listKey] = [...newLists[listKey], draggedItem];
          setLists(newLists);
+         console.log(newLists);
          setDraggedItem(null);
          setDraggedFromList('');
       }
@@ -37,7 +38,7 @@ const Board = () => {
    return (
       <div className="flex flex-col min-h-screen p-4 space-x-4 justify-top">
          <div>
-            <div className='p-2'>Projects/HackEra</div>
+            <div className='p-2 font-semibold'>Projects/HackEra</div>
          </div>
          <div className='flex gap-4'>
             {Object.keys(lists).map((key) => (

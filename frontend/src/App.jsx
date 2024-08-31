@@ -11,6 +11,7 @@ import GitHubRepoInfo from './appComponents/GithubRepoInfo';
 import RegisterVerify from './pages/RegisterVerify';
 import Board from './appComponents/Board';
 import TaskList from './appComponents/TaskList';
+import ChatComponent from './appComponents/ChatComponent';
 
 
 function App() {
@@ -27,7 +28,7 @@ function App() {
           <Route path="board" element={<Board />} />
           <Route path="demo" element={<Board />} />
           <Route path="list" element={<TaskList />} />
-          <Route path="messages" element={<Board />} />
+          <Route path="messages" element={<ChatComponent />} />
           <Route path="githubStats" element={<GitHubRepoInfo />} />
         </Route>
 

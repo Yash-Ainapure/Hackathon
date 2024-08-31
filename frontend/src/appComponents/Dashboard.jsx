@@ -22,8 +22,6 @@ import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
 
 export default function Dashboard() {
 
-  
-  
   const links = [
     {
       label: "CoMeet",
@@ -143,7 +141,9 @@ export const Logo = () => {
         animate={{ opacity: 1 }}
         className="font-medium text-black whitespace-pre dark:text-white">
         CoLab
+        <h1 className="font-bold text-md">Project Name</h1>
       </motion.span>
+    
     </Link>)
   );
 };

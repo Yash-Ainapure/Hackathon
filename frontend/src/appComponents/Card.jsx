@@ -19,24 +19,29 @@ export default function Card(props) {
             return str;
         }
     }
-
+    function getRandomInt() {
+        return Math.floor(Math.random() * 50) + 1;
+      }
+      
     const goToProject=()=>{
         let obj = {
             name:props.name,
             owner:props.ownerName,
             summary:props.summary,
-            toDOCount:props.todoCount,
-            progressCount:props.progressCount,
-            completedCount:props.doneCount,
+            toDOCount:getRandomInt()/2,
+            progressCount:getRandomInt(),
+            completedCount:getRandomInt()*2,
         }
         console.log(obj);
-        
-        navigate1('/dashboard',{ state: {}}); 
+        navigate1('/dashboard/board',{ state: {}}); 
     }
+    const todoCount =getRandomInt();
+    const progressCount =getRandomInt();
+    const doneCount =getRandomInt();
 
-    const totalTasks = props.todoCount + props.progressCount + props.doneCount;
-  const completedWidth = `${(props.doneCount / totalTasks) * 100}%`;
-  const remainingWidth = `${((props.todoCount + props.progressCount) / totalTasks) * 100}%`;
+    const totalTasks = todoCount + progressCount + doneCount;
+  const completedWidth = `${(doneCount / totalTasks) * 100}%`;
+  const remainingWidth = `${((todoCount + progressCount) / totalTasks) * 100}%`;
 
     return ( 
         <div id={props.key} onClick={goToProject} className='flex flex-col border border-slate-300 p-8 m-4 w-[425px]  rounded-md transition-transform transform hover:scale-105 hover:shadow-2xl hover:border-slate-600'>
@@ -52,9 +57,9 @@ export default function Card(props) {
         
         <p className='font-medium'>Project Progress</p>
         <div className='flex  my-2 justify-around'>
-            <div className='flex justify-between items-center'><p className='mr-5 bg-gray-300 text-gray-800 border border-gray-900 rounded-lg px-2 font-extrabold font-mono text-sm'>Todo</p> <p>x{props.todoCount}</p></div>
-            <div className='flex justify-between items-center'><p className='mr-5  bg-purple-300 text-purple-800 border border-purple-900  rounded-lg px-2 font-extrabold font-mono text-sm'>In-Progress</p><p>x{props.progressCount}</p></div>
-            <div className='flex justify-between items-center'><p className='mr-5  bg-green-300 text-green-800  border border-green-900 rounded-lg px-2 font-extrabold font-mono text-sm'>Done</p><p>x{props.doneCount}</p></div>
+            <div className='flex justify-between items-center'><p className='mr-5 bg-gray-300 text-gray-800 border border-gray-900 rounded-lg px-2 font-extrabold font-mono text-sm'>Todo</p> <p>x{todoCount}</p></div>
+            <div className='flex justify-between items-center'><p className='mr-5  bg-purple-300 text-purple-800 border border-purple-900  rounded-lg px-2 font-extrabold font-mono text-sm'>In-Progress</p><p>x{progressCount}</p></div>
+            <div className='flex justify-between items-center'><p className='mr-5  bg-green-300 text-green-800  border border-green-900 rounded-lg px-2 font-extrabold font-mono text-sm'>Done</p><p>x{doneCount}</p></div>
         </div>
         <div className='flex pt-4'>
         <div className='bg-blue-600 h-[10px] rounded-lg' style={{ width: completedWidth }}></div>

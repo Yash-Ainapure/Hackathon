@@ -41,10 +41,11 @@ function SignUp(props) {
         })
         .then(response => {
             console.log('Email sent successfully:', response.data);
+            console.log(props.type)
             navigate('/register', { state: { emailId:emailValue,generatedOtp: response.data.otp.otp }});
         })
         .catch(error => {
-            console.error('Error sending email:', error);
+            console.error('Error sending email:',error);
         });
     }
 

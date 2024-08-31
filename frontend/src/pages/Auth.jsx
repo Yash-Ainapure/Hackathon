@@ -16,7 +16,7 @@ import Footer from '../appComponents/Footer'
 
 function Auth() {
 
-    const [authType,setAuthType] = useState("Signup");
+    const [authType,setAuthType] = useState("Login");
 
     useEffect(()=>{
         console.log("changed");

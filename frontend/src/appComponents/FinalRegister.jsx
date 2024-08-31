@@ -1,7 +1,9 @@
 import React,{useState}from 'react'
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function FinalRegister(props) {
+  const navigate = useNavigate();
     
     const [password,setpassword] = useState("");
     const [fullname,setFullName] = useState("");
@@ -15,10 +17,10 @@ export default function FinalRegister(props) {
       })
       .then(response => {
           console.log('User registered successfully:', response.data);
-          navigate('/register', { state: { emailId:emailValue,generatedOtp: response.data.otp.otp }});
+          navigate('/');
       })
       .catch(error => {
-          console.error('Error registering message email:', error);
+          console.error('Error registering message email:',error);
       });
     }
 

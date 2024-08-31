@@ -2,12 +2,13 @@ import FinalRegister from '../appComponents/FinalRegister'
 import OtpVerify from '../appComponents/OtpVerify'
 import React,{useState} from 'react'
 import { useLocation } from 'react-router-dom';
-export default function RegisterVerify() {
+export default function RegisterVerify(props) {
 
     const [isVerified,setVerified] = useState(false)
     const location = useLocation();
     const emailId = location.state?.emailId; // Access the data here
     const generatedOtp = location.state?.generatedOtp;
+
   return (
 
     <div className='grid place-items-center h-screen overflow-hidden'>

@@ -17,8 +17,7 @@ app.use(express.json());
 app.use("/api/auth", require("./src/routes/authRoutes"));
 app.use("/api/projects", require("./src/routes/projectRoutes"));
 app.use("/api/sendMail", require("./src/routes/mailRoutes"));
-// app.use("/api/quizzes", require("./src/routes/quizRoutes"));
-// app.use('/api/contactUs',require("./src/routes/contactRoutes"));
+app.use("/api/tasks", require("./src/routes/taskRoutes"))
 
 // Start the server
 app.listen(port, () => {

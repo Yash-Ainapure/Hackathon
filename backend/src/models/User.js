@@ -4,19 +4,15 @@ const { Schema } = mongoose;
 const JobInfoSchema = new Schema({
   title: {
     type: String,
-    required: true,
   },
   department: {
     type: String,
-    required: true,
   },
   organization: {
     type: String,
-    required: true,
   },
   location: {
     type: String,
-    required: true,
   },
 });
 
@@ -41,6 +37,7 @@ const UserSchema = new Schema({
   },
   profilePic: {
     type: String,
+    default: 'https://via.placeholder.com/200'
   },
   jobInfo: {
     type: JobInfoSchema,

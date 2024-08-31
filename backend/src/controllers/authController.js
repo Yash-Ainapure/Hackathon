@@ -11,8 +11,8 @@ const registerUser = async (req, res) => {
     return res.status(400).json({ errors: errors.array(), success: false });
   }
 
-  const { name, email, password, jobInfo, profilePic } = req.body;
-
+  const { name, email, password, jobInfo = {}, profilePic = '' } = req.body;
+  console.log(req.body);
   try {
     //! Check if user already exists
     const userExists = await User.findOne({ email });

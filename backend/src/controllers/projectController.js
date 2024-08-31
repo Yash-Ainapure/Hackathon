@@ -99,7 +99,12 @@ const createProject = async (req, res) => {
 // Fetch a project by ID
 const fetchProjects = async (req, res) => {
   try {
-    const project = await Project.find();
+    const projectId = req.params.id;
+    if (!projectId) {
+      return res.status(400).json({ message: "Project ID is required" });
+    }
+
+    const project = await Project.findById(projectId);
 
     if (!project) {
       return res.status(404).json({ message: "Project not found" });

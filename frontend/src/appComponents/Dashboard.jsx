@@ -17,7 +17,7 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import SearchIcon from '@mui/icons-material/Search';
 import Navbar from "./Navbar";
-
+import VideoCallIcon from '@mui/icons-material/VideoCall';
 import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
 
 export default function Dashboard() {
@@ -26,10 +26,10 @@ export default function Dashboard() {
   
   const links = [
     {
-      label: "Timeline",
-      href: "/dashboard/timeline",
+      label: "CoMeet",
+      href: "/dashboard/CoMeet",
       icon: (
-        <IconBrandTabler className="flex-shrink-0 w-5 h-5 text-neutral-700 dark:text-neutral-200" />
+        <VideoCallIcon className="flex-shrink-0 w-5 h-5 text-neutral-700 dark:text-neutral-200" />
       ),
     },
     {

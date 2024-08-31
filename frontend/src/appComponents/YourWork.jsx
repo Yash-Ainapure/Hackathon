@@ -92,7 +92,7 @@ export default function YourWork(props) {
     <div className='p-10'>
       <h1 className='text-2xl font-medium text-gray-700 border-b border-gray-400 pb-5'>Your Work</h1>
 
-      <div className='flex flex-wrap '>
+      <div className='flex flex-wrap justify-center py-10'>
 
       {projects.length !== 0 ? (
       projects.map((project, index) => (

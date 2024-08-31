@@ -13,7 +13,7 @@ import Board from './appComponents/Board';
 import TaskList from './appComponents/TaskList';
 import ChatComponent from './appComponents/ChatComponent';
 import Home from './pages/Home';
-
+import VideoStream from './videoCC/VideoStream'
 
 function App() {
 
@@ -23,7 +23,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Auth />} />
+        <Route path="/" element={   <VideoStream />} />
         <Route path="/register" element={<RegisterVerify />} />
         <Route path="/home" element={<Home />} />
         <Route path="/dashboard/*" element={<Dashboard />} >

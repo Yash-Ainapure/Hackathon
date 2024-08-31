@@ -38,8 +38,8 @@ router.get("/:id", validateUserId ,fetchUser);
 
 router.post("/login", loginUser);
 
-// router.get("/validate-token", verifyToken, (req, res) => {
-//   res.status(200).json({ valid: true });
-// });
+router.get("/validate-token", verifyToken, (req, res) => {
+  res.status(200).json({ valid: true });
+});
 
 module.exports = router;

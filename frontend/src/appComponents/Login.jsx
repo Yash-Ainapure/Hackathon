@@ -20,8 +20,11 @@ function Login(props) {
       .then(response => {
         // console.log('Loged In', response.data);
         localStorage.setItem('auth-token',response.data.token);
+        console.log('Added token into storage after login', localStorage.getItem('auth-token'));
+        
         console.log(response.data.user);
         dispatch(setUserObj(response.data.user));
+        alert('User has been logged in successfully!!')
         navigate('/Home', { state: {}});
       })
       .catch(error => {

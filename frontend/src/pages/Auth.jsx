@@ -16,12 +16,12 @@ import Footer from '../appComponents/Footer'
 
 function Auth() {
 
-    const [authType,setAuthType] = useState("Login");
+  const [authType, setAuthType] = useState("Login");
 
-    useEffect(()=>{
-        console.log("changed");
-        
-    },[authType])
+  useEffect(() => {
+    console.log("changed");
+
+  }, [authType])
 
 
   return (
@@ -29,19 +29,19 @@ function Auth() {
       <div className='border py-4 px-4 pl-20'>
         <h1 className='text-2xl font-bold'>CoLab</h1>
       </div>
-        <div className='flex items-center gap-4 justify-around ' id='get-started'>
-          {
-            (authType==="Login")?<Login type={setAuthType}/>:<SignUp type={setAuthType}/>
+      <div className='flex items-center gap-4 justify-around ' id='get-started'>
+        {
+          (authType === "Login") ? <Login type={setAuthType} /> : <SignUp type={setAuthType} />
 
-          }     
-        
+        }
+
         <img src={Banner} className='w-[800px]' alt="" />
-        </div>
-        <HeroTitle/>
-        <Hero1/>
-        <Hero3/>
-        <Hero2/>
-        <Footer/>
+      </div>
+      <HeroTitle />
+      <Hero1 />
+      <Hero3 />
+      <Hero2 />
+      <Footer />
     </div>
   )
 }

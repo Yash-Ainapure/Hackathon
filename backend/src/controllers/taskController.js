@@ -48,13 +48,24 @@ const createTask = async (req, res) => {
 // Function to add a task to the project's toDo array
 const addTasksToProject = async (projectId, taskId) => {
   try {
-    await Project.findByIdAndUpdate(
+    const updatedProject = await Project.findByIdAndUpdate(
       projectId,
-      { $addToSet: { toDO: taskId } }, // Ensure no duplicates by using $addToSet
+      { $addToSet: { toDO: taskId } }, // Use $addToSet to prevent duplicates
       { new: true } // Return the updated document
     );
+
+    if (!updatedProject) {
+      // Handle the case where the project is not found
+      console.error(`Project with id ${projectId} not found.`);
+      return { success: false, message: "Project not found." };
+    }
+
+    console.log(`Task ${taskId} added to project ${projectId} successfully.`);
+    return { success: true, project: updatedProject }; // Return success and the updated project
+
   } catch (error) {
     console.error("Error adding task to project:", error);
+    return { success: false, message: "Error adding task to project", error }; // Return error information
   }
 };
 
@@ -93,15 +104,9 @@ const updateTask = async (req, res) => {
 
 // Get all tasks for a given project ID, grouped by status
 const getAllTasks = async (req, res) => {
-  const { id: projectId } = req.params;
-
-  if (!projectId) {
-    return res.status(400).json({ message: "Project ID is required" });
-  }
-
   try {
     // Find the project by ID
-    const project = await Project.findById(projectId);
+    const project = await Project.find();
 
     if (!project) {
       return res.status(404).json({ message: "Project not found" });
@@ -120,23 +125,23 @@ const getAllTasks = async (req, res) => {
 
     const taskQueries = [];
 
-    if (toDOIds.length > 0) {
+    if (toDOIds && toDOIds.length > 0) {
       console.log(`Finding tasks with IDs: ${toDOIds}`);
       taskQueries.push(await Task.find({ _id: { $in: toDOIds } }).exec());
       console.log(taskQueries);
-      
+
     } else {
       taskQueries.push(Promise.resolve([]));
     }
 
-    if (inProgressIds.length > 0) {
+    if (inProgressIds && inProgressIds.length > 0) {
       console.log(`Finding tasks with IDs: ${inProgressIds}`);
       taskQueries.push(Task.find({ _id: { $in: inProgressIds } }).json());
     } else {
       taskQueries.push(Promise.resolve([]));
     }
 
-    if (completedIds.length > 0) {
+    if (completedIds && completedIds.length > 0) {
       console.log(`Finding tasks with IDs: ${completedIds}`);
       taskQueries.push(Task.find({ _id: { $in: completedIds } }).exec());
     } else {

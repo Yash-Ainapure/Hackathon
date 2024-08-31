@@ -14,6 +14,6 @@ router.put("/update/:taskId", updateTask);
 
 router.delete("/deleteTask/:taskId", deleteTask);
 
-router.get("/get-tasks/:id", getAllTasks);
+router.get("/get-tasks/", getAllTasks);
 
 module.exports = router;

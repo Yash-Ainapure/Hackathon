@@ -14,6 +14,8 @@ import TaskList from './appComponents/TaskList';
 import ChatComponent from './appComponents/ChatComponent';
 import Home from './pages/Home';
 import VideoStream from './videoCC/VideoStream'
+import ManageAccount from './appComponents/ManageAccount';
+
 
 function App() {
 
@@ -34,7 +36,7 @@ function App() {
           <Route path="messages" element={<ChatComponent />} />
           <Route path="githubStats" element={<GitHubRepoInfo />} />
         </Route>
-
+        <Route path='/manageaccount' element={<ManageAccount />} />
       </Routes>
     </Router>
   )

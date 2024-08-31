@@ -59,6 +59,7 @@ function Navbar() {
       console.log(user._id)
       const response = await axios.post('http://localhost:3000/api/projects/createproject', projectData);
       console.log('Project saved successfully:', response.data);
+      closeModal();
       // Handle successful response here (e.g., display a success message, reset the form)
     } catch (error) {
       console.error('Error saving project:', error);
@@ -154,7 +155,7 @@ function Navbar() {
           )}
         </div>
         {
-          profileModal && <div className="absolute bg-white border rounded-md shadow-lg h-60 w-72 right-40 top-16">
+          profileModal && <div className="absolute bg-white border rounded-md shadow-lg h-60 w-72 right-40 top-16 z-50">
             <button
               onClick={() => setProfileModal(false)}
               className="absolute text-gray-600 top-2 right-2 hover:text-gray-900"

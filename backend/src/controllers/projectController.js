@@ -80,6 +80,7 @@ const createProject = async (req, res) => {
       { $push: { projects: newProject._id } }, // Push the new project's ID to the user's projects array
       { new: true } // Return the updated user document
     );
+    console.log("Project addedto User:"+updatedUser);
 
     if (!updatedUser) {
       return res

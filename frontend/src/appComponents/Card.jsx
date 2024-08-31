@@ -18,7 +18,7 @@ export default function Card(props) {
   const remainingWidth = `${((props.todoCount + props.progressCount) / totalTasks) * 100}%`;
 
     return ( 
-    <div className='flex flex-col border border-slate-300 p-8 m-4 w-2/5 shadow-lg rounded-md '>
+        <div className='flex flex-col border border-slate-300 p-8 m-4 w-[450px]  rounded-md transition-transform transform hover:scale-105 hover:shadow-2xl hover:border-slate-600'>
         <div className='flex gap-3 items-center rounded-md'>
             <img src={Banner} className='w-14 h-14 rounded-md'></img>
             <div>

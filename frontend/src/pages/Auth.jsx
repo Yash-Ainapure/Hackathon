@@ -13,6 +13,7 @@ import Navbar from '../appComponents/Navbar'
 import Hero2 from '../appComponents/Hero2'
 import HeroTitle from '../appComponents/HeroTitle'
 import Footer from '../appComponents/Footer'
+import HyperText from "../components/magicui/hyper-text";
 
 function Auth() {
 
@@ -28,7 +29,12 @@ function Auth() {
     <div className='flex flex-col justify-center max-w-full ' >
       <div className='px-4 py-4 pl-20 border'>
         <img src="" alt="" />
-        <h1 className='text-3xl font-bold '>CoLab</h1>
+        {/* <h1 className='text-3xl font-bold '>CoLab</h1> */}
+        <HyperText
+          className="text-4xl font-bold text-black dark:text-white"
+          text="Colab"
+        />
+
       </div>
       <div className='flex items-center justify-around gap-4 ' id='get-started'>
         {

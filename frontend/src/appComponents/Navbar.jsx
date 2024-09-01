@@ -7,6 +7,8 @@ import axios from 'axios';
 import { useDispatch, useSelector } from "react-redux";
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import { useNavigate } from "react-router-dom";
+
+
 //Modal State
 function Navbar() {
 
@@ -107,8 +109,8 @@ function Navbar() {
   //   setInputValue(suggestion);
   //   setSuggestions([]);
   // };
- 
-  const changeLoginStatus=()=>{
+
+  const changeLoginStatus = () => {
     localStorage.removeItem('auth-token');
     navigateTo('/');
   }
@@ -123,7 +125,7 @@ function Navbar() {
             id=""
             className="font-semibold bg-transparent text-sky-800"
           >
-            <option value="">Your Work</option>
+            <option value="">Your work</option>
             <option value="">Assigned</option>
             <option value="">Recent</option>
           </select>
@@ -161,7 +163,7 @@ function Navbar() {
           )}
         </div>
         {
-          profileModal && <div className="absolute bg-white border rounded-md shadow-lg h-60 w-72 right-40 top-16 z-50">
+          profileModal && <div className="absolute z-50 bg-white border rounded-md shadow-lg h-60 w-72 right-40 top-16">
             <button
               onClick={() => setProfileModal(false)}
               className="absolute text-gray-600 top-2 right-2 hover:text-gray-900"

@@ -1,27 +1,4 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-.no-visible-scrollbar {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  -webkit-overflow-scrolling: touch;
-}
-
-.no-visible-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-
-/* Hide scrollbar for WebKit browsers (Chrome, Safari) */
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-
-/* Hide scrollbar for all other browsers */
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  /* Internet Explorer 10+ */
-  scrollbar-width: none;
-  /* Firefox */
-}
+  

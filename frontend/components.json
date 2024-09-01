@@ -14,7 +14,6 @@
     "components": "@/components",
     "utils": "@/lib/utils",
     "ui": "@/components/ui",
-    "examples": "@/components/examples",
-    "blocks": "@/components/blocks"
+    "magicui": "@/components/magicui"
   }
 }

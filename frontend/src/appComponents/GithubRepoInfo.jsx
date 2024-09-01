@@ -11,6 +11,13 @@ const GitHubRepoInfo = () => {
    const accessToken = import.meta.env.VITE_GITHUB_TOKEN;
    const username = 'Yash-Ainapure'; // Replace with the GitHub username
 
+   const getColorForCount = (count) => {
+      if (count > 10) return 'bg-green-600'; // High frequency
+      if (count > 5) return 'bg-yellow-500'; // Medium frequency
+      if (count > 0) return 'bg-blue-500'; // Low frequency
+      return 'bg-gray-200'; // No commits
+   };
+
    useEffect(() => {
       const fetchCommitMessages = async () => {
          try {
@@ -137,7 +144,7 @@ const GitHubRepoInfo = () => {
                   {commitFrequency.map((data, index) => (
                      <div
                         key={index}
-                        className={`w-6 h-6 m-1 ${data.count > 0 ? 'bg-blue-500' : 'bg-gray-200'}`}
+                        className={`w-6 h-6 m-1 ${getColorForCount(data.count)}`}
                         title={`${data.date}: ${data.count} commits`}
                      />
                   ))}

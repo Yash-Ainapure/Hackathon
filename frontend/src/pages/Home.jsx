@@ -27,34 +27,39 @@ export default function Home() {
   // }
   const user = useSelector(state => state.setUserObjReducer.user);
 
+  const [userid,setuserid] = useState(user._id)
+  localStorage.setItem('userid',userid)
   const [userProjects, setUserProjects] = useState([]);
 
+  const fetchProjects = async () => {
+    try {
+      const uid = localStorage.getItem("userid"); 
+      console.log("Fetching projects for user ID: ");
+      console.log("Userid:"+uid);
+      // Await the promise returned by getProjectsForUser
+      const projects = await getProjectsForUser(uid);
+
+      // Once the projects are fetched, update the state
+      setUserProjects(projects);
+      console.log("Fetched user projects:", projects[0].ownerName);
+      
+      console.log("sadasdasdasdasdasdas");
+      console.log(userProjects);
+    } catch (error) {
+      console.error("Error fetching user projects:", error);
+    }
+  };
+
+
   useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        console.log("Fetching projects for user ID: 66d1f445bf20097cf324f0d6");
-
-        // Await the promise returned by getProjectsForUser
-        const projects = await getProjectsForUser(user._id);
-
-        // Once the projects are fetched, update the state
-        setUserProjects(projects);
-        console.log("Fetched user projects:", projects[0].ownerName);
-        
-        console.log("sadasdasdasdasdasdas");
-        console.log(userProjects);
-      } catch (error) {
-        console.error("Error fetching user projects:", error);
-      }
-    };
-
+ 
     fetchProjects();
   }, []);
 
   return (
     <>
-      <Navbar />
-      <YourWork projects={userProjects} />
+      <Navbar fetch={fetchProjects}/>
+      <YourWork projects={userProjects}   />
       <Footer />
     </>
   )

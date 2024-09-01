@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 
 //Modal State
-function Navbar() {
+function Navbar(props) {
 
   const navigateTo = useNavigate();
   const user = useSelector(state => state.setUserObjReducer.user);
@@ -61,6 +61,7 @@ function Navbar() {
       console.log(user._id)
       const response = await axios.post('http://localhost:3000/api/projects/createproject', projectData);
       console.log('Project saved successfully:', response.data);
+      props.fetch();
       closeModal();
       // Handle successful response here (e.g., display a success message, reset the form)
     } catch (error) {

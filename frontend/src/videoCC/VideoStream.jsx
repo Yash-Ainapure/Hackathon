@@ -1,3 +1,5 @@
+
+
 import React, { useEffect, useRef, useState } from 'react';
 import AgoraRTC from 'agora-rtc-sdk-ng';
 import './main.css';
@@ -10,9 +12,9 @@ import VideocamOffIcon from '@mui/icons-material/VideocamOff';
 import CallEndIcon from '@mui/icons-material/CallEnd';
 import VideoCallIcon from '@mui/icons-material/VideoCall';
 
-const APP_ID = "429f5e4cbd2a4207bffa97ba5b492319";
-const TOKEN = "007eJxTYLC9pt7v+Jbx5vaSP9nuX063xyprRkz7XrXVeUv6zhcpMx8qMJgYWaaZppokJ6UYJZoYGZgnpaUlWponJZommVgaGRtamppdTmsIZGSovLiXlZEBAkF8Vobk/JzEJAYGAA8eIho=";
-const CHANNEL = "colab";
+const APP_ID = import.meta.env.VITE_APP_ID;
+const TOKEN = import.meta.env.VITE_TOKEN_A;
+const CHANNEL = import.meta.env.VITE_CHANNEL;
 
 const VideoStream = () => {
   const [isJoined, setIsJoined] = useState(false);
@@ -36,6 +38,8 @@ const VideoStream = () => {
 
   const joinStream = async () => {
     try {
+      console.log(CHANNEL);
+      
       const UID = await clientRef.current.join(APP_ID, CHANNEL, TOKEN, null);
       localTracksRef.current = await AgoraRTC.createMicrophoneAndCameraTracks();
 

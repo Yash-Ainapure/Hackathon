@@ -5,7 +5,9 @@ const {
   createProject,
   addMemberInProject,
   getProjectByUserId,
-  fetchProjects
+  addMembersToProject,
+  fetchProjects,
+  deleteProject
 } = require("../controllers/projectController");
 
 // Middleware for token verification (not used here, but keep if needed)
@@ -13,14 +15,14 @@ const verifyToken = require("../middlewares/verifyToken");
 
 router.post("/createproject", createProject);
 
-// Corrected to use GET instead of POST for fetching projects
+// ? Corrected to use GET instead of POST for fetching projects
 router.get("/fetchProjects/:id", fetchProjects);
 
 router.get('/:id', getProjectByUserId);
 
 router.post("/add-member", async (req, res) => {
   const { userId, projectId } = req.body;
-
+  
   try {
     await addMemberInProject(userId, projectId);
     await sendMail(userId)
@@ -29,6 +31,11 @@ router.post("/add-member", async (req, res) => {
     res.status(500).json({ message: "Error adding member to project" });
   }
 });
+
+// ? API to add members to a project using a json object containing list of member emails and their role
+router.post("/add-members", addMembersToProject);
+
+router.delete('/delete-project', deleteProject)
 
 module.exports = router;
  

@@ -15,28 +15,21 @@ const createProject = async (req, res) => {
     endDate,
   } = req.body;
 
-  // Check if a project with that name already exists
+  // ! Check if a project with that name already exists
   const projectExists = await Project.findOne({ name });
   if (projectExists) {
     return res.status(400).json({ message: "Project already exists" });
   }
 
   try {
-    // Replace usernames of each admin with their _id
-    console.log(projectAdmins);
-
+    // ! Replace usernames of each admin with their _id
     if (projectAdmins) {
-      console.log("inside if admin");
-
       for (let i = 0; i < projectAdmins.length; i++) {
         const adminUsername = projectAdmins[i];
         const admin = await User.findOne({ username: adminUsername }, "_id");
-        console.log("zzzzzzzzzzzzzzzzzzzz");
-        console.log(admin);
 
         if (admin) {
           projectAdmins[i] = admin._id;
-          console.log("sdfbhdbbdzbgfjdjgjdfugwefhhrbbsivdfjb");
         } else {
           return res
             .status(400)
@@ -44,12 +37,11 @@ const createProject = async (req, res) => {
         }
       }
     }
-    // Replace usernames of each member with their _id
-    console.log(projectMembers);
+
+    // ! Replace usernames of each member with their _id
 
     if (projectMembers) {
       for (let i = 0; i < projectMembers.length; i++) {
-        console.log("inside if members");
         const memberUsername = projectMembers[i];
         const member = await User.findOne({ username: memberUsername }, "_id");
         if (member) {
@@ -60,7 +52,7 @@ const createProject = async (req, res) => {
       }
     }
 
-    // Create a new project object to be added to the database
+    // ! Create a new project object to be added to the database
     const newProject = new Project({
       name: name || "Untitled Project",
       owner: owner || "Unknown Owner",
@@ -68,19 +60,18 @@ const createProject = async (req, res) => {
       projectDescription: projectDescription || "No description provided",
       projectAdmins: projectAdmins || [],
       projectMembers: projectMembers || [],
-      startDate: startDate || new Date(), // Default to the current date
-      endDate: endDate || null, // or a specific date
+      startDate: startDate || new Date(), // ? Default to the current date
+      endDate: endDate || null, // ? or a specific date
     });
 
     await newProject.save();
 
-    // Add the project ID to the current user's projects array
+    // ! Add the project ID to the current user's projects array because he is the owner
     const updatedUser = await User.findByIdAndUpdate(
       owner,
-      { $push: { projects: newProject._id } }, // Push the new project's ID to the user's projects array
-      { new: true } // Return the updated user document
+      { $push: { projects: newProject._id } }, // ! Push the new project's ID to the user's projects array
+      { new: true } // ! Return the updated user document
     );
-    console.log("Project addedto User:"+updatedUser);
 
     if (!updatedUser) {
       return res
@@ -131,6 +122,7 @@ const getProjectByUserId = async (req, res) => {
 };
 
 // Add a member to a project
+// TODO: Take User's email instead of ID
 const addMemberInProject = async (userId, projectId) => {
   try {
     await User.findByIdAndUpdate(userId, {
@@ -141,9 +133,87 @@ const addMemberInProject = async (userId, projectId) => {
   }
 };
 
+// ! Api to add a member to a project using a json object containing list of member emails and their role
+// ! The json object should be in the following format:
+// ! {
+// !   "projectId": "project_id",
+// !   "members": {
+// !       "email": ["member_email", "member_email", "member_email"],
+// !       "role": "member_role"
+// !     }
+// ! }
+// ! The role can be either "admin" or "member"
+
+const addMembersToProject = async (req, res) => {
+  try {
+    const { projectId, members } = req.body;
+    if (!projectId || !members) {
+      return res.status(400).json({ message: "Project ID and members are required" });
+    }
+
+    const project = await Project.findById(projectId);
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    const { email, role } = members;
+    if (!email || !role) {
+      return res.status(400).json({ message: "Email and role are required" });
+    }
+
+    for (let i = 0; i < email.length; i++) {
+      const member = await User.findOne({ email: email[i] });
+      if (!member) {
+        return res.status(404).json({ message: `User not found for email: ${email[i]}` });
+      }
+
+      if (role === "admin") {
+        project.projectAdmins.push(member._id);
+      } else if (role === "member") {
+        project.projectMembers.push(member._id);
+      } else {
+        return res.status(400).json({ message: "Invalid role" });
+      }
+      await project.save();
+    }
+
+    res.status(200).json({ message: "Members added successfully" });
+  } catch (error) {
+    console.error("Error adding members to project:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+}
+
+const deleteProject = async (req, res) => {
+  try {
+    const projectId = req.params.id;
+    if (!projectId) {
+      return res.status(400).json({ message: "Project ID is required" });
+    }
+
+    const project = await Project.findById(projectId);
+    const projectMembers = project.projectMembers;
+    const projectAdmins = project.projectAdmins;
+    for (const admin in projectAdmins) {
+      await User.findByIdAndUpdate(admin, { $pull: { projects: projectId } });
+    }
+    for (const member in projectMembers) {
+      await User.findByIdAndUpdate(member, { $pull: { projects: projectId } });
+    }
+
+    await Project.findByIdAndDelete(projectId);
+  } catch (error) {
+    console.error("Error deleting project:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+}
+    
+
 module.exports = {
   createProject,
   addMemberInProject,
   getProjectByUserId,
+  addMembersToProject,
   fetchProjects,
+  deleteProject
 };

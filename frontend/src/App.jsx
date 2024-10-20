@@ -10,6 +10,7 @@ import Auth from "./pages/Auth";
 import GitHubRepoInfo from "./appComponents/GithubRepoInfo";
 import RegisterVerify from "./pages/RegisterVerify";
 import Board from "./appComponents/Board";
+import Teams from "./appComponents/Teams";
 import TaskList from "./appComponents/TaskList";
 import ChatComponent from "./appComponents/ChatComponent";
 import Home from "./pages/Home";
@@ -28,6 +29,7 @@ function App() {
         <Route path="/dashboard/*" element={<Dashboard />}>
           <Route path="CoMeet" element={<VideoStream />} />
           <Route path="board" element={<Board />} />
+          <Route path="teams" element={<Teams />} />
           <Route path="demo" element={<Board />} />
           <Route path="list" element={<TaskList />} />
           <Route path="messages" element={<ChatComponent />} />

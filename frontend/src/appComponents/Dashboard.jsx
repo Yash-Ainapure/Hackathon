@@ -52,6 +52,13 @@ export default function Dashboard() {
       ),
     },
     {
+      label: "Team",
+      href: "/dashboard/teams",
+      icon: (
+        <GridViewIcon className="flex-shrink-0 w-5 h-5 text-neutral-700 dark:text-neutral-200" />
+      ),
+    },
+    {
       label: "Github Stats",
       href: "/dashboard/githubStats",
       icon: (

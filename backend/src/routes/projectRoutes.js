@@ -6,6 +6,7 @@ const {
   addMemberInProject,
   getProjectByUserId,
   addMembersToProject,
+  removeMemberFromProject,
   fetchProjects,
   deleteProject
 } = require("../controllers/projectController");
@@ -31,6 +32,9 @@ router.post("/add-member", async (req, res) => {
     res.status(500).json({ message: "Error adding member to project" });
   }
 });
+
+// api to remove a member from a project
+router.delete("/remove-member", removeMemberFromProject);
 
 // ? API to add members to a project using a json object containing list of member emails and their role
 router.post("/add-members", addMembersToProject);

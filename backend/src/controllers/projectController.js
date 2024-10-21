@@ -184,6 +184,37 @@ const addMembersToProject = async (req, res) => {
   }
 }
 
+// ? Remove a member from a project.. Removes the user id from the project's projectMembers and projectAdmins arrays if it exists
+const removeMemberFromProject = async (req, res) => {
+  try {
+    const { userId, projectId } = req.body;
+    if (!userId || !projectId) {
+      return res.status(400).json({ message: "User ID and Project ID are required" });
+    }
+
+    const project = await Project.findById(projectId);
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    const member = await User.findById(userId);
+    if (!member) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    project.projectMembers.pull(member._id);
+    project.projectAdmins.pull(member._id);
+    await project.save();
+
+    res.status(200).json({ message: "Member removed successfully" });
+  } catch (error) {
+    console.error("Error removing member from project:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+}
+
+// ? Delete a project
+// ? Deletes the project id from all the member's collection who are part of the project then deletes the project
 const deleteProject = async (req, res) => {
   try {
     const projectId = req.params.id;
@@ -214,6 +245,7 @@ module.exports = {
   addMemberInProject,
   getProjectByUserId,
   addMembersToProject,
+  removeMemberFromProject,
   fetchProjects,
   deleteProject
 };

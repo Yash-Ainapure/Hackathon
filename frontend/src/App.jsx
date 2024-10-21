@@ -13,6 +13,7 @@ import Board from "./appComponents/Board";
 import Teams from "./appComponents/Teams";
 import TaskList from "./appComponents/TaskList";
 import ChatComponent from "./appComponents/ChatComponent";
+import NotFound from "./appComponents/NotFound";
 import Home from "./pages/Home";
 import VideoStream from "./videoCC/VideoStream";
 import ManageAccount from "./appComponents/ManageAccount";
@@ -23,6 +24,7 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route path="*" element={<NotFound />} />
         <Route path="/" element={<Auth />} />
         <Route path="/register" element={<RegisterVerify />} />
         <Route path="/home" element={<Home />} />

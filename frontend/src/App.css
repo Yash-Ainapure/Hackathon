@@ -1,0 +1,17 @@
+/* Style the scrollbar for WebKit browsers */
+.custom-scrollbar::-webkit-scrollbar {
+    height: 6px; /* Height for horizontal scrollbar */
+    width: 6px; /* Width for vertical scrollbar if needed */
+  }
+  
+  /* Rounded scrollbar with gray color */
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #B0B0B0; /* Gray color */
+    border-radius: 10px; /* Rounded corners */
+  }
+  
+  /* Remove scrollbar arrows in WebKit-based browsers */
+  .custom-scrollbar::-webkit-scrollbar-button {
+    display: none; /* Hides the arrows */
+  }
+  

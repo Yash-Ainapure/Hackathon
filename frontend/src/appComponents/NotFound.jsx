@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function NotFound() {
+export default function cdcNotFound() {
   return (
     <div className='flex flex-col items-center justify-center h-[100vh] '>
         <h1 className='text-9xl font-bold text-[#e8e7e7] '>404</h1>

@@ -6,6 +6,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
+import '.././App.css'
+import axios from 'axios';
+
 import {
   GridRowModes,
   DataGrid,
@@ -46,12 +49,11 @@ const initialRows = [
  
 ];
 
-function EditToolbar(props,{se}) {
+function EditToolbar({setIsOpen}) {
   // const { setRows, setRowModesModel } = props;
 
   const handleClick = () => {
     setIsOpen(true);
-    alert("Done")
   };
 
   return (
@@ -157,6 +159,69 @@ export default function Teams() {
   const closeModal = () => {
     setIsOpen(false); // Close the modal when the close button is clicked
   };
+
+
+  const [emails, setEmails] = useState([]);
+  const [inputValue, setInputValue] = useState('');
+  const [role, setRole] = useState('');
+  // Function to add email
+  const addEmail = (email) => {
+    if (email && validateEmail(email)) {
+      setEmails([...emails, email]);
+      setInputValue(''); // Clear input after adding
+    }
+  };
+
+  // Function to remove email
+  const removeEmail = (indexToRemove) => {
+    setEmails(emails.filter((_, index) => index !== indexToRemove));
+  };
+
+  // Validate email format
+  const validateEmail = (email) => {
+    const re = /\S+@\S+\.\S+/;
+    return re.test(email);
+  };
+
+  // Handle key press (Enter, Comma, or Semicolon)
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' || e.key === ',' || e.key === ';') {
+      e.preventDefault(); // Prevent default behavior
+      addEmail(inputValue.trim());
+    }
+  };
+
+
+  const handleAddMembers = async () => {
+    // Prepare data to send
+    console.log("data received:",emails," ",role);
+    const data = {
+      projectId: '67152e8d42e30ea3c0ac59e9', // Replace with actual projectId prop
+      members: {
+        email: emails,
+        role: role,
+      },
+    
+    };
+
+    try {
+      // Send data to the backend
+      const response = await axios.post('http://localhost:3000/api/projects/add-members', data);
+
+      if (response.status === 200) {
+        console.log('Members added successfully', response.data);
+        // Close the modal or reset the form, as needed
+        setEmails([]);
+        closeModal();
+      } else {
+        console.log('Error adding members');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+
   return (
     <div>
       <div className='px-32 py-20'>
@@ -212,15 +277,48 @@ export default function Teams() {
             </button>
 
             <p className='text-lg font-semibold mb-5'>Add People to My Project</p>
-
             <label className='block text-sm mb-2'>Emails</label>
-            <input
-              type='text'
-              className='w-full p-2 border border-gray-300 rounded my-2'
-              placeholder='e.g harshpatil@gmail.com'
-            />
+                  <input
+                    type='text'
+                    className='w-full p-2 border border-gray-300 rounded my-2'
+                    placeholder='e.g harshpatil@gmail.com'
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    onKeyDown={handleKeyDown} // Trigger on key press
+                  />
+                  <div
+                  className='overflow-x-auto whitespace-nowrap flex items-center mt-2 space-x-2 custom-scrollbar'
+                >
+                  {emails.map((email, index) => (
+                    <div
+                      key={index}
+                      className='bg-gray-200 text-sm flex items-center px-2 py-1 rounded mb-2'
+                    >
+                      {email}
+                      <span
+                        className='ml-2 text-slate-500 cursor-pointer'
+                        onClick={() => removeEmail(index)} // Remove email on click
+                      >
+                        &times;
+                      </span>
+                    </div>
+                  ))}
+                </div>
 
-            {/* Action Buttons */}
+                  {/* <div className='mt-2'>
+                    <strong>Emails array:</strong> {JSON.stringify(emails)}
+                  </div> */}
+           <label className='block text-sm mb-2'>Role</label>
+            <select
+              className='w-full p-2 border border-gray-300 rounded my-2'
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+            >
+              <option value='' disabled>Select the role</option>
+              <option value='admin'>Admin</option>
+              <option value='member'>Members</option>
+            </select>
+
             <div className='flex justify-end mt-6'>
               <button
                 className='bg-gray-300 text-gray-700 px-4 py-2 rounded mr-2 hover:bg-gray-400'
@@ -228,7 +326,10 @@ export default function Teams() {
               >
                 Cancel
               </button>
-              <button className='bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700'>
+              <button
+                className='bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700'
+                onClick={handleAddMembers} // Add members on click
+              >
                 Add
               </button>
             </div>

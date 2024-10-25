@@ -25,10 +25,7 @@ export default function Home() {
   // if (!location.state || !location.state.subject) {
   //   return null;
   // }
-  const user = useSelector(state => state.setUserObjReducer.user);
 
-  const [userid,setuserid] = useState(user._id)
-  localStorage.setItem('userid',userid)
   const [userProjects, setUserProjects] = useState([]);
 
   const fetchProjects = async () => {

@@ -143,7 +143,7 @@ const addMemberInProject = async (userId, projectId) => {
 // !     }
 // ! }
 // ! The role can be either "admin" or "member"
-
+// TODO: Validate while adding into arrays if it already exists
 const addMembersToProject = async (req, res) => {
   try {
     const { projectId, members } = req.body;
@@ -168,8 +168,14 @@ const addMembersToProject = async (req, res) => {
       }
 
       if (role === "admin") {
+        if (project.projectAdmins.includes(member._id)) {
+          continue;
+        }
         project.projectAdmins.push(member._id);
       } else if (role === "member") {
+        if (project.projectMembers.includes(member._id)) {
+          continue;
+        }
         project.projectMembers.push(member._id);
       } else {
         return res.status(400).json({ message: "Invalid role" });

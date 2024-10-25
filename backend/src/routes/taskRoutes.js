@@ -4,6 +4,7 @@ const { body } = require("express-validator");
 const {
   createTask,
   updateTask,
+  updateTaskStatus,
   deleteTask,
   getAllTasks
 } = require("../controllers/taskController");
@@ -11,6 +12,8 @@ const {
 router.post("/create", createTask);
 
 router.put("/update/:taskId", updateTask);
+
+router.post('/updateTaskStatus', updateTaskStatus);
 
 router.delete("/deleteTask/:taskId", deleteTask);
 

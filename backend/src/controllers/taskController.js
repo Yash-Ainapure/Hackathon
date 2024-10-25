@@ -169,6 +169,15 @@ const getAllTasks = async (req, res) => {
   }
 };
 
+// TODO: Whether the task name should be added or task ids is to be checked
+const updateTaskStatus = async (req, res) => {
+  const { projectId, toDO, inProgress, completed } = req.body;
+  const project = await Project.findById(projectId);
+  project.toDO = toDO;
+  project.inProgress = inProgress;
+  project.completed = completed;
+  await project.save();
+};
 
 // Delete a task
 const deleteTask = async (req, res) => {
@@ -198,6 +207,7 @@ const deleteTask = async (req, res) => {
 module.exports = {
   createTask,
   updateTask,
+  updateTaskStatus,
   deleteTask,
   getAllTasks
 };

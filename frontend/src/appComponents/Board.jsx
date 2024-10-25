@@ -1,6 +1,7 @@
-import { useState } from 'react';
-
-const initialLists = {
+import { useState, useEffect }from 'react';
+import { useLocation } from 'react-router-dom';
+import { useProject } from './ProjectContext';
+var initialLists = {
    Todo: ['Create backend API', 'frontend integration', 'Bugs solving'],
    InProgress: ['Payment Gateway Integration', 'Styling'],
    Done: ['Web Designing'],
@@ -11,6 +12,21 @@ const Board = () => {
    const [draggedItem, setDraggedItem] = useState(null);
    const [draggedFromList, setDraggedFromList] = useState('');
    const [newTask, setNewTask] = useState('');
+   const { project } = useProject();
+
+   // Use useEffect to update the lists only when the project changes
+   useEffect(() => {
+      if (project && project.toDO && project.inProgress && project.completed) {
+         setLists({
+            Todo: project.toDO,
+            InProgress: project.inProgress,
+            Done: project.completed,
+         });
+      }
+   }, [project]); // Dependency array ensures it runs only when `project` changes
+
+   console.log(project);
+   console.log("Todo:", project?.toDO, "InProgress:", project?.inProgress, "Done:", project?.completed);
 
    const handleDragStart = (item, listKey) => {
       setDraggedItem(item);
@@ -62,10 +78,14 @@ const Board = () => {
       }
    };
 
+   // const location = useLocation();
+   // const project = location.state?.project;
+ 
    return (
       <div className="flex flex-col min-h-screen p-4 space-x-4 justify-top">
          <div>
             <div className='p-2 font-semibold'>Projects/HackEra</div>
+            <p>{JSON.stringify(project)}</p>
          </div>
          <div className='flex justify-center'>
             <div className='w-1/2'>

@@ -1,13 +1,14 @@
 import React from 'react'
 import Banner from '../assets/banner.jpg'
 import { useNavigate } from 'react-router-dom';
-
+import { useProject } from './ProjectContext';
 
 export default function Card(props) {
 
     const navigate1 = useNavigate();
-
-   
+    const project = props.project;
+    const { setProject } = useProject();
+    console.log("project details",project);
     
     
     function truncateString(str) {
@@ -24,16 +25,8 @@ export default function Card(props) {
       }
       
     const goToProject=()=>{
-        let obj = {
-            name:props.name,
-            owner:props.ownerName,
-            summary:props.summary,
-            toDOCount:getRandomInt()/2,
-            progressCount:getRandomInt(),
-            completedCount:getRandomInt()*2,
-        }
-        console.log(obj);
-        navigate1('/dashboard/board',{ state: {}}); 
+        setProject(project); // Store project in context
+        navigate1('/dashboard/board');
     }
     const todoCount =getRandomInt();
     const progressCount =getRandomInt();

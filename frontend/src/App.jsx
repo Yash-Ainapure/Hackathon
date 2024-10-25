@@ -17,18 +17,20 @@ import NotFound from "./appComponents/NotFound";
 import Home from "./pages/Home";
 import VideoStream from "./videoCC/VideoStream";
 import ManageAccount from "./appComponents/ManageAccount";
-
+import { ProjectProvider } from './appComponents/ProjectContext';
 function App() {
   const dispatch = useDispatch();
 
   return (
     <Router>
+      <ProjectProvider>
       <Routes>
         <Route path="*" element={<NotFound />} />
         <Route path="/" element={<Auth />} />
         <Route path="/register" element={<RegisterVerify />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/dashboard/*" element={<Dashboard />}>
+        <Route path="/dashboard/*"
+        element={<Dashboard />}>
           <Route path="CoMeet" element={<VideoStream />} />
           <Route path="board" element={<Board />} />
           <Route path="teams" element={<Teams />} />
@@ -39,6 +41,7 @@ function App() {
         </Route>
         <Route path="/manageaccount" element={<ManageAccount />} />
       </Routes>
+      </ProjectProvider>
     </Router>
   );
 }

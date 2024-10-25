@@ -6,6 +6,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
+import { useProject } from './ProjectContext';
 import '.././App.css'
 import axios from 'axios';
 
@@ -55,6 +56,8 @@ function EditToolbar({setIsOpen}) {
   const handleClick = () => {
     setIsOpen(true);
   };
+
+
 
   return (
     <GridToolbarContainer>
@@ -111,6 +114,8 @@ export default function Teams() {
     handleSaveClick();
   };
 
+  
+
   const columns = [
     { field: 'name', headerName: 'Name', width: 250, editable: true },
     {
@@ -164,6 +169,7 @@ export default function Teams() {
   const [emails, setEmails] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [role, setRole] = useState('');
+  const { project } = useProject();
   // Function to add email
   const addEmail = (email) => {
     if (email && validateEmail(email)) {
@@ -196,7 +202,7 @@ export default function Teams() {
     // Prepare data to send
     console.log("data received:",emails," ",role);
     const data = {
-      projectId: '67152e8d42e30ea3c0ac59e9', // Replace with actual projectId prop
+      projectId: project._id, // Replace with actual projectId prop
       members: {
         email: emails,
         role: role,
@@ -226,6 +232,7 @@ export default function Teams() {
     <div>
       <div className='px-32 py-20'>
         <h1 className='text-xl font-medium my-4'>Manage Teams Here</h1>
+        <p>{JSON.stringify(project)}</p>
         <Box
           sx={{
             height: 500,

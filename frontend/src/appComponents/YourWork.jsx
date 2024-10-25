@@ -97,13 +97,13 @@ export default function YourWork(props) {
 
 
       <div className='flex flex-wrap justify-center py-10'>
-
         {projects.length !== 0 ? (
           projects.map((project, index) => (
             <Card
               key={index}
+              project={project}
               name={project.name}
-              owner={project.owner}
+              ownerName={project.ownerName}
               summary={project.projectDescription}
               todoCount={project.toDO.length}         // Replace these with actual data if available
               progressCount={project.inProgress.length}     // Replace these with actual data if available

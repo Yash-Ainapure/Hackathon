@@ -6,8 +6,8 @@ const formatDate = (date) => {
   if (!date) return undefined;
   const d = new Date(date);
   const year = d.getFullYear();
-  const month = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
 };
 
@@ -36,16 +36,20 @@ const createTask = async (req, res) => {
     await newTask.save();
 
     // Add the task to the project's toDo array
+    // ! Task's name should be added to the project's toDo array instead of task's id
     await addTasksToProject(projectId, newTask._id);
 
-    res.status(201).json({ message: "Task created successfully", task: newTask });
+    res
+      .status(201)
+      .json({ message: "Task created successfully", task: newTask });
   } catch (error) {
     console.error("Error creating task:", error);
     res.status(500).json({ message: "Server error" });
   }
 };
 
-// Function to add a task to the project's toDo array
+// ? Function to add a task to the project's toDo array
+// TODO: Task's name should be added to the project's toDo array instead of task's id
 const addTasksToProject = async (projectId, taskId) => {
   try {
     const updatedProject = await Project.findByIdAndUpdate(
@@ -62,7 +66,6 @@ const addTasksToProject = async (projectId, taskId) => {
 
     console.log(`Task ${taskId} added to project ${projectId} successfully.`);
     return { success: true, project: updatedProject }; // Return success and the updated project
-
   } catch (error) {
     console.error("Error adding task to project:", error);
     return { success: false, message: "Error adding task to project", error }; // Return error information
@@ -72,7 +75,8 @@ const addTasksToProject = async (projectId, taskId) => {
 // Update an existing task
 const updateTask = async (req, res) => {
   const { taskId } = req.params;
-  const { taskName, taskDescription, status, assignedTo, startDate, endDate } = req.body;
+  const { taskName, taskDescription, status, assignedTo, startDate, endDate } =
+    req.body;
 
   const allowedStatuses = ["ToDo", "InProgress", "Completed"];
 
@@ -120,7 +124,7 @@ const getAllTasks = async (req, res) => {
     console.log("Project found with task IDs:", {
       toDOIds,
       inProgressIds,
-      completedIds
+      completedIds,
     });
 
     const taskQueries = [];
@@ -129,7 +133,6 @@ const getAllTasks = async (req, res) => {
       console.log(`Finding tasks with IDs: ${toDOIds}`);
       taskQueries.push(await Task.find({ _id: { $in: toDOIds } }).exec());
       console.log(taskQueries);
-
     } else {
       taskQueries.push(Promise.resolve([]));
     }
@@ -149,19 +152,21 @@ const getAllTasks = async (req, res) => {
     }
 
     // Execute all queries in parallel
-    const [toDOTasks, inProgressTasks, completedTasks] = await Promise.all(taskQueries);
+    const [toDOTasks, inProgressTasks, completedTasks] = await Promise.all(
+      taskQueries
+    );
 
     console.log("Tasks retrieved:", {
       toDOTasks,
       inProgressTasks,
-      completedTasks
+      completedTasks,
     });
 
     // Return the tasks grouped by status
     res.status(200).json({
       toDO: toDOTasks,
       inProgress: inProgressTasks,
-      completed: completedTasks
+      completed: completedTasks,
     });
   } catch (error) {
     console.error("Error fetching tasks:", error);
@@ -212,10 +217,7 @@ const deleteTask = async (req, res) => {
     }
 
     // Remove the task from the project's toDo list
-    await Project.updateMany(
-      { toDO: taskId },
-      { $pull: { toDO: taskId } }
-    );
+    await Project.updateMany({ toDO: taskId }, { $pull: { toDO: taskId } });
 
     res.status(200).json({ message: "Task deleted successfully" });
   } catch (error) {
@@ -229,5 +231,5 @@ module.exports = {
   updateTask,
   updateTaskStatus,
   deleteTask,
-  getAllTasks
+  getAllTasks,
 };

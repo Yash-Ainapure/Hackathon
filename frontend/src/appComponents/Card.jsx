@@ -7,7 +7,7 @@ export default function Card(props) {
 
     const navigate1 = useNavigate();
     const project = props.project;
-    const { setProject } = useProject();
+    const { setProject,setProjectId } = useProject();
     console.log("project details",project);
     
     
@@ -25,6 +25,7 @@ export default function Card(props) {
       }
       
     const goToProject=()=>{
+        setProjectId(project._id);
         setProject(project); // Store project in context
         navigate1('/dashboard/board');
     }

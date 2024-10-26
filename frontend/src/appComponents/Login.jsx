@@ -4,6 +4,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setUserObj } from '../state/action';
+import { useSelector } from "react-redux";
+
 function Login(props) {
 
   const dispatch = useDispatch();
@@ -22,8 +24,11 @@ function Login(props) {
         localStorage.setItem('auth-token',response.data.token);
         console.log('Added token into storage after login', localStorage.getItem('auth-token'));
         
-        console.log(response.data.user);
+        // console.log(response.data.user);
         dispatch(setUserObj(response.data.user));
+        // console.log("User :",response.data.user._id);
+        const userid = response.data.user._id;
+        localStorage.setItem('userid',userid)
         alert('User has been logged in successfully!!')
         navigate('/Home', { state: {}});
       })

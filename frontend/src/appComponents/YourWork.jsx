@@ -1,7 +1,7 @@
 import React from 'react'
 import Card from './Card'
 import { FlipWords } from "../components/ui/flip-words";
-
+import { useProject } from './ProjectContext';
 const words = ["Your Work", "Our Priority", "Our Management", "Your Success"];
 
 const projects1 = [
@@ -90,6 +90,7 @@ const projects1 = [
 export default function YourWork(props) {
 
   const projects = props.projects;
+  const { setProject } = useProject();
   // className="text-2xl font-medium text-gray-700 border-b border-gray-400"
   return (
     <div className='p-10'>

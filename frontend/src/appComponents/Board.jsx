@@ -22,6 +22,11 @@ const Board = () => {
             InProgress: project.inProgress,
             Done: project.completed,
          });
+         let newProject = project;
+         newProject.toDO = lists.Todo;
+         newProject.inProgress = lists.InProgress;
+         newProject.completed = lists.Done;
+         localStorage.setItem(project._id, JSON.stringify(newProject));
       }
    }, [project]); // Dependency array ensures it runs only when `project` changes
 

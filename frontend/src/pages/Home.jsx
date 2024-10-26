@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import Navbar from '../appComponents/Navbar'
 import Footer from '../appComponents/Footer'
 import YourWork from '../appComponents/YourWork'
-import { useSelector } from "react-redux";
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
@@ -25,7 +24,7 @@ export default function Home() {
   // if (!location.state || !location.state.subject) {
   //   return null;
   // }
-
+ 
   const [userProjects, setUserProjects] = useState([]);
 
   const fetchProjects = async () => {

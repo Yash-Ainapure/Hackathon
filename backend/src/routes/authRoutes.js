@@ -4,6 +4,7 @@ const { body, param } = require("express-validator");
 const {
   registerUser,
   loginUser,
+  updateUser,
   fetchUser
 } = require("../controllers/authController");
 
@@ -31,12 +32,13 @@ const validateUserId = [
     .isMongoId().withMessage("Invalid user ID") 
 ];
 
-
 router.post("/register",  registerUser);
 
-router.get("/:id", validateUserId ,fetchUser);
+router.post("/fetch-user", validateUserId ,fetchUser);
 
 router.post("/login", loginUser);
+
+router.post('/update-user', updateUser);
 
 router.get("/validate-token", verifyToken, (req, res) => {
   res.status(200).json({ valid: true });

@@ -24,23 +24,23 @@ function App() {
   return (
     <Router>
       <ProjectProvider>
-      <Routes>
-        <Route path="*" element={<NotFound />} />
-        <Route path="/" element={<Auth />} />
-        <Route path="/register" element={<RegisterVerify />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/dashboard/*"
-        element={<Dashboard />}>
-          <Route path="CoMeet" element={<VideoStream />} />
-          <Route path="board" element={<Board />} />
-          <Route path="teams" element={<Teams />} />
-          <Route path="demo" element={<Board />} />
-          <Route path="list" element={<TaskList />} />
-          <Route path="messages" element={<ChatComponent />} />
-          <Route path="githubStats" element={<GitHubRepoInfo />} />
-        </Route>
-        <Route path="/manageaccount" element={<ManageAccount />} />
-      </Routes>
+        <Routes>
+          <Route path="*" element={<NotFound />} />
+          <Route path="/" element={<Auth />} />
+          <Route path="/register" element={<RegisterVerify />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/dashboard/*"
+            element={<Dashboard />}>
+            <Route path="CoMeet" element={<VideoStream />} />
+            <Route path="board" element={<Board />} />
+            <Route path="teams" element={<Teams />} />
+            <Route path="demo" element={<Board />} />
+            <Route path="list" element={<TaskList />} />
+            <Route path="messages" element={<ChatComponent />} />
+            <Route path="githubStats" element={<GitHubRepoInfo />} />
+          </Route>
+          <Route path="/manageaccount" element={<ManageAccount />} />
+        </Routes>
       </ProjectProvider>
     </Router>
   );

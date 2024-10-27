@@ -40,8 +40,8 @@ const UserSchema = new Schema({
     default: 'https://via.placeholder.com/200'
   },
   jobInfo: {
-    type: JobInfoSchema,
-    default: {}, 
+    type: String,
+    default: "", 
   },
   createdAt: {
     type: Date,

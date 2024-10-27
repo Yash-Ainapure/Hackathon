@@ -29,7 +29,26 @@ function Navbar(props) {
     setIsModalOpen(false);
   };
 
-
+  const onManageAccountClick = async () => {
+    const userId = localStorage.getItem("userid");
+    try {
+      const response = await fetch('http://localhost:3000/api/auth/fetch-user', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId })
+      });
+      if (!response.ok) throw new Error('Network response was not ok');
+      const data = await response.json();
+      console.log('User data:', data);
+      setProfileModal(false);
+      console.log('User data before navigating:', data);
+      navigate('/manageaccount', { state: { user: data } });
+    } catch (error) {
+      console.error('Failed to load user data:', error);
+    }
+  }
 
   const openNotificationModal = () => {
     setShowNotificationModal(true);
@@ -182,11 +201,7 @@ function Navbar(props) {
             <div className="my-3 border-t"></div>
             <div className="flex flex-col items-center">
               {/* Manage Account Option */}
-              <div
-                onClick={() => {
-                  setProfileModal(false);
-                  navigate('/manageaccount');
-                }}
+              <div onClick={onManageAccountClick}
                 className="flex w-full items-center cursor-pointer justify-start gap-4 px-6 py-2 transition-colors duration-200 hover:bg-gray-100"
               >
                 <ManageAccountsIcon className="w-6 h-6 text-gray-500" /> {/* Adjusted size for better alignment */}

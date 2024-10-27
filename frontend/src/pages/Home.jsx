@@ -53,7 +53,7 @@ export default function Home() {
   return (
     <>
       <Navbar fetch={fetchProjects}/>
-      <YourWork projects={userProjects}   />
+      <YourWork projects={userProjects}/>
       <Footer />
     </>
   )

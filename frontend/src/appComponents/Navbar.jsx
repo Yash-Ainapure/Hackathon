@@ -6,6 +6,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import axios from 'axios';
 import { useDispatch, useSelector } from "react-redux";
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import { IoLogInOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 
 
@@ -164,51 +165,53 @@ function Navbar(props) {
           )}
         </div>
         {
-          profileModal && <div className="absolute z-50 bg-white border rounded-md shadow-lg h-60 w-72 right-40 top-16">
-            <button
-              onClick={() => setProfileModal(false)}
-              className="absolute text-gray-600 top-2 right-2 hover:text-gray-900"
-            >
-              <CloseIcon />
-            </button>
-            <div className="p-2">
-              <div><p>Account</p></div>
-              <div className="flex gap-4 p-2">
-                <img
-                  className="w-12 h-12 rounded-full"
-                  src="https://assets.aceternity.com/manu.png"
-                  alt="Profile"
-                />
-                <div>
-                  <p>Pawan Malgavi</p>
-                  <p>pawan1423@gmail.com</p>
-                </div>
+          profileModal &&
+          <div className="absolute right-24 top-16 z-50 flex h-60 w-72 flex-col rounded-2xl border bg-white shadow-lg">
+            <div className="flex w-full items-center justify-between p-4">
+              <p className="font-bold font-roboto">Account</p>
+              <button onClick={() => setProfileModal(false)} className="hover:text-gray-900"><CloseIcon /></button>
+            </div>
+
+            <div className="my-2 flex items-center justify-center">
+              <img src="https://via.placeholder.com/40" alt="Profile Picture" className="mr-2 rounded-full" />
+              <div className="flex flex-col">
+                <p className="font-roboto font-bold tracking-wide">Pawan Malgavi</p>
+                <p className="font-roboto tracking-wide">pawan1423@gmail.com</p>
               </div>
             </div>
-            <div onClick={() => {
-              setProfileModal(false)
-              navigate('/manageaccount')
-            }} className="flex justify-between px-6 py-2 cursor-pointer">
-              <p>Manage Account</p>
-              <ManageAccountsIcon />
-            </div>
-            <div className="absolute bottom-0 flex justify-start w-full p-4 border-t">
-              <p onClick={changeLoginStatus} className="cursor-pointer"> Log out</p>
+            <div className="my-3 border-t"></div>
+            <div className="flex flex-col items-center">
+              {/* Manage Account Option */}
+              <div
+                onClick={() => {
+                  setProfileModal(false);
+                  navigate('/manageaccount');
+                }}
+                className="flex w-full items-center cursor-pointer justify-start gap-4 px-6 py-2 transition-colors duration-200 hover:bg-gray-100"
+              >
+                <ManageAccountsIcon className="w-6 h-6 text-gray-500" /> {/* Adjusted size for better alignment */}
+                <p className="font-roboto">Manage Account</p>
+              </div>
+              {/* Log Out Option */}
+              <div
+                className="flex w-full items-center cursor-pointer justify-start gap-4 px-6 py-2 transition-colors duration-200 hover:bg-gray-100"
+              >
+                <IoLogInOutline className="w-6 h-6 text-gray-500" /> {/* Adjusted size for better alignment */}
+                <p className="font-roboto" onClick={changeLoginStatus}>Log out</p>
+              </div>
             </div>
           </div>
+
         }
       </div>
 
-      {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
-          {/* Overlay */}
           <div
             className="fixed inset-0 bg-black opacity-50"
             onClick={closeModal}
           ></div>
 
-          {/* Modal Content */}
           <div className="relative z-50 w-1/3 p-8 bg-white rounded-lg shadow-lg">
             <button
               onClick={closeModal}

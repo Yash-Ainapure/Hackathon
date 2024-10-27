@@ -7,6 +7,7 @@ const {
   getProjectByUserId,
   addMembersToProject,
   removeMemberFromProject,
+  fetchProjectMembers,
   fetchProjects,
   deleteProject
 } = require("../controllers/projectController");
@@ -15,6 +16,8 @@ const {
 const verifyToken = require("../middlewares/verifyToken");
 
 router.post("/createproject", createProject);
+
+router.get("/fetchProjectMembers", fetchProjectMembers);
 
 // ? Corrected to use GET instead of POST for fetching projects
 router.get("/fetchProjects/:id", fetchProjects);

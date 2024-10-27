@@ -108,6 +108,52 @@ const fetchProjects = async (req, res) => {
   }
 };
 
+const fetchProjectMembers = async (req, res) => {
+  try {
+    const { projectId } = req.body;  // Extract projectId from the request body
+    if (!projectId) {
+      return res.status(400).json({ message: "Project ID is required" });
+    }
+
+    const project = await Project.findById(projectId);  // Use the extracted projectId
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    const projectMembers = project.projectMembers;
+    const projectAdmins = project.projectAdmins;
+    const members = [];
+
+    for (const adminId of projectAdmins) {
+      const adminDetails = await User.findById(adminId);
+      if (adminDetails) {
+        members.push({
+          name: adminDetails.name,
+          email: adminDetails.email,
+          role: "Admin"
+        });
+      }
+    }
+
+    for (const memberId of projectMembers) {
+      const memberDetails = await User.findById(memberId);
+      if (memberDetails) {
+        members.push({
+          name: memberDetails.name,
+          email: memberDetails.email,
+          role: "Member"
+        });
+      }
+    }
+
+    res.status(200).json({ members });
+  } catch (error) {
+    console.error("Error fetching project members:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+
 // Get projects by user ID
 const getProjectByUserId = async (req, res) => {
   try {
@@ -252,6 +298,7 @@ module.exports = {
   getProjectByUserId,
   addMembersToProject,
   removeMemberFromProject,
+  fetchProjectMembers,
   fetchProjects,
   deleteProject
 };

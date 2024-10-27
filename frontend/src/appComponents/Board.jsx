@@ -1,6 +1,7 @@
 import { useState, useEffect }from 'react';
 import { useLocation } from 'react-router-dom';
 import { useProject } from './ProjectContext';
+import axios from 'axios';
 var initialLists = {
    Todo: ['Create backend API', 'frontend integration', 'Bugs solving'],
    InProgress: ['Payment Gateway Integration', 'Styling'],
@@ -12,7 +13,7 @@ const Board = () => {
    const [draggedItem, setDraggedItem] = useState(null);
    const [draggedFromList, setDraggedFromList] = useState('');
    const [newTask, setNewTask] = useState('');
-   const { project } = useProject();
+   const { project, setProject } = useProject();    
 
    // Use useEffect to update the lists only when the project changes
    useEffect(() => {
@@ -22,35 +23,45 @@ const Board = () => {
             InProgress: project.inProgress,
             Done: project.completed,
          });
-         let newProject = project;
-         newProject.toDO = lists.Todo;
-         newProject.inProgress = lists.InProgress;
-         newProject.completed = lists.Done;
-         localStorage.setItem(project._id, JSON.stringify(newProject));
+         
+         
       }
    }, [project]); // Dependency array ensures it runs only when `project` changes
 
-   console.log(project);
-   console.log("Todo:", project?.toDO, "InProgress:", project?.inProgress, "Done:", project?.completed);
+   // console.log(project._id);
+   // console.log(lists)
+   
+   // console.log("Todo:", project?.toDO, "InProgress:", project?.inProgress, "Done:", project?.completed);
 
    const handleDragStart = (item, listKey) => {
       setDraggedItem(item);
       setDraggedFromList(listKey);
    };
 
-   const handleDrop = (e, listKey) => {
-      e.preventDefault();
-      if (draggedItem !== null) {
-         const newLists = { ...lists };
-         newLists[draggedFromList] = newLists[draggedFromList].filter(
+   const updateListsOnDrop = (listKey) => {
+      if (draggedItem === null) return;
+   
+      setLists((prevLists) => {
+         const updatedLists = { ...prevLists };
+   
+         // Move dragged item from the source list to the target list
+         updatedLists[draggedFromList] = updatedLists[draggedFromList].filter(
             (item) => item !== draggedItem
          );
-         newLists[listKey] = [...newLists[listKey], draggedItem];
-         setLists(newLists);
-         console.log(newLists);
-         setDraggedItem(null);
-         setDraggedFromList('');
-      }
+         updatedLists[listKey] = [...updatedLists[listKey], draggedItem];
+   
+         // Update project data and localStorage
+         updateProjectData(updatedLists);
+         return updatedLists;
+      });
+   
+      setDraggedItem(null);
+      setDraggedFromList('');
+   };
+   
+   const handleDrop = (e, listKey) => {
+      e.preventDefault();
+      updateListsOnDrop(listKey);
    };
 
    const handleDragOver = (e) => {
@@ -82,7 +93,46 @@ const Board = () => {
             return 'p-2 m-1 bg-neutral-100 border border-gray-300 cursor-move w-[100%] rounded';
       }
    };
+   const addNewTask = () => {
+      setLists((prevLists) => {
+         const updatedLists = {
+            ...prevLists,
+            Todo: [...prevLists.Todo, newTask]
+         };
+   
+         // Update project data and localStorage
+         updateProjectData(updatedLists);
+         return updatedLists;
+      });
+   
+      setNewTask('');
+   };
 
+
+   const updateProjectData = async (updatedLists) => {
+      const newProject = { 
+         ...project, 
+         toDO: updatedLists.Todo, 
+         inProgress: updatedLists.InProgress, 
+         completed: updatedLists.Done 
+      };
+   
+      setProject(newProject);
+      localStorage.setItem(project._id, JSON.stringify(newProject));
+      // console.log("Update Tasks:",updatedLists)
+      // API call to update task status on the server
+      try {
+         await axios.post('http://localhost:3000/api/tasks/updateTaskStatus', {
+            projectId: project._id,
+            toDO: updatedLists.Todo,
+            inProgress: updatedLists.InProgress,
+            completed: updatedLists.Done
+         });
+         console.log("Task status updated successfully");
+      } catch (error) {
+         console.error("Error updating task status:", error);
+      }
+   };
    // const location = useLocation();
    // const project = location.state?.project;
  
@@ -95,11 +145,16 @@ const Board = () => {
          <div className='flex justify-center'>
             <div className='w-1/2'>
                <input value={newTask} onChange={(e)=>setNewTask(e.target.value)} type="text" className="w-full p-2 border border-gray-300 rounded" placeholder="Add a new task" />
-               <button onClick={(e)=>{
-                  e.preventDefault();
-                  setLists({...lists, Todo: [...lists.Todo, newTask]});
-                  setNewTask('');
-               }} className="w-full p-2 mt-2 text-white bg-blue-500 rounded">Add Task</button>
+               <button
+                  onClick={(e) => {
+                     e.preventDefault();
+                     addNewTask();
+                  }}
+                  className="w-full p-2 mt-2 text-white bg-blue-500 rounded"
+               >
+                  Add Task
+               </button>
+
             </div>
          </div>
          <div className='flex justify-center gap-5 mt-10'>

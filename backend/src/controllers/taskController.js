@@ -172,12 +172,32 @@ const getAllTasks = async (req, res) => {
 // TODO: Whether the task name should be added or task ids is to be checked
 const updateTaskStatus = async (req, res) => {
   const { projectId, toDO, inProgress, completed } = req.body;
-  const project = await Project.findById(projectId);
-  project.toDO = toDO;
-  project.inProgress = inProgress;
-  project.completed = completed;
-  await project.save();
+  // console.log("Project tasks received: ",projectId, toDO , inProgress , completed);
+
+  try {
+    // Find the project by ID
+    const project = await Project.findById(projectId);
+    // Check if the project was found
+    if (!project) {
+      return res.status(404).json({ error: "Project not found" });
+    }
+
+    // Update the project's task lists
+    project.toDO = toDO;
+    project.inProgress = inProgress;
+    project.completed = completed;
+
+    // Save the updated project
+    await project.save();
+
+    // Respond with success
+    res.status(200).json({ message: "Task status updated successfully" });
+  } catch (error) {
+    console.error("Error updating task status:", error);
+    res.status(500).json({ error: "Server error updating task status" });
+  }
 };
+
 
 // Delete a task
 const deleteTask = async (req, res) => {

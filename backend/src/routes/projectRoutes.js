@@ -24,6 +24,7 @@ router.get("/fetchProjects/:id", fetchProjects);
 
 router.get('/:id', getProjectByUserId);
 
+// TODO: To be removed
 router.post("/add-member", async (req, res) => {
   const { userId, projectId } = req.body;
   

@@ -58,7 +58,8 @@ const createProject = async (req, res) => {
       owner: owner || "Unknown Owner",
       ownerName: ownerName || "No Owner Name",
       projectDescription: projectDescription || "No description provided",
-      projectAdmins: projectAdmins || [],
+      // projectAdmins: projectAdmins || [],
+      projectAdmins: projectAdmins || [owner],
       projectMembers: projectMembers || [],
       startDate: startDate || new Date(), // ? Default to the current date
       endDate: endDate || null, // ? or a specific date
@@ -168,7 +169,7 @@ const getProjectByUserId = async (req, res) => {
 };
 
 // Add a member to a project
-// TODO: Take User's email instead of ID
+// TODO: To be removed
 const addMemberInProject = async (userId, projectId) => {
   try {
     await User.findByIdAndUpdate(userId, {
@@ -217,10 +218,16 @@ const addMembersToProject = async (req, res) => {
         if (project.projectAdmins.includes(member._id)) {
           continue;
         }
+        if (project.projectMembers.includes(member._id)) {
+          project.projectMembers.pull(member._id);
+        }
         project.projectAdmins.push(member._id);
       } else if (role === "member") {
         if (project.projectMembers.includes(member._id)) {
           continue;
+        }
+        if (project.projectAdmins.includes(member._id)) {
+          project.projectAdmins.pull(member._id);
         }
         project.projectMembers.push(member._id);
       } else {

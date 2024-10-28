@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React, { useEffect, useState }  from 'react'
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
@@ -70,7 +70,7 @@ function EditToolbar({setIsOpen}) {
 
 export default function Teams() {
 
-  const [rows, setRows] = React.useState(initialRows);
+  const [rows, setRows] = React.useState();
   const [rowModesModel, setRowModesModel] = React.useState({});
 
   const handleRowEditStop = (params, event) => {
@@ -117,6 +117,7 @@ export default function Teams() {
   
 
   const columns = [
+    { field: 'id', headerName: 'id', width: 250, editable: true },
     { field: 'name', headerName: 'Name', width: 250, editable: true },
     {
       field: 'email',
@@ -170,10 +171,11 @@ export default function Teams() {
   const [inputValue, setInputValue] = useState('');
   const [role, setRole] = useState('');
   const { project } = useProject();
+  const [projectMembers, setProjectMembers] = useState([]);
   // Function to add email
-  const addEmail = (email) => {
+  const addEmail = (email) => { 
     if (email && validateEmail(email)) {
-      setEmails([...emails, email]);
+      setEmails((prevEmails) => [...prevEmails, email]);
       setInputValue(''); // Clear input after adding
     }
   };
@@ -190,35 +192,57 @@ export default function Teams() {
   };
 
   // Handle key press (Enter, Comma, or Semicolon)
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter' || e.key === ',' || e.key === ';') {
-      e.preventDefault(); // Prevent default behavior
-      addEmail(inputValue.trim());
+const handleKeyDown = (e) => {
+  if (e.key === 'Enter' || e.key === ',' || e.key === ';') {
+    e.preventDefault(); // Prevent default behavior
+    addEmail(inputValue.trim());
+  }
+};
+
+
+   const fetchProjectMembers = async () => {
+    try {
+      const response = await axios.post('http://localhost:3000/api/projects/fetchProjectMembers', {
+        projectId: project._id,
+      });
+      console.log("Project Members:", response.data);
+      setProjectMembers(response.data);
+    } catch (error) {
+      console.error("Error fetching project members:", error);
     }
   };
 
 
   const handleAddMembers = async () => {
-    // Prepare data to send
-    console.log("data received:",emails," ",role);
+    // If there's an email in the input, add it to the emails array
+    if (inputValue) {
+      addEmail(inputValue.trim());
+      setInputValue(''); // Clear the input
+    }
+  
+    // Only proceed with the API call if there's at least one email
+    if (emails.length === 0) return; // Stops execution if emails array is empty
+  
+    console.log("Data received:", emails, " ", role);
     const data = {
-      projectId: project._id, // Replace with actual projectId prop
+      projectId: project._id,
       members: {
         email: emails,
         role: role,
       },
-    
     };
-
+  
     try {
-      // Send data to the backend
       const response = await axios.post('http://localhost:3000/api/projects/add-members', data);
-
+  
       if (response.status === 200) {
         console.log('Members added successfully', response.data);
-        // Close the modal or reset the form, as needed
-        setEmails([]);
+        setEmails([]); // Clear emails after adding
+        setInputValue(''); // Clear input
         closeModal();
+  
+        // Refresh the project members list
+        fetchProjectMembers();
       } else {
         console.log('Error adding members');
       }
@@ -226,13 +250,40 @@ export default function Teams() {
       console.error('Error:', error);
     }
   };
+  
 
+  // Load project members initially
+  useEffect(() => {
+    if (project) {
+      fetchProjectMembers();
+    }
+  }, [project]);
+
+ 
+  useEffect(() => {
+    // Convert projectMembers to the format expected by the DataGrid
+    // console.log("Project members updated:",projectMembers.members)
+    const members= projectMembers.members
+    // console.log("member:",members)
+    if (members && members.length > 0) {
+    
+      const newRows = members.map((member, index) => ({
+        id:  index+1, // Use member ID or index as ID
+        name: member.name,
+        email: member.email,
+        role: member.role,
+      }));
+      console.log("New Rows:",newRows);
+      setRows(newRows); // Update rows state
+    }
+  }, [projectMembers]);
 
   return (
     <div>
       <div className='px-32 py-20'>
         <h1 className='text-xl font-medium my-4'>Manage Teams Here</h1>
-        <p>{JSON.stringify(project)}</p>
+        {/* <p>{JSON.stringify(project)}</p> */}
+        {/* <p>{projectMembers ? JSON.stringify(projectMembers) : "Loading project members..."}</p> */}
         <Box
           sx={{
             height: 500,
@@ -284,7 +335,8 @@ export default function Teams() {
             </button>
 
             <p className='text-lg font-semibold mb-5'>Add People to My Project</p>
-            <label className='block text-sm mb-2'>Emails</label>
+            <label className='block text-sm'>Emails</label>
+            <p className='block text-xs font-thin '>You can add multiple members at once.</p>
                   <input
                     type='text'
                     className='w-full p-2 border border-gray-300 rounded my-2'
@@ -315,7 +367,7 @@ export default function Teams() {
                   {/* <div className='mt-2'>
                     <strong>Emails array:</strong> {JSON.stringify(emails)}
                   </div> */}
-           <label className='block text-sm mb-2'>Role</label>
+           <label className='block text-sm '>Role</label>
             <select
               className='w-full p-2 border border-gray-300 rounded my-2'
               value={role}
@@ -337,7 +389,7 @@ export default function Teams() {
                 className='bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700'
                 onClick={handleAddMembers} // Add members on click
               >
-                Add
+                {emails.length === 0 ? 'Add Member' : 'Proceed'}
               </button>
             </div>
           

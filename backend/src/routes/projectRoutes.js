@@ -17,7 +17,7 @@ const verifyToken = require("../middlewares/verifyToken");
 
 router.post("/createproject", createProject);
 
-router.get("/fetchProjectMembers", fetchProjectMembers);
+router.post("/fetchProjectMembers", fetchProjectMembers);
 
 // ? Corrected to use GET instead of POST for fetching projects
 router.get("/fetchProjects/:id", fetchProjects);

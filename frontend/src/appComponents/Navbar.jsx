@@ -14,8 +14,10 @@ import { useNavigate } from "react-router-dom";
 function Navbar(props) {
 
   const navigateTo = useNavigate();
-  const user = useSelector(state => state.setUserObjReducer.user);
+  // const user = useSelector(state => state.setUserObjReducer.user);
+  const user = JSON.parse(localStorage.getItem('user-object'));
 
+  console.log('User:', user);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [profileModal, setProfileModal] = useState(false);
   const [showNotificationModal, setShowNotificationModal] = useState(false);
@@ -136,6 +138,10 @@ function Navbar(props) {
     navigateTo('/');
   }
 
+  const handleSearchChange = (e) => {
+    props.setSearchQuery(e.target.value);
+  };
+
   return (
     <div>
       <div className="flex items-center justify-between w-full p-2 px-24 border-b">
@@ -169,7 +175,12 @@ function Navbar(props) {
         <div className="flex gap-4">
           <div className="flex p-[1px] pl-2 bg-white border rounded-md shadow items-center">
             <SearchIcon className="flex-shrink-0 w-5 h-5 text-neutral-700 dark:text-neutral-200" />
-            <input className="pl-2" placeholder="Search" type="text" />
+            <input
+              onChange={handleSearchChange}
+              className="pl-2 focus:outline-none focus:ring-0" // Add these classes
+              placeholder="Search"
+              type="text"
+            />
           </div>
           <div className="pr-2" onClick={() => setProfileModal(true)}>
             <img
@@ -194,8 +205,8 @@ function Navbar(props) {
             <div className="my-2 flex items-center justify-center">
               <img src="https://via.placeholder.com/40" alt="Profile Picture" className="mr-2 rounded-full" />
               <div className="flex flex-col">
-                <p className="font-roboto font-bold tracking-wide">Pawan Malgavi</p>
-                <p className="font-roboto tracking-wide">pawan1423@gmail.com</p>
+                <p className="font-roboto font-bold tracking-wide">{user.name}</p>
+                <p className="font-roboto tracking-wide">{user.email}</p>
               </div>
             </div>
             <div className="my-3 border-t"></div>

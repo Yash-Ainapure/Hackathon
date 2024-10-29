@@ -21,16 +21,17 @@ function Login(props) {
     })
       .then(response => {
         // console.log('Loged In', response.data);
-        localStorage.setItem('auth-token',response.data.token);
+        localStorage.setItem('auth-token', response.data.token);
         console.log('Added token into storage after login', localStorage.getItem('auth-token'));
-        
+
         // console.log(response.data.user);
         dispatch(setUserObj(response.data.user));
         // console.log("User :",response.data.user._id);
         const userid = response.data.user._id;
-        localStorage.setItem('userid',userid)
+        localStorage.setItem('userid', userid)
+        localStorage.setItem('user-object', JSON.stringify(response.data.user));
         alert('User has been logged in successfully!!')
-        navigate('/Home', { state: {}});
+        navigate('/Home', { state: {} });
       })
       .catch(error => {
         console.error('Error sending email:', error);

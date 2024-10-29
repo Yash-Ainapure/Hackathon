@@ -87,7 +87,6 @@ const createProject = async (req, res) => {
   }
 };
 
-
 // Fetch a project by ID
 const fetchProjects = async (req, res) => {
   try {
@@ -111,12 +110,12 @@ const fetchProjects = async (req, res) => {
 
 const fetchProjectMembers = async (req, res) => {
   try {
-    const { projectId } = req.body;  // Extract projectId from the request body
+    const { projectId } = req.body; // Extract projectId from the request body
     if (!projectId) {
       return res.status(400).json({ message: "Project ID is required" });
     }
 
-    const project = await Project.findById(projectId);  // Use the extracted projectId
+    const project = await Project.findById(projectId); // Use the extracted projectId
     if (!project) {
       return res.status(404).json({ message: "Project not found" });
     }
@@ -131,7 +130,7 @@ const fetchProjectMembers = async (req, res) => {
         members.push({
           name: adminDetails.name,
           email: adminDetails.email,
-          role: "Admin"
+          role: "Admin",
         });
       }
     }
@@ -142,7 +141,7 @@ const fetchProjectMembers = async (req, res) => {
         members.push({
           name: memberDetails.name,
           email: memberDetails.email,
-          role: "Member"
+          role: "Member",
         });
       }
     }
@@ -153,7 +152,6 @@ const fetchProjectMembers = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
-
 
 // Get projects by user ID
 const getProjectByUserId = async (req, res) => {
@@ -190,12 +188,15 @@ const addMemberInProject = async (userId, projectId) => {
 // !     }
 // ! }
 // ! The role can be either "admin" or "member"
+
 // TODO: Validate while adding into arrays if it already exists
 const addMembersToProject = async (req, res) => {
   try {
     const { projectId, members } = req.body;
     if (!projectId || !members) {
-      return res.status(400).json({ message: "Project ID and members are required" });
+      return res
+        .status(400)
+        .json({ message: "Project ID and members are required" });
     }
 
     const project = await Project.findById(projectId);
@@ -211,17 +212,25 @@ const addMembersToProject = async (req, res) => {
     for (let i = 0; i < email.length; i++) {
       const member = await User.findOne({ email: email[i] });
       if (!member) {
-        return res.status(404).json({ message: `User not found for email: ${email[i]}` });
+        return res
+          .status(404)
+          .json({ message: `User not found for email: ${email[i]}` });
       }
-
+      // ! Check if the member is already part of the project
       if (role === "admin") {
+        // ! If the member is already an admin, skip
         if (project.projectAdmins.includes(member._id)) {
           continue;
         }
+        // ! If the member is a member, remove from members and add to admins
         if (project.projectMembers.includes(member._id)) {
           project.projectMembers.pull(member._id);
         }
+        // ! Add the member to the project admins
         project.projectAdmins.push(member._id);
+        // ! Add the project to the member's projects array
+        member.projects.push(project._id);
+        member.save();
       } else if (role === "member") {
         if (project.projectMembers.includes(member._id)) {
           continue;
@@ -230,6 +239,8 @@ const addMembersToProject = async (req, res) => {
           project.projectAdmins.pull(member._id);
         }
         project.projectMembers.push(member._id);
+        member.projects.push(project._id);
+        member.save();
       } else {
         return res.status(400).json({ message: "Invalid role" });
       }
@@ -241,14 +252,16 @@ const addMembersToProject = async (req, res) => {
     console.error("Error adding members to project:", error);
     res.status(500).json({ message: "Server error" });
   }
-}
+};
 
 // ? Remove a member from a project.. Removes the user id from the project's projectMembers and projectAdmins arrays if it exists
 const removeMemberFromProject = async (req, res) => {
   try {
     const { userId, projectId } = req.body;
     if (!userId || !projectId) {
-      return res.status(400).json({ message: "User ID and Project ID are required" });
+      return res
+        .status(400)
+        .json({ message: "User ID and Project ID are required" });
     }
 
     const project = await Project.findById(projectId);
@@ -270,7 +283,7 @@ const removeMemberFromProject = async (req, res) => {
     console.error("Error removing member from project:", error);
     res.status(500).json({ message: "Server error" });
   }
-}
+};
 
 // ? Delete a project
 // ? Deletes the project id from all the member's collection who are part of the project then deletes the project
@@ -296,8 +309,7 @@ const deleteProject = async (req, res) => {
     console.error("Error deleting project:", error);
     res.status(500).json({ message: "Server error" });
   }
-}
-    
+};
 
 module.exports = {
   createProject,
@@ -307,5 +319,5 @@ module.exports = {
   removeMemberFromProject,
   fetchProjectMembers,
   fetchProjects,
-  deleteProject
+  deleteProject,
 };

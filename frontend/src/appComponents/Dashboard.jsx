@@ -76,42 +76,41 @@ export default function Dashboard() {
   const [open, setOpen] = useState(false);
   return (
     (
-    
-    <div
-      className={cn(
-        "rounded-md flex flex-col md:flex-row bg-gray-100 dark:bg-neutral-800 min-h-screen w-full flex-1 mx-auto border border-neutral-200 dark:border-neutral-700 overflow-hidden",
-        // for your use case, use `h-screen` instead of `h-[60vh]`
-        "h-[60vh]"
-      )}>
-      <Sidebar open={open} setOpen={setOpen}>
-        <SidebarBody className="justify-between gap-10">
-          <div className="flex flex-col flex-1 overflow-x-hidden overflow-y-auto">
-            {open ? <Logo /> : <LogoIcon />}
-            <div className="flex flex-col gap-2 mt-8">
-              {links.map((link, idx) => (
-                <SidebarLink key={idx} link={link} />
-              ))}
+      <div
+        className={cn(
+          "rounded-md flex flex-col md:flex-row bg-gray-100 dark:bg-neutral-800 min-h-screen w-full flex-1 mx-auto border border-neutral-200 dark:border-neutral-700 overflow-hidden",
+          // for your use case, use `h-screen` instead of `h-[60vh]`
+          "h-[60vh]"
+        )}>
+        <Sidebar open={open} setOpen={setOpen}>
+          <SidebarBody className="justify-between gap-10">
+            <div className="flex flex-col flex-1 overflow-x-hidden overflow-y-auto">
+              {open ? <Logo /> : <LogoIcon />}
+              <div className="flex flex-col gap-2 mt-8">
+                {links.map((link, idx) => (
+                  <SidebarLink key={idx} link={link} />
+                ))}
+              </div>
             </div>
-          </div>
-          <div>
-            <SidebarLink
-              link={{
-                label: "Pawan Malgavi",
-                href: "#",
-                icon: (
-                  <img
-                    src="https://assets.aceternity.com/manu.png"
-                    className="flex-shrink-0 rounded-full h-7 w-7"
-                    width={50}
-                    height={50}
-                    alt="Avatar" />
-                ),
-              }} />
-          </div>
-        </SidebarBody>
-      </Sidebar>
-      <div className="w-full">
-        {/* <div className="flex items-center justify-between w-full p-2 px-24 border-b">
+            <div>
+              <SidebarLink
+                link={{
+                  label: "Pawan Malgavi",
+                  href: "#",
+                  icon: (
+                    <img
+                      src="https://assets.aceternity.com/manu.png"
+                      className="flex-shrink-0 rounded-full h-7 w-7"
+                      width={50}
+                      height={50}
+                      alt="Avatar" />
+                  ),
+                }} />
+            </div>
+          </SidebarBody>
+        </Sidebar>
+        <div className="w-full">
+          {/* <div className="flex items-center justify-between w-full p-2 px-24 border-b">
           <div className="flex gap-4">
             <select name="" id="" className="font-semibold bg-transparent text-sky-800">
               <option value="">Projects</option>
@@ -131,9 +130,9 @@ export default function Dashboard() {
             <CircleNotificationsIcon style={{ fontSize: '45px' }} />
           </div>
         </div> */}
-        <DashboardInner />
-      </div>
-    </div>)
+          <DashboardInner />
+        </div>
+      </div>)
   );
 }
 export const Logo = () => {
@@ -150,7 +149,7 @@ export const Logo = () => {
         CoLab
         <h1 className="font-bold text-md">Project Name</h1>
       </motion.span>
-    
+
     </Link>)
   );
 };

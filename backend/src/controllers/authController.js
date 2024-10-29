@@ -25,7 +25,7 @@ const registerUser = async (req, res) => {
       name,
       email,
       password: await bcrypt.hash(password, 10),
-      jobInfo: jobInfo || {},
+      jobInfo: jobInfo || "",
       profilePic: profilePic || "",
     });
 

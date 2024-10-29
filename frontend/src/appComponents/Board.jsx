@@ -1,5 +1,5 @@
-import { useState, useEffect }from 'react';
-import { useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useProject } from './ProjectContext';
 import axios from 'axios';
 var initialLists = {
@@ -9,11 +9,12 @@ var initialLists = {
 };
 
 const Board = () => {
+   const navigate = useNavigate();
    const [lists, setLists] = useState(initialLists);
    const [draggedItem, setDraggedItem] = useState(null);
    const [draggedFromList, setDraggedFromList] = useState('');
    const [newTask, setNewTask] = useState('');
-   const { project, setProject } = useProject();    
+   const { project, setProject } = useProject();
 
    // Use useEffect to update the lists only when the project changes
    useEffect(() => {
@@ -23,14 +24,13 @@ const Board = () => {
             InProgress: project.inProgress,
             Done: project.completed,
          });
-         
-         
       }
+      console.log("Project:", project);
    }, [project]); // Dependency array ensures it runs only when `project` changes
 
    // console.log(project._id);
    // console.log(lists)
-   
+
    // console.log("Todo:", project?.toDO, "InProgress:", project?.inProgress, "Done:", project?.completed);
 
    const handleDragStart = (item, listKey) => {
@@ -40,25 +40,25 @@ const Board = () => {
 
    const updateListsOnDrop = (listKey) => {
       if (draggedItem === null) return;
-   
+
       setLists((prevLists) => {
          const updatedLists = { ...prevLists };
-   
+
          // Move dragged item from the source list to the target list
          updatedLists[draggedFromList] = updatedLists[draggedFromList].filter(
             (item) => item !== draggedItem
          );
          updatedLists[listKey] = [...updatedLists[listKey], draggedItem];
-   
+
          // Update project data and localStorage
          updateProjectData(updatedLists);
          return updatedLists;
       });
-   
+
       setDraggedItem(null);
       setDraggedFromList('');
    };
-   
+
    const handleDrop = (e, listKey) => {
       e.preventDefault();
       updateListsOnDrop(listKey);
@@ -99,24 +99,24 @@ const Board = () => {
             ...prevLists,
             Todo: [...prevLists.Todo, newTask]
          };
-   
+
          // Update project data and localStorage
          updateProjectData(updatedLists);
          return updatedLists;
       });
-   
+
       setNewTask('');
    };
 
 
    const updateProjectData = async (updatedLists) => {
-      const newProject = { 
-         ...project, 
-         toDO: updatedLists.Todo, 
-         inProgress: updatedLists.InProgress, 
-         completed: updatedLists.Done 
+      const newProject = {
+         ...project,
+         toDO: updatedLists.Todo,
+         inProgress: updatedLists.InProgress,
+         completed: updatedLists.Done
       };
-   
+
       setProject(newProject);
       localStorage.setItem(project._id, JSON.stringify(newProject));
       // console.log("Update Tasks:",updatedLists)
@@ -135,16 +135,23 @@ const Board = () => {
    };
    // const location = useLocation();
    // const project = location.state?.project;
- 
+
    return (
       <div className="flex flex-col min-h-screen p-4 space-x-4 justify-top">
-         <div>
-            <div className='p-2 font-semibold'>Projects/HackEra</div>
-            <p>{JSON.stringify(project)}</p>
+         <div className='flex items-center'>
+            <p
+               className='py-2 px-1 font-semibold cursor-pointer hover:underline'
+               onClick={() => navigate('/home')}
+            >
+               Projects
+            </p>
+            <p className='py-2 px-1'>/</p>
+            <p className='py-2 px-1 font-semibold'>{project.name}</p>
          </div>
+         <p>{JSON.stringify(project)}</p>
          <div className='flex justify-center'>
             <div className='w-1/2'>
-               <input value={newTask} onChange={(e)=>setNewTask(e.target.value)} type="text" className="w-full p-2 border border-gray-300 rounded" placeholder="Add a new task" />
+               <input value={newTask} onChange={(e) => setNewTask(e.target.value)} type="text" className="w-full p-2 border border-gray-300 rounded" placeholder="Add a new task" />
                <button
                   onClick={(e) => {
                      e.preventDefault();

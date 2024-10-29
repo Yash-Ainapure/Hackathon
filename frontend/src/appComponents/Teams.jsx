@@ -1,4 +1,4 @@
-import React, { useEffect, useState }  from 'react'
+import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
@@ -47,10 +47,10 @@ const initialRows = [
     email: "pawanmalgavi@gmail.com",
     role: randomRole(),
   },
- 
+
 ];
 
-function EditToolbar({setIsOpen}) {
+function EditToolbar({ setIsOpen }) {
   // const { setRows, setRowModesModel } = props;
 
   const handleClick = () => {
@@ -114,7 +114,7 @@ export default function Teams() {
     handleSaveClick();
   };
 
-  
+
 
   const columns = [
     { field: 'id', headerName: 'id', width: 250, editable: true },
@@ -144,11 +144,11 @@ export default function Teams() {
       getActions: ({ id }) => {
         const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
 
-       
+
 
 
         return [
-          
+
           <GridActionsCellItem
             icon={<DeleteIcon />}
             label="Delete"
@@ -173,7 +173,7 @@ export default function Teams() {
   const { project } = useProject();
   const [projectMembers, setProjectMembers] = useState([]);
   // Function to add email
-  const addEmail = (email) => { 
+  const addEmail = (email) => {
     if (email && validateEmail(email)) {
       setEmails((prevEmails) => [...prevEmails, email]);
       setInputValue(''); // Clear input after adding
@@ -192,15 +192,15 @@ export default function Teams() {
   };
 
   // Handle key press (Enter, Comma, or Semicolon)
-const handleKeyDown = (e) => {
-  if (e.key === 'Enter' || e.key === ',' || e.key === ';') {
-    e.preventDefault(); // Prevent default behavior
-    addEmail(inputValue.trim());
-  }
-};
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' || e.key === ',' || e.key === ';') {
+      e.preventDefault(); // Prevent default behavior
+      addEmail(inputValue.trim());
+    }
+  };
 
 
-   const fetchProjectMembers = async () => {
+  const fetchProjectMembers = async () => {
     try {
       const response = await axios.post('http://localhost:3000/api/projects/fetchProjectMembers', {
         projectId: project._id,
@@ -219,10 +219,10 @@ const handleKeyDown = (e) => {
       addEmail(inputValue.trim());
       setInputValue(''); // Clear the input
     }
-  
+
     // Only proceed with the API call if there's at least one email
     if (emails.length === 0) return; // Stops execution if emails array is empty
-  
+
     console.log("Data received:", emails, " ", role);
     const data = {
       projectId: project._id,
@@ -231,16 +231,16 @@ const handleKeyDown = (e) => {
         role: role,
       },
     };
-  
+
     try {
       const response = await axios.post('http://localhost:3000/api/projects/add-members', data);
-  
+
       if (response.status === 200) {
         console.log('Members added successfully', response.data);
         setEmails([]); // Clear emails after adding
         setInputValue(''); // Clear input
         closeModal();
-  
+
         // Refresh the project members list
         fetchProjectMembers();
       } else {
@@ -250,7 +250,7 @@ const handleKeyDown = (e) => {
       console.error('Error:', error);
     }
   };
-  
+
 
   // Load project members initially
   useEffect(() => {
@@ -259,21 +259,21 @@ const handleKeyDown = (e) => {
     }
   }, [project]);
 
- 
+
   useEffect(() => {
     // Convert projectMembers to the format expected by the DataGrid
     // console.log("Project members updated:",projectMembers.members)
-    const members= projectMembers.members
+    const members = projectMembers.members
     // console.log("member:",members)
     if (members && members.length > 0) {
-    
+
       const newRows = members.map((member, index) => ({
-        id:  index+1, // Use member ID or index as ID
+        id: index + 1, // Use member ID or index as ID
         name: member.name,
         email: member.email,
         role: member.role,
       }));
-      console.log("New Rows:",newRows);
+      console.log("New Rows:", newRows);
       setRows(newRows); // Update rows state
     }
   }, [projectMembers]);
@@ -317,86 +317,81 @@ const handleKeyDown = (e) => {
           />
         </Box>
       </div>
-  
-  
-       {isOpen && ( <div
-          className='fixed inset-0 z-[50] flex items-center justify-center bg-black bg-opacity-50'
-        >
-          <div className='relative bg-white rounded-lg w-full max-w-lg p-10 shadow-lg'>
-           
-      
-            
-            {/* Close Button */}
-            <button
-              className='absolute top-3 right-3 text-gray-500 hover:text-gray-800'
-              onClick={closeModal}
-            >
-              &#10005; {/* Close Icon */}
-            </button>
 
-            <p className='text-lg font-semibold mb-5'>Add People to My Project</p>
-            <label className='block text-sm'>Emails</label>
-            <p className='block text-xs font-thin '>You can add multiple members at once.</p>
-                  <input
-                    type='text'
-                    className='w-full p-2 border border-gray-300 rounded my-2'
-                    placeholder='e.g harshpatil@gmail.com'
-                    value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    onKeyDown={handleKeyDown} // Trigger on key press
-                  />
-                  <div
-                  className='overflow-x-auto whitespace-nowrap flex items-center mt-2 space-x-2 custom-scrollbar'
+
+      {isOpen && (<div className='fixed inset-0 z-[50] flex items-center justify-center bg-black bg-opacity-50'>
+        <div className='relative bg-white rounded-lg w-full max-w-lg p-10 shadow-lg'>
+          {/* Close Button */}
+          <button
+            className='absolute top-3 right-3 text-gray-500 hover:text-gray-800'
+            onClick={closeModal}
+          >
+            &#10005; {/* Close Icon */}
+          </button>
+
+          <p className='text-lg font-semibold mb-5'>Add People to My Project</p>
+          <label className='block text-sm'>Emails</label>
+          <p className='block text-xs font-thin '>You can add multiple members at once.</p>
+          <input
+            type='text'
+            className='w-full p-2 border border-gray-300 rounded my-2'
+            placeholder='e.g harshpatil@gmail.com'
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            onKeyDown={handleKeyDown} // Trigger on key press
+          />
+          <div
+            className='overflow-x-auto whitespace-nowrap flex items-center mt-2 space-x-2 custom-scrollbar'
+          >
+            {emails.map((email, index) => (
+              <div
+                key={index}
+                className='bg-gray-200 text-sm flex items-center px-2 py-1 rounded mb-2'
+              >
+                {email}
+                <span
+                  className='ml-2 text-slate-500 cursor-pointer'
+                  onClick={() => removeEmail(index)} // Remove email on click
                 >
-                  {emails.map((email, index) => (
-                    <div
-                      key={index}
-                      className='bg-gray-200 text-sm flex items-center px-2 py-1 rounded mb-2'
-                    >
-                      {email}
-                      <span
-                        className='ml-2 text-slate-500 cursor-pointer'
-                        onClick={() => removeEmail(index)} // Remove email on click
-                      >
-                        &times;
-                      </span>
-                    </div>
-                  ))}
-                </div>
+                  &times;
+                </span>
+              </div>
+            ))}
+          </div>
 
-                  {/* <div className='mt-2'>
+          {/* <div className='mt-2'>
                     <strong>Emails array:</strong> {JSON.stringify(emails)}
                   </div> */}
-           <label className='block text-sm '>Role</label>
-            <select
-              className='w-full p-2 border border-gray-300 rounded my-2'
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-            >
-              <option value='' disabled>Select the role</option>
-              <option value='admin'>Admin</option>
-              <option value='member'>Members</option>
-            </select>
+          <label className='block text-sm '>Role</label>
+          <select
+            className='w-full p-2 border border-gray-300 rounded my-2'
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+          >
+            <option value='' disabled>Select the role</option>
+            <option value='admin'>Admin</option>
+            <option value='member'>Members</option>
+          </select>
 
-            <div className='flex justify-end mt-6'>
-              <button
-                className='bg-gray-300 text-gray-700 px-4 py-2 rounded mr-2 hover:bg-gray-400'
-                onClick={closeModal}
-              >
-                Cancel
-              </button>
-              <button
-                className='bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700'
-                onClick={handleAddMembers} // Add members on click
-              >
-                {emails.length === 0 ? 'Add Member' : 'Proceed'}
-              </button>
-            </div>
-          
+          <div className='flex justify-end mt-6'>
+            <button
+              className='bg-gray-300 text-gray-700 px-4 py-2 rounded mr-2 hover:bg-gray-400'
+              onClick={closeModal}
+            >
+              Cancel
+            </button>
+            <button
+              className='bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700'
+              onClick={handleAddMembers} // Add members on click
+            >
+              {emails.length === 0 ? 'Add Member' : 'Proceed'}
+            </button>
           </div>
+
         </div>
- )}
+      </div>
+      )}
     </div>
   );
-  
+
 }

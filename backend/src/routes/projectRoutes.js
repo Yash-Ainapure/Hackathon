@@ -3,7 +3,6 @@ const router = express.Router();
 const sendMail = require('../utils/pushNotification')
 const {
   createProject,
-  addMemberInProject,
   getProjectByUserId,
   addMembersToProject,
   removeMemberFromProject,
@@ -23,19 +22,6 @@ router.post("/fetchProjectMembers", fetchProjectMembers);
 router.get("/fetchProjects/:id", fetchProjects);
 
 router.get('/:id', getProjectByUserId);
-
-// TODO: To be removed
-router.post("/add-member", async (req, res) => {
-  const { userId, projectId } = req.body;
-  
-  try {
-    await addMemberInProject(userId, projectId);
-    await sendMail(userId)
-    res.status(200).json({ message: "Member added to project successfully" });
-  } catch (error) {
-    res.status(500).json({ message: "Error adding member to project" });
-  }
-});
 
 // api to remove a member from a project
 router.delete("/remove-member", removeMemberFromProject);

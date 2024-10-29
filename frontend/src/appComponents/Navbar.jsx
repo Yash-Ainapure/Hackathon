@@ -146,7 +146,7 @@ function Navbar(props) {
     <div>
       <div className="flex items-center justify-between w-full p-2 px-24 border-b">
         <div className="flex items-center gap-4">
-          <h1 className="text-xl font-semibold">CoLab</h1>
+          <h1 onClick={()=> navigate('/home')} className="text-xl font-semibold cursor-pointer">CoLab</h1>
           <select
             name=""
             id=""
@@ -184,7 +184,7 @@ function Navbar(props) {
           </div>
           <div className="pr-2" onClick={() => setProfileModal(true)}>
             <img
-              className="w-12 h-12 rounded-full"
+              className="w-12 h-12 rounded-full cursor-pointer"
               src="https://assets.aceternity.com/manu.png"
               alt="Profile"
             />

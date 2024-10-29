@@ -95,6 +95,7 @@ const Board = () => {
    };
    const addNewTask = () => {
       setLists((prevLists) => {
+         // TODO: Check if the new task is empty otherwise add it to the list.. Validation required
          const updatedLists = {
             ...prevLists,
             Todo: [...prevLists.Todo, newTask]

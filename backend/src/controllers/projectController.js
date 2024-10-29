@@ -166,17 +166,6 @@ const getProjectByUserId = async (req, res) => {
   }
 };
 
-// Add a member to a project
-// TODO: To be removed
-const addMemberInProject = async (userId, projectId) => {
-  try {
-    await User.findByIdAndUpdate(userId, {
-      $addToSet: { projects: projectId },
-    });
-  } catch (error) {
-    console.error("Error adding member to project:", error);
-  }
-};
 
 // ! Api to add a member to a project using a json object containing list of member emails and their role
 // ! The json object should be in the following format:
@@ -189,7 +178,6 @@ const addMemberInProject = async (userId, projectId) => {
 // ! }
 // ! The role can be either "admin" or "member"
 
-// TODO: Validate while adding into arrays if it already exists
 const addMembersToProject = async (req, res) => {
   try {
     const { projectId, members } = req.body;
@@ -313,7 +301,6 @@ const deleteProject = async (req, res) => {
 
 module.exports = {
   createProject,
-  addMemberInProject,
   getProjectByUserId,
   addMembersToProject,
   removeMemberFromProject,

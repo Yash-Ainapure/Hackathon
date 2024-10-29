@@ -107,7 +107,7 @@ const ManageAccount = () => {
                                     value={user.name}
                                     readOnly={true}
                                     onChange={handleChange}
-                                    className="block flex-1 border-0 cursor-not-allowed bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                                    className="block flex-1 border-0 cursor-not-allowed bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 focus:outline-none focus:ring-0"
                                  />
                               </div>
                            </div>
@@ -161,7 +161,7 @@ const ManageAccount = () => {
                               autoComplete="given-name"
                               value={user.firstName}
                               onChange={handleChange}
-                              className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400  sm:text-sm sm:leading-6"
+                              className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400  sm:text-sm sm:leading-6 focus:outline-none"
                            />
                         </div>
 
@@ -176,7 +176,7 @@ const ManageAccount = () => {
                               autoComplete="family-name"
                               value={user.lastName}
                               onChange={handleChange}
-                              className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400  sm:text-sm sm:leading-6"
+                              className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400  sm:text-sm sm:leading-6 focus:outline-none"
                            />
                         </div>
 
@@ -191,7 +191,7 @@ const ManageAccount = () => {
                               autoComplete="email"
                               value={user.email}
                               onChange={handleChange}
-                              className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                              className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none sm:text-sm sm:leading-6"
                            />
                         </div>
 
@@ -205,7 +205,7 @@ const ManageAccount = () => {
                               rows={3}
                               value={user.jobInfo}
                               onChange={handleChange}
-                              className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                              className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none sm:text-sm sm:leading-6"
                            />
                            <p className="mt-3 text-sm leading-6 text-gray-600">Write a few sentences about your job profile.</p>
                         </div>
@@ -221,7 +221,7 @@ const ManageAccount = () => {
                               autoComplete="street-address"
                               value="Nagala Park"
                               onChange={handleAddressChange}
-                              className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                              className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none sm:text-sm sm:leading-6"
                            />
                         </div>
 
@@ -235,7 +235,7 @@ const ManageAccount = () => {
                               type="text"
                               value="Kolhapur"
                               onChange={handleAddressChange}
-                              className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                              className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none sm:text-sm sm:leading-6"
                            />
                         </div>
 
@@ -249,7 +249,7 @@ const ManageAccount = () => {
                               type="text"
                               value="Maharashtra"
                               onChange={handleAddressChange}
-                              className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                              className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none sm:text-sm sm:leading-6"
                            />
                         </div>
 
@@ -263,7 +263,7 @@ const ManageAccount = () => {
                               type="text"
                               value="416 003"
                               onChange={handleAddressChange}
-                              className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                              className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none sm:text-sm sm:leading-6"
                            />
                         </div>
                      </div>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useProject } from './ProjectContext';
+// import GitHubCommits from './GitHubCommits';
 import axios from 'axios';
 var initialLists = {
    Todo: ['Create backend API', 'frontend integration', 'Bugs solving'],
@@ -139,6 +140,7 @@ const Board = () => {
 
    return (
       <div className="flex flex-col min-h-screen p-4 space-x-4 justify-top">
+         
          <div className='flex items-center'>
             <p
                className='py-2 px-1 font-semibold cursor-pointer hover:underline'
@@ -151,6 +153,7 @@ const Board = () => {
 
          </div>
          <p>{JSON.stringify(project)}</p>
+         {/* <GitHubCommits owner="Yash-Ainapure" repo="Hackathon" /> */}
          <div className='flex justify-center'>
             <div className='w-1/2'>
                <input value={newTask} onChange={(e) => setNewTask(e.target.value)} type="text" className="w-full p-2 border border-gray-300 rounded" placeholder="Add a new task" />

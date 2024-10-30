@@ -17,6 +17,9 @@ module.exports = {
       },
     },
     extend: {
+      gridTemplateColumns: {
+        '54': 'repeat(54, minmax(0, 1fr))',
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },

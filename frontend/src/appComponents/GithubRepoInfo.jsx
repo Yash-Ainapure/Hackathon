@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-
+import GitHubCommits from './GitHubCommits';
 const GitHubRepoInfo = () => {
    const [commitMessages, setCommitMessages] = useState([]);
    const [loading, setLoading] = useState(true);
@@ -116,14 +116,15 @@ const GitHubRepoInfo = () => {
       return <div>Loading...</div>;
    }
 
-   if (error) {
-      return <div>Error: {error}</div>;
-   }
+   // if (error) {
+   //    return <div>Error: {error}</div>;
+   // }
 
    return (
       <div className="container h-screen p-4 mx-auto overflow-scroll scrollbar-hide">
+          <GitHubCommits owner="Yash-Ainapure" repo="MakeMyTrip-Android" />
          <div>
-            <h1 className="p-2 mb-4 text-2xl font-bold bg-white rounded-lg">Commit Messages from user {username}</h1>
+            {/* <h1 className="p-2 mb-4 text-2xl font-bold bg-white rounded-lg">Commit Messages from user {username}</h1>
             <ul className="relative px-10 py-4 overflow-scroll list-disc bg-white rounded-lg scrollbar-hide h-80">
                {commitMessages.length > 0 ? (
                   commitMessages.map((message, index) => (
@@ -135,10 +136,10 @@ const GitHubRepoInfo = () => {
             </ul>
          </div>
          <div className="container min-h-screen p-4 mx-auto overflow-scroll">
-            <h1 className="p-2 mb-4 text-2xl font-bold bg-white rounded-lg">GitHub Stats for {username}</h1>
+            <h1 className="p-2 mb-4 text-2xl font-bold bg-white rounded-lg">GitHub Stats for {username}</h1> */}
 
             {/* Contributions Graph */}
-            <div className='p-2 bg-white rounded-lg'>
+            {/* <div className='p-2 bg-white rounded-lg'>
                <h2 className="mt-2 mb-2 text-xl font-semibold">Contributions Graph</h2>
                <div className="flex flex-wrap mb-2">
                   {commitFrequency.map((data, index) => (
@@ -149,10 +150,10 @@ const GitHubRepoInfo = () => {
                      />
                   ))}
                </div>
-            </div>
+            </div> */}
 
             {/* API Rate Limit */}
-            <h2 className="mt-6 mb-2 text-xl font-semibold">API Rate Limit Status</h2>
+            {/* <h2 className="mt-6 mb-2 text-xl font-semibold">API Rate Limit Status</h2>
             {apiRateLimit ? (
                <div>
                   <p>Limit: {apiRateLimit.limit}</p>
@@ -161,7 +162,7 @@ const GitHubRepoInfo = () => {
                </div>
             ) : (
                <p>Loading API rate limit...</p>
-            )}
+            )} */}
 
             {/* Commit Frequency
             <h2 className="mt-6 mb-2 text-xl font-semibold">Commit Frequency</h2>

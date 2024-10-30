@@ -181,10 +181,10 @@ const getProjectByUserId = async (req, res) => {
 const addMembersToProject = async (req, res) => {
   try {
     const { projectId, members } = req.body;
-    if (!projectId || !members) {
-      return res
-        .status(400)
-        .json({ message: "Project ID and members are required" });
+    console.log("Received Data:", projectId, members);
+
+    if (!projectId || !members || !members.email || !members.role) {
+      return res.status(400).json({ message: "Project ID, email, and role are required" });
     }
 
     const project = await Project.findById(projectId);
@@ -193,48 +193,51 @@ const addMembersToProject = async (req, res) => {
     }
 
     const { email, role } = members;
-    if (!email || !role) {
-      return res.status(400).json({ message: "Email and role are required" });
-    }
+    const failedEmails = [];
 
+    // Process each email
     for (let i = 0; i < email.length; i++) {
       const member = await User.findOne({ email: email[i] });
       if (!member) {
-        return res
-          .status(404)
-          .json({ message: `User not found for email: ${email[i]}` });
+        // Collect failed emails to send back as feedback, skip to next
+        failedEmails.push(email[i]);
+        continue;
       }
-      // ! Check if the member is already part of the project
+
       if (role === "admin") {
-        // ! If the member is already an admin, skip
-        if (project.projectAdmins.includes(member._id)) {
-          continue;
-        }
-        // ! If the member is a member, remove from members and add to admins
-        if (project.projectMembers.includes(member._id)) {
+        if (!project.projectAdmins.includes(member._id)) {
+          // Remove from members if already in projectMembers
           project.projectMembers.pull(member._id);
+          project.projectAdmins.push(member._id);
         }
-        // ! Add the member to the project admins
-        project.projectAdmins.push(member._id);
-        // ! Add the project to the member's projects array
-        member.projects.push(project._id);
-        member.save();
       } else if (role === "member") {
-        if (project.projectMembers.includes(member._id)) {
-          continue;
-        }
-        if (project.projectAdmins.includes(member._id)) {
+        if (!project.projectMembers.includes(member._id)) {
+          // Remove from admins if already in projectAdmins
           project.projectAdmins.pull(member._id);
+          project.projectMembers.push(member._id);
         }
-        project.projectMembers.push(member._id);
-        member.projects.push(project._id);
-        member.save();
       } else {
         return res.status(400).json({ message: "Invalid role" });
       }
-      await project.save();
+
+      // Add project to member's projects if not already included
+      if (!member.projects.includes(project._id)) {
+        member.projects.push(project._id);
+      }
+      
+      await member.save();
     }
 
+    // Save the project after all members are processed
+    await project.save();
+
+    // Return success response with feedback on failed emails, if any
+    if (failedEmails.length > 0) {
+      return res.status(207).json({
+        message: "Members added successfully with some errors",
+        failedEmails,
+      });
+    }
     res.status(200).json({ message: "Members added successfully" });
   } catch (error) {
     console.error("Error adding members to project:", error);
@@ -277,22 +280,32 @@ const removeMemberFromProject = async (req, res) => {
 // ? Deletes the project id from all the member's collection who are part of the project then deletes the project
 const deleteProject = async (req, res) => {
   try {
-    const projectId = req.params.id;
+    const { projectId } = req.body;
     if (!projectId) {
       return res.status(400).json({ message: "Project ID is required" });
     }
 
     const project = await Project.findById(projectId);
-    const projectMembers = project.projectMembers;
-    const projectAdmins = project.projectAdmins;
-    for (const admin in projectAdmins) {
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    const { projectMembers, projectAdmins } = project;
+
+    // Update each admin by removing the project ID
+    for (const admin of projectAdmins) {
       await User.findByIdAndUpdate(admin, { $pull: { projects: projectId } });
     }
-    for (const member in projectMembers) {
+
+    // Update each member by removing the project ID
+    for (const member of projectMembers) {
       await User.findByIdAndUpdate(member, { $pull: { projects: projectId } });
     }
 
+    // Finally, delete the project itself
     await Project.findByIdAndDelete(projectId);
+
+    res.status(200).json({ message: "Project deleted successfully" });
   } catch (error) {
     console.error("Error deleting project:", error);
     res.status(500).json({ message: "Server error" });

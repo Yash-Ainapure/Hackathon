@@ -50,7 +50,7 @@ export default function Home() {
   return (
     <>
       <Navbar fetch={fetchProjects} setSearchQuery={setSearchQuery} />
-      <YourWork projects={userProjects} searchQuery={searchQuery} />
+      <YourWork projects={userProjects}  fetch={fetchProjects} searchQuery={searchQuery} />
       <Footer />
     </>
   );

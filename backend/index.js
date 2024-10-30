@@ -10,7 +10,7 @@ const port = process.env.PORT || 5000; // Set a default port if not defined in .
 const app = express();
 app.use(cors({
   origin: "*",
-  methods: ["GET", "POST"],
+  methods: ['GET', 'POST', 'DELETE', 'PUT'], 
   credentials: true
 }));
 app.use(express.json());
@@ -20,7 +20,7 @@ const server = createServer(app)
 const io = new Server(server, {
   cors: {
     origin: "*",
-    methods: ["GET", "POST"],
+    methods: ['GET', 'POST', 'DELETE', 'PUT'], 
     credentials: true
   }
 })

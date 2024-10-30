@@ -17,7 +17,7 @@ function Navbar(props) {
   // const user = useSelector(state => state.setUserObjReducer.user);
   const user = JSON.parse(localStorage.getItem('user-object'));
 
-  console.log('User:', user);
+  // console.log('User:', user);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [profileModal, setProfileModal] = useState(false);
   const [showNotificationModal, setShowNotificationModal] = useState(false);
@@ -85,6 +85,7 @@ function Navbar(props) {
       console.log('Project saved successfully:', response.data);
       props.fetch();
       closeModal();
+      
       // Handle successful response here (e.g., display a success message, reset the form)
     } catch (error) {
       console.error('Error saving project:', error);

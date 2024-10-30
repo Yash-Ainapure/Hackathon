@@ -19,7 +19,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import Navbar from "./Navbar";
 import VideoCallIcon from '@mui/icons-material/VideoCall';
 import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
-
+import { useProject } from './ProjectContext';
 export default function Dashboard() {
 
   const links = [
@@ -74,6 +74,9 @@ export default function Dashboard() {
     },
   ];
   const [open, setOpen] = useState(false);
+  const { project, setProject } = useProject();
+  const user = JSON.parse(localStorage.getItem('user-object'));
+  const userName = user.name;
   return (
     (
       <div
@@ -85,7 +88,7 @@ export default function Dashboard() {
         <Sidebar open={open} setOpen={setOpen}>
           <SidebarBody className="justify-between gap-10">
             <div className="flex flex-col flex-1 overflow-x-hidden overflow-y-auto">
-              {open ? <Logo /> : <LogoIcon />}
+              {open ? <Logo project={project}/> : <LogoIcon />}
               <div className="flex flex-col gap-2 mt-8">
                 {links.map((link, idx) => (
                   <SidebarLink key={idx} link={link} />
@@ -95,7 +98,7 @@ export default function Dashboard() {
             <div>
               <SidebarLink
                 link={{
-                  label: "Pawan Malgavi",
+                  label: userName,
                   href: "#",
                   icon: (
                     <img
@@ -135,7 +138,9 @@ export default function Dashboard() {
       </div>)
   );
 }
-export const Logo = () => {
+export const Logo = ({project}) => {
+
+
   return (
     (<Link
       href="#"
@@ -147,7 +152,7 @@ export const Logo = () => {
         animate={{ opacity: 1 }}
         className="font-medium text-black whitespace-pre dark:text-white">
         CoLab
-        <h1 className="font-bold text-md">Project Name</h1>
+        <h1 className="font-bold text-md">{project.name}</h1>
       </motion.span>
 
     </Link>)

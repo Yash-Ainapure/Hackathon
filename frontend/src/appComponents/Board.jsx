@@ -147,7 +147,8 @@ const Board = () => {
                Projects
             </p>
             <p className='py-2 px-1'>/</p>
-            <p className='py-2 px-1 font-semibold'>{project.name}</p>
+            <p className='py-2 px-1 font-semibold'>{project ? project.name : "Loading..."}</p>
+
          </div>
          <p>{JSON.stringify(project)}</p>
          <div className='flex justify-center'>

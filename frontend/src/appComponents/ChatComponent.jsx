@@ -1,6 +1,10 @@
 import { useEffect, useMemo, useState } from "react"
 import { io } from "socket.io-client"
+import { useProject } from './ProjectContext';
+import axios from 'axios';
+
 const ChatComponent = () => {
+   const { project } = useProject();
    const [messages, setMessages] = useState([]);
    const [onlineUsers, setOnlineUsers] = useState([
       { id: 1, name: 'Pawan Malgavi', isOnline: true },
@@ -8,6 +12,7 @@ const ChatComponent = () => {
       { id: 3, name: 'Aryan Paril', isOnline: false },
       // Add more users as needed
    ]);
+   const [projectMembers, setProjectMembers] = useState([]);
    const socket = useMemo(() => io("http://localhost:3000"), [])
 
    useEffect(() => {
@@ -28,7 +33,42 @@ const ChatComponent = () => {
    }, []);
 
 
+   const fetchOnlineMembers = async () => {
+      try {
+        const response = await axios.post('http://localhost:3000/api/projects/fetchProjectMembers', {
+          projectId: project._id,
+        });
+        console.log("Project Members:", response.data);
+        setProjectMembers(response.data);
+      } catch (error) {
+        console.error("Error fetching project members:", error);
+      }
+    };
+  
+    useEffect(() => {
+      if (project) {
+         fetchOnlineMembers();
+      }
+    }, [project]);
+    const user = JSON.parse(localStorage.getItem('user-object'));
 
+    useEffect(() => {
+      // Convert projectMembers to the format expected by the DataGrid
+      // console.log("Project members updated:",projectMembers.members)
+      const members = projectMembers.members
+      // console.log("member:",members)
+      if (members && members.length > 0) {
+  
+        const newActiveList = members.map((member, index) => ({
+          id: index + 1, // Use member ID or index as ID
+          name: member.name,
+          isOnline: (user.name  == member.name),
+        }));
+
+        console.log("New newActiveList:", newActiveList);
+        setOnlineUsers(newActiveList); // Update rows state
+      }
+    }, [projectMembers]);
 
    const handleSendMessage = (message) => {
       message.isSender = true;

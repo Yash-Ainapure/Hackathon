@@ -277,10 +277,21 @@ export default function Teams() {
       setRows(newRows); // Update rows state
     }
   }, [projectMembers]);
-
   return (
     <div>
+    
       <div className='px-32 py-20'>
+      <div className='flex items-center'>
+            <p
+               className='py-2 px-1 font-semibold cursor-pointer hover:underline'
+               onClick={() => navigate('/home')}
+            >
+              Projects
+            </p>
+            <p className='py-2 px-1'>/</p>
+            <p className='py-2 px-1 font-semibold'>{project ? project.name : "Loading..."}</p>
+
+         </div>
         <h1 className='text-xl font-medium my-4'>Manage Teams Here</h1>
         {/* <p>{JSON.stringify(project)}</p> */}
         {/* <p>{projectMembers ? JSON.stringify(projectMembers) : "Loading project members..."}</p> */}

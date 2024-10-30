@@ -12,7 +12,7 @@ import VideocamIcon from '@mui/icons-material/Videocam';
 import VideocamOffIcon from '@mui/icons-material/VideocamOff';
 import CallEndIcon from '@mui/icons-material/CallEnd';
 import VideoCallIcon from '@mui/icons-material/VideoCall';
-
+import { useProject } from '../appComponents/ProjectContext';
 const APP_ID = import.meta.env.VITE_APP_ID;
 const TOKEN = import.meta.env.VITE_TOKEN_A;
 const CHANNEL = import.meta.env.VITE_CHANNEL;
@@ -25,7 +25,7 @@ const VideoStream = () => {
   const clientRef = useRef(null);
   const localTracksRef = useRef([]);
   const remoteUsersRef = useRef({});
-
+  const { project, setProject } = useProject();
   useEffect(() => {
     clientRef.current = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
 
@@ -120,7 +120,18 @@ const VideoStream = () => {
   };
 
   return (
-    <div>
+    <div className='p-10'>
+      <div className='flex items-center'>
+            <p
+               className='py-2 px-1 font-semibold cursor-pointer hover:underline'
+               onClick={() => navigate('/home')}
+            >
+               Projects
+            </p>
+            <p className='py-2 px-1'>/</p>
+            <p className='py-2 px-1 font-semibold'>{project ? project.name : "Loading..."}</p>
+
+         </div>
       <button id="join-btn" onClick={joinStream} disabled={isJoined} className="px-3 py-2 bg-purple-500 rounded-md hover:bg-purple-700 text-white mx-5">
         <VideoCallIcon  fontSize="large" />
         <p className='text-sm mt-2 font-medium'>Join Stream</p>

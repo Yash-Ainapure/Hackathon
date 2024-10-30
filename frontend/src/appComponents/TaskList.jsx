@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
-
+import { useProject } from './ProjectContext';
 
 // const generateId = () => {
 //   return Math.floor(10000000 + Math.random() * 90000000);
@@ -99,7 +99,6 @@ const rows = Object.entries(initialLists).reduce((acc, [status, tasks]) => {
 const paginationModel = { page: 0, pageSize: 5 };
 
 
-
 // const rows = [
 //   { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
 //   { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
@@ -116,10 +115,22 @@ const paginationModel = { page: 0, pageSize: 5 };
 
 
 const TaskList = () => {
+const { project, setProject } = useProject();
+
   return (
     <div className='flex flex-col min-h-screen px-20 justify-top'>
       <div>
-        <div className='p-2 text-slate-600'>Projects / HackEra</div>
+      <div className='flex items-center'>
+            <p
+               className='py-2 px-1 font-semibold cursor-pointer hover:underline'
+               onClick={() => navigate('/home')}
+            >
+               Projects
+            </p>
+            <p className='py-2 px-1'>/</p>
+            <p className='py-2 px-1 font-semibold'>{project ? project.name : "Loading..."}</p>
+
+         </div>
         <div className='p-2 text-xl font-semibold text-slate-900'>List</div>
       </div>
       <div className='w-[90%]'>

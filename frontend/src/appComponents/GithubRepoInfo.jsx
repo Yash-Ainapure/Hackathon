@@ -122,7 +122,7 @@ const GitHubRepoInfo = () => {
 
    return (
       <div className="container h-screen p-4 mx-auto overflow-scroll scrollbar-hide">
-          <GitHubCommits owner="Yash-Ainapure" repo="MakeMyTrip-Android" />
+          <GitHubCommits owner="Yash-Ainapure" repo="Hackathon" />
          <div>
             {/* <h1 className="p-2 mb-4 text-2xl font-bold bg-white rounded-lg">Commit Messages from user {username}</h1>
             <ul className="relative px-10 py-4 overflow-scroll list-disc bg-white rounded-lg scrollbar-hide h-80">

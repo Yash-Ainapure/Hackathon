@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useProject } from './ProjectContext';
-// import GitHubCommits from './GitHubCommits';
 import axios from 'axios';
-var initialLists = {
-   Todo: ['Create backend API', 'frontend integration', 'Bugs solving'],
-   InProgress: ['Payment Gateway Integration', 'Styling'],
-   Done: ['Web Designing'],
+
+const initialLists = {
+   Todo: [],
+   InProgress: [],
+   Done: [],
 };
 
 const Board = () => {
@@ -27,12 +27,7 @@ const Board = () => {
          });
       }
       console.log("Project:", project);
-   }, [project]); // Dependency array ensures it runs only when `project` changes
-
-   // console.log(project._id);
-   // console.log(lists)
-
-   // console.log("Todo:", project?.toDO, "InProgress:", project?.inProgress, "Done:", project?.completed);
+   }, [project]);
 
    const handleDragStart = (item, listKey) => {
       setDraggedItem(item);
@@ -78,7 +73,7 @@ const Board = () => {
          case 'Done':
             return 'relative flex flex-col items-center p-4 pt-12 overflow-x-hidden bg-white border border-gray-300 rounded-lg w-1/4 text-green-600 font-semibold text-sm';
          default:
-            return 'relative flex flex-col items-center p-4 pt-12 overflow-x-hidden bg-white border border-gray-300 rounded-lg w-1/4 ';
+            return 'relative flex flex-col items-center p-4 pt-12 overflow-x-hidden bg-white border border-gray-300 rounded-lg w-1/4';
       }
    };
 
@@ -94,14 +89,33 @@ const Board = () => {
             return 'p-2 m-1 bg-neutral-100 border border-gray-300 cursor-move w-[100%] rounded';
       }
    };
+
+   const formatDate = (date) => {
+      const d = new Date(date);
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0'); // Months are zero-based, so add 1
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+   };
+
    const addNewTask = () => {
+      if (!newTask.trim()) return;
+      const taskObject = {
+         taskName: newTask.trim(), 
+         taskDescription: "", 
+         assignedTo: "", 
+         reporter: localStorage.getItem('user-object') 
+             ? JSON.parse(localStorage.getItem('user-object')).name 
+             : "", 
+         startDate: formatDate(Date.now()), // Format current date
+         endDate: "", // Keep it empty for now, can be updated later
+     };
+
       setLists((prevLists) => {
-         // TODO: Check if the new task is empty otherwise add it to the list.. Validation required
          const updatedLists = {
             ...prevLists,
-            Todo: [...prevLists.Todo, newTask]
+            Todo: [...prevLists.Todo, taskObject],
          };
-
          // Update project data and localStorage
          updateProjectData(updatedLists);
          return updatedLists;
@@ -110,37 +124,33 @@ const Board = () => {
       setNewTask('');
    };
 
-
    const updateProjectData = async (updatedLists) => {
       const newProject = {
          ...project,
          toDO: updatedLists.Todo,
          inProgress: updatedLists.InProgress,
-         completed: updatedLists.Done
+         completed: updatedLists.Done,
       };
 
       setProject(newProject);
       localStorage.setItem(project._id, JSON.stringify(newProject));
-      // console.log("Update Tasks:",updatedLists)
+
       // API call to update task status on the server
       try {
          await axios.post('http://localhost:3000/api/tasks/updateTaskStatus', {
             projectId: project._id,
             toDO: updatedLists.Todo,
             inProgress: updatedLists.InProgress,
-            completed: updatedLists.Done
+            completed: updatedLists.Done,
          });
          console.log("Task status updated successfully");
       } catch (error) {
          console.error("Error updating task status:", error);
       }
    };
-   // const location = useLocation();
-   // const project = location.state?.project;
 
    return (
       <div className="flex flex-col min-h-screen p-4 space-x-4 justify-top">
-         
          <div className='flex items-center'>
             <p
                className='py-2 px-1 font-semibold cursor-pointer hover:underline'
@@ -150,13 +160,17 @@ const Board = () => {
             </p>
             <p className='py-2 px-1'>/</p>
             <p className='py-2 px-1 font-semibold'>{project ? project.name : "Loading..."}</p>
-
          </div>
          <p>{JSON.stringify(project)}</p>
-         {/* <GitHubCommits owner="Yash-Ainapure" repo="Hackathon" /> */}
          <div className='flex justify-center'>
             <div className='w-1/2'>
-               <input value={newTask} onChange={(e) => setNewTask(e.target.value)} type="text" className="w-full p-2 border border-gray-300 rounded" placeholder="Add a new task" />
+               <input 
+                  value={newTask} 
+                  onChange={(e) => setNewTask(e.target.value)} 
+                  type="text" 
+                  className="w-full p-2 border border-gray-300 rounded" 
+                  placeholder="Add a new task" 
+               />
                <button
                   onClick={(e) => {
                      e.preventDefault();
@@ -166,7 +180,6 @@ const Board = () => {
                >
                   Add Task
                </button>
-
             </div>
          </div>
          <div className='flex justify-center gap-5 mt-10'>
@@ -186,7 +199,7 @@ const Board = () => {
                         onDragStart={() => handleDragStart(item, key)}
                         className={getItemClasses(key)}
                      >
-                        {item}
+                        {item.taskName} {/* Display taskName instead of the entire object */}
                      </div>
                   ))}
                </div>

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useProject } from './ProjectContext';
 import axios from 'axios';
-
+import { v4 as uuidv4 } from 'uuid';
 const initialLists = {
    Todo: [],
    InProgress: [],
@@ -101,6 +101,7 @@ const Board = () => {
    const addNewTask = () => {
       if (!newTask.trim()) return;
       const taskObject = {
+         taskid: uuidv4(), // Generate a unique ID for the task
          taskName: newTask.trim(), 
          taskDescription: "", 
          assignedTo: "", 
@@ -108,7 +109,7 @@ const Board = () => {
              ? JSON.parse(localStorage.getItem('user-object')).name 
              : "", 
          startDate: formatDate(Date.now()), // Format current date
-         endDate: "", // Keep it empty for now, can be updated later
+         dueDate: "", // Keep it empty for now, can be updated later
      };
 
       setLists((prevLists) => {

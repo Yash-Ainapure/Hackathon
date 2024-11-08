@@ -27,7 +27,7 @@ const GitHubHeatMap = ({ year, contributions = [], heatMapData = [], availableYe
 
     const getColor = count => {
         if (count === 0) return '#d1d5db';
-        const intensity = Math.min(count * 25, 255);
+        const intensity = Math.min(count * 40, 255);
         return `rgba(34, 139, 34, ${intensity / 255})`;
     };
 

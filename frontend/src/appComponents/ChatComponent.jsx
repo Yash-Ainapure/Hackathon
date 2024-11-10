@@ -8,8 +8,8 @@ const ChatComponent = () => {
    const [messages, setMessages] = useState([]);
    const [onlineUsers, setOnlineUsers] = useState([
       { id: 1, name: 'Pawan Malgavi', isOnline: true },
-      { id: 2, name: 'Harsh Paril', isOnline: true },
-      { id: 3, name: 'Aryan Paril', isOnline: false },
+      { id: 2, name: 'Harsh Patil', isOnline: true },
+      { id: 3, name: 'Aryan Patil', isOnline: false },
       // Add more users as needed
    ]);
    const [projectMembers, setProjectMembers] = useState([]);

@@ -177,7 +177,7 @@ const getAllTasks = async (req, res) => {
 // TODO: Whether the task name should be added or task ids is to be checked
 const updateTaskStatus = async (req, res) => {
   const { projectId, toDO, inProgress, completed } = req.body;
-  // console.log("Recieved data:",toDO, inProgress, completed);
+  console.log("Recieved data:",toDO, inProgress, completed);
   // Simple validation for required fields
   if (!projectId || !Array.isArray(toDO) || !Array.isArray(inProgress) || !Array.isArray(completed)) {
     return res.status(400).json({ error: "Invalid input data" });

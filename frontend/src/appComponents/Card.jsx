@@ -224,7 +224,7 @@ export default function Card(props) {
 
     {/* Three Dots Icon */}
    {user.name === props.ownerName && (
-                <div className="absolute top-3 right-3 p-1 w-8 h-8 rounded-full border hover:border-red-500 text-[#7e8590] hover:text-red-500 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                <div className="absolute top-3 right-3 p-1 w-8 h-8 rounded-full border hover:border-red-800 text-[#545454] hover:text-white hover:bg-red-500 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200 ">
                     <button
                         className="focus:outline-none"
                         onClick={(e) => {

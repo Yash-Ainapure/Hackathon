@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridEditSingleSelectCell } from '@mui/x-data-grid';
+import { Avatar, MenuItem, Select, Typography, Box }  from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { useProject } from './ProjectContext';
 import { useNavigate } from 'react-router-dom';
@@ -24,26 +25,103 @@ console.log("Outer Updated Project Object:",project);
 
   }, [project]);
 
+
+
   const columns = [
     { field: 'id', headerName: 'ID', width: 100 },
     { field: 'taskName', headerName: 'Task Name', width: 200, editable: true },
     { field: 'status', headerName: 'Status', width: 150, editable: true },
-    { field: 'assignedTo', headerName: 'Assignee', width: 150, editable: true },
-    { field: 'reporter', headerName: 'Reporter', width: 150, editable: false },
-    { field: 'taskDescription', headerName: 'Summary', width: 250, editable: true },
     {
-      field: 'dueDate',
-      headerName: 'Due Date',
-      width: 150,
-      editable: true,
-      type: 'date',
-      valueGetter: (params) => (params.value instanceof Date ? params.value : new Date(params.value)),
-      valueFormatter: (params) => params.value ? new Date(params.value).toLocaleDateString() : '',
+        field: 'assignedTo',
+        headerName: 'Assignee',
+        width: 250,
+        editable: true,
+        renderCell: (params) => {
+            const selectedOption = assigneeOptions.find(option => option.value === params.value);
+            return (
+                <Box className="flex items-center justify-start h-full">
+                    {selectedOption ? (
+                        <>
+                            <Avatar
+                                src={selectedOption.image}
+                                alt={selectedOption.label}
+                                sx={{ width: 24, height: 24, marginRight: 1 }}
+                            />
+                            <Typography variant="body2">{selectedOption.label}</Typography>
+                        </>
+                    ) : (
+                      <>
+                        <Avatar sx={{ width: 24, height: 24, marginRight: 1 }} />
+                        <Typography variant="body2" color="textSecondary">Unassigned</Typography>
+                        </>
+                    )}
+                </Box>
+            );
+        },
+        renderEditCell: (params) => (
+            <Select
+                value={params.value || ""}
+                onChange={(event) => params.api.setEditCellValue({ id: params.id, field: params.field, value: event.target.value })}
+                fullWidth
+                renderValue={(selected) => {
+                    const selectedOption = assigneeOptions.find(option => option.value === selected);
+                    return selectedOption ? (
+                        <Box display="flex" alignItems="center">
+                            <Avatar
+                                src={selectedOption.image}
+                                alt={selectedOption.label}
+                                sx={{ width: 24, height: 24, marginRight: 1 }}
+                            />
+                            <Typography variant="body2">{selectedOption.label}</Typography>
+                        </Box>
+                    ) : (
+                        <Typography variant="body2" color="textSecondary">Unassigned</Typography>
+                    );
+                }}
+            >
+                {assigneeOptions.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                        <Avatar
+                            src={option.image}
+                            alt={option.label}
+                            sx={{ width: 24, height: 24, marginRight: 1 }}
+                        />
+                        {option.label}
+                    </MenuItem>
+                ))}
+            </Select>
+        ),
+    },
+    { field: 'reporter', headerName: 'Reporter', width: 250, editable: false,
+      renderCell: (params) => {
+          const reporter = params.value; // Assuming reporter is a name or object
+          return (
+              <Box className="flex items-center justify-start h-full">
+                  <Avatar
+                      src="https://example.com/reporter-avatar.jpg" // Add the actual avatar URL for the reporter
+                      alt={reporter}
+                      sx={{ width: 24, height: 24, marginRight: 1 }}
+                  />
+                  <Typography variant="body2">{reporter || 'No Reporter'}</Typography>
+              </Box>
+          );
+      }
+    },
+    { field: 'taskDescription', headerName: 'Summary', width: 400, editable: true },
+    {
+        field: 'dueDate',
+        headerName: 'Due Date',
+        width: 150,
+        editable: true,
+        type: 'date',
+        valueGetter: (params) => (params.value instanceof Date ? params.value : new Date(params.value)),
+        valueFormatter: (params) => params.value ? new Date(params.value).toLocaleDateString() : '',
     },
   ];
-
   // Create rows for DataGrid from project tasks
-  const rows = projectTasks.map((task, index) => ({
+  const rows = projectTasks.map((task, index) => (
+    // console.log("due date", new Date(task.dueDate).toISOString().split('T')[0]),
+    {
     id: index + 1, // Use index for unique ID
     taskid: task.taskid,
     taskName: task.taskName,
@@ -55,7 +133,7 @@ console.log("Outer Updated Project Object:",project);
     assignedTo: task.assignedTo || '',
     reporter: task.reporter,
     taskDescription: task.taskDescription,
-    dueDate: task.dueDate || '',
+    dueDate: new Date(task.dueDate) || '',
   }));
 
   const paginationModel = { page: 0, pageSize: 5 };
@@ -124,6 +202,56 @@ console.log("Outer Updated Project Object:",project);
 };
 
 
+const [assigneeOptions, setAssigneeOptions] = useState([
+  { value: '', label: 'Unassigned', image: '' },
+  { value: 'John Doe', label: 'John Doe', image: 'https://example.com/john.jpg' },
+  { value: 'Jane Smith', label: 'Jane Smith', image: 'https://example.com/jane.jpg' },
+  { value: 'Alice Johnson', label: 'Alice Johnson', image: 'https://example.com/alice.jpg' },
+  { value: 'Bob Brown', label: 'Bob Brown', image: 'https://example.com/bob.jpg' },
+]);
+const [projectMembers, setProjectMembers] = useState([]);
+
+const fetchOnlineMembers = async () => {
+  try {
+    const response = await axios.post('http://localhost:3000/api/projects/fetchProjectMembers', {
+      projectId: project._id,
+    });
+    // console.log("Project Members:", response.data);
+    setProjectMembers(response.data);
+  } catch (error) {
+    console.error("Error fetching project members:", error);
+  }
+};
+
+useEffect(() => {
+  if (project) {
+     fetchOnlineMembers();
+  }
+}, [project]);
+const user = JSON.parse(localStorage.getItem('user-object'));
+
+useEffect(() => {
+  // Convert projectMembers to the format expected by the DataGrid
+  // console.log("Project members updated:",projectMembers.members)
+  const members = projectMembers.members
+  // console.log("member:",members)
+  if (members && members.length > 0) {
+
+    const newAssigneeOptions = [
+      { value: '', label: 'Unassigned', image: '' }, // Static "Unassigned" option
+      ...members.map((member, index) => ({
+        id: index + 1,
+        value: member.name,
+        label: member.name,
+        image: 'https://example.com/reporter-avatar.jpg', // Add image URL if available in member object
+      })),
+    ];
+    // console.log("New newAssigneeOptions:", newAssigneeOptions);
+    setAssigneeOptions(newAssigneeOptions); // Update rows state
+  }
+}, [projectMembers]);
+
+
   return (
     <div className='flex flex-col px-20 justify-top '>
       <div>
@@ -143,7 +271,7 @@ console.log("Outer Updated Project Object:",project);
         <div className='p-2 text-xl font-semibold text-slate-900'>List</div>
         
       </div>
-      <div className='w-[90%]'>
+      <div className='w-[100%]'>
         <Paper sx={{ height: '100%', width: '100%' }}>
         <DataGrid
             processRowUpdate={processRowUpdate}

@@ -1,171 +1,160 @@
-import { useEffect, useMemo, useState } from "react"
-import { io } from "socket.io-client"
-import { useProject } from './ProjectContext';
+// import { useEffect, useState } from 'react';
+// import { StreamChat } from 'stream-chat';
+// import axios from 'axios';
+// import { Chat, Channel, MessageList, MessageInput } from 'stream-chat-react';
+// import 'stream-chat-react/dist/css/v2/index.css'
+// const ChatComponent = () => {
+//   const [client, setClient] = useState(null);
+//   const user = JSON.parse(localStorage.getItem('user-object')); // Assumes user-object has userId and userName
+//   const [channel, setChannel] = useState(null);
+//   const project = JSON.parse(localStorage.getItem(localStorage.getItem('defaultProjectId')));
+//   const projectId = project._id;
+
+//   useEffect(() => {
+//     const initStreamChat = async () => {
+//       try {
+//         // Fetch token from backend
+//         const response = await axios.post('http://localhost:3000/api/chat/generate-token', {
+//           userId: user._id,
+//           userName: user.name,
+//         });
+
+//         const chatClient = StreamChat.getInstance('8hrqmmu5ht95'); // Replace with your actual API key
+
+//         // Connect user to Stream Chat
+//         await chatClient.connectUser(
+//           { id: user._id, name: user.name },
+//           response.data.token
+//         );
+
+//         setClient(chatClient);
+
+//         //channel join 
+//         console.log("Current Project :- ",project._id);
+//         const members = projectMembers.map(member => member._id);
+//         const responseChannel  = await axios.post('http://localhost:3000/api/chat/create-channel', {
+//          userId: user._id,
+//          projectId: projectId,
+//          members, // Make sure project._id is available
+//        });
+ 
+//        const { channelId } = responseChannel.data;
+//        setChannel(channelId);
+//        await channel.watch(); // Join the channel
+
+//       } catch (error) {
+//         console.error('Error initializing Stream Chat:', error);
+//       }
+//     };
+
+//     initStreamChat();
+
+//     return () => {
+//       if (client) client.disconnectUser();
+//     };
+//   }, []);
+
+//   return client ? (
+//     <Chat client={client} theme="messaging light">
+//       <Channel channel={channel}>
+//         <MessageList />
+//         <MessageInput />
+//       </Channel>
+//     </Chat>
+//   ) : (
+//     <p>Loading chat...</p>
+//   );
+// };
+
+// export default ChatComponent;
+
+import { useEffect, useState } from 'react';
+import { StreamChat } from 'stream-chat';
 import axios from 'axios';
+import { Chat, Channel, MessageList, MessageInput } from 'stream-chat-react';
+import 'stream-chat-react/dist/css/v2/index.css';
 
 const ChatComponent = () => {
-   const { project } = useProject();
-   const [messages, setMessages] = useState([]);
-   const [onlineUsers, setOnlineUsers] = useState([
-      { id: 1, name: 'Pawan Malgavi', isOnline: true },
-      { id: 2, name: 'Harsh Patil', isOnline: true },
-      { id: 3, name: 'Aryan Patil', isOnline: false },
-      // Add more users as needed
-   ]);
-   const [projectMembers, setProjectMembers] = useState([]);
-   const socket = useMemo(() => io("http://localhost:3000"), [])
+  const [client, setClient] = useState(null);
+  const user = JSON.parse(localStorage.getItem('user-object')); // Assumes user-object has userId and userName
+  const [channel, setChannel] = useState(null);
+  const project = JSON.parse(localStorage.getItem(localStorage.getItem('defaultProjectId')));
+  const projectId = project._id;
+  const [projectMembers, setProjectMembers] = useState([]); // Added state for project members
 
-   useEffect(() => {
-      socket.on("connect", () => {
-         console.log("connected", socket.id)
-      });
-      socket.on("welcome", (s) => {
-         console.log(s)
-      })
-      socket.on("receive-message", (data) => {
-         data.isSender = false;
-         setMessages((prevMessages) => [...prevMessages, data]);
-      })
+   
 
-      return () => {
-         socket.disconnect();
-      };
-   }, []);
-
-
-   const fetchOnlineMembers = async () => {
-      try {
-        const response = await axios.post('http://localhost:3000/api/projects/fetchProjectMembers', {
-          projectId: project._id,
-        });
-        console.log("Project Members:", response.data);
-        setProjectMembers(response.data);
-      } catch (error) {
-        console.error("Error fetching project members:", error);
+  useEffect(() => {
+   const initStreamChat = async () => {
+     try {
+      if (client) {
+         await client.disconnectUser();
+       }
+       // Fetch token from backend
+       const response = await axios.post('http://localhost:3000/api/chat/generate-token', {
+         userId: user._id,
+         userName: user.name,
+       });
+ 
+       const chatClient = StreamChat.getInstance('8hrqmmu5ht95'); // Replace with your actual API key
+ 
+       // Connect user to Stream Chat
+       await chatClient.connectUser(
+         { id: user._id, name: user.name },
+         response.data.token
+       );
+ 
+       setClient(chatClient);
+ 
+       // Fetch project members
+       const projectResponse = await axios.get(`http://localhost:3000/api/projects/${projectId}/members`);
+       
+       
+       const members = [...projectResponse.data.members.map(member => member._id)];  // Create members list
+       console.log('Project Members : ',members);
+       // Create channel with project members
+       const responseChannel = await axios.post('http://localhost:3000/api/chat/create-channel', {
+         userId: user._id,
+         projectId: projectId,
+         members, // Send members list (including the current user)
+       });
+       console.log('Response.Data :- ',responseChannel);
+       
+       const { channelId } = responseChannel.data;
+ 
+       // Initialize Stream Chat channel
+       const createdChannel = chatClient.channel('team', channelId);
+       await createdChannel.watch(); // Join the channel
+       setChannel(createdChannel);
+ 
+     } catch (error) {
+       console.error('Error initializing Stream Chat:', error);
+     }
+   };
+ 
+   initStreamChat();
+ 
+   return () => {
+      if (client) {
+        client.disconnectUser();  // Disconnect user when leaving or logging out
       }
     };
-  
-    useEffect(() => {
-      if (project) {
-         fetchOnlineMembers();
-      }
-    }, [project]);
-    const user = JSON.parse(localStorage.getItem('user-object'));
+ }, [user._id, projectId]);  // Removed projectMembers from dependencies
+  // Added dependencies for re-fetching members
 
-    useEffect(() => {
-      // Convert projectMembers to the format expected by the DataGrid
-      // console.log("Project members updated:",projectMembers.members)
-      const members = projectMembers.members
-      // console.log("member:",members)
-      if (members && members.length > 0) {
-  
-        const newActiveList = members.map((member, index) => ({
-          id: index + 1, // Use member ID or index as ID
-          name: member.name,
-          isOnline: (user.name  == member.name),
-        }));
-
-        console.log("New newActiveList:", newActiveList);
-        setOnlineUsers(newActiveList); // Update rows state
-      }
-    }, [projectMembers]);
-
-   const handleSendMessage = (message) => {
-      message.isSender = true;
-      setMessages([...messages, message]);
-      socket.emit("message", message)
-
-   };
-   return (
-      <div className="min-h-screen ">
-         <div className="flex overflow-scroll h-[680px]">
-            <div className="w-1/5 p-4 bg-white shadow-lg">
-               <UserList users={onlineUsers} />
-            </div>
-            <div className="flex flex-col w-3/4 p-4 bg-gray-200">
-               <ChatWindow messages={messages} />
-               <MessageInput onSendMessage={handleSendMessage} />
-            </div>
-         </div>
-      </div>
-   )
-}
-
-const MessageInput = ({ onSendMessage }) => {
-   const [input, setInput] = useState('');
-
-   const handleSend = () => {
-      if (input.trim()) {
-         const newMessage = {
-            text: input,
-            timestamp: Date.now(),
-            isSender: true, // Set to true for now, can be controlled by user logic
-         };
-         onSendMessage(newMessage);
-         setInput('');
-      }
-   };
-
-   return (
-      <div className="flex mt-4">
-         <input
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            className="flex-1 p-2 border border-gray-300 rounded-l-lg focus:outline-none"
-            placeholder="Type a message..."
-         />
-         <button
-            onClick={handleSend}
-            className="px-4 py-2 text-white bg-blue-500 rounded-r-lg hover:bg-blue-600"
-         >
-            Send
-         </button>
-      </div>
-   );
+  return client ? (
+    <Chat client={client} theme="messaging light">
+      {channel && (
+        <Channel channel={channel}>
+          <MessageList />
+          <MessageInput />
+        </Channel>
+      )}
+    </Chat>
+  ) : (
+    <p>Loading chat...</p>
+  );
 };
 
+export default ChatComponent;
 
-const MessageBubble = ({ message }) => {
-   return (
-      <div className={`flex ${message.isSender ? 'justify-end' : 'justify-start'}`}>
-         <div className={`max-w-xs p-3 rounded-lg shadow-md ${message.isSender ? 'bg-blue-500 text-white' : 'bg-white text-gray-800'}`}>
-            <p className="text-sm">{message.text}</p>
-            <span className="block mt-1 text-xs text-gray-400">
-               {new Date(message.timestamp).toLocaleTimeString()}
-            </span>
-         </div>
-      </div>
-   );
-};
-
-
-const ChatWindow = ({ messages }) => {
-   return (
-      <div className="flex-1 p-4 space-y-4 overflow-y-auto">
-         {messages.map((message, index) => (
-            <MessageBubble key={index} message={message} />
-         ))}
-      </div>
-   );
-};
-
-const UserList = ({ users }) => {
-   return (
-      <div>
-         <h2 className="mb-4 text-lg font-semibold">Online Users</h2>
-         <ul className="space-y-2">
-            {users.map((user) => (
-               <li
-                  key={user.id}
-                  className={`p-2 rounded-lg ${user.isOnline ? 'bg-green-100' : 'bg-red-100'} shadow-sm`}
-               >
-                  {user.name}
-               </li>
-            ))}
-         </ul>
-      </div>
-   );
-};
-
-export default ChatComponent

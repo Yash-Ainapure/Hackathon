@@ -53,6 +53,7 @@ app.use("/api/auth", require("./src/routes/authRoutes"));
 app.use("/api/projects", require("./src/routes/projectRoutes"));
 app.use("/api/sendMail", require("./src/routes/mailRoutes"));
 app.use("/api/tasks", require("./src/routes/taskRoutes"))
+app.use("/api/chat", require("./src/routes/chatRoutes"));
 
 // Start the server
 server.listen(port, () => {

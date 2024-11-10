@@ -23,7 +23,8 @@
     "mongoose": "^8.6.0",
     "nodemailer": "^6.9.14",
     "postgres": "^3.4.4",
-    "socket.io": "^4.7.5"
+    "socket.io": "^4.7.5",
+    "stream-chat": "^8.43.0"
   },
   "devDependencies": {
     "dotenv": "^16.4.5",

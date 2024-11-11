@@ -202,10 +202,8 @@ export default function Teams() {
 
   const fetchProjectMembers = async () => {
     try {
-      const response = await axios.post('http://localhost:3000/api/projects/fetchProjectMembers', {
-        projectId: project._id,
-      });
-      console.log("Project Members:", response.data);
+      const response = await axios.get(`http://localhost:3000/api/projects/${project._id}/members`);
+      console.log("bis Project Members:", response.data);
       setProjectMembers(response.data);
     } catch (error) {
       console.error("Error fetching project members:", error);

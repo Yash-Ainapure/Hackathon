@@ -111,7 +111,7 @@ const ChatComponent = () => {
        
        
        const members = [...projectResponse.data.members.map(member => member._id)];  // Create members list
-       console.log('Project Members : ',members);
+       console.log('** Project Members : ',projectResponse);
        // Create channel with project members
        const responseChannel = await axios.post('http://localhost:3000/api/chat/create-channel', {
          userId: user._id,

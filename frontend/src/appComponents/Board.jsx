@@ -66,17 +66,22 @@ const Board = () => {
    };
 
    const getListClasses = (key) => {
+      const baseClasses =
+        "relative flex flex-col items-center p-4 pt-12 overflow-x-hidden overflow-y-scroll scrollbar-hide bg-white border border-gray-300 rounded-lg w-1/4 font-semibold text-sm";
+    
       switch (key) {
-         case 'Todo':
-            return 'relative flex flex-col items-center p-4 pt-12 overflow-x-hidden bg-white border border-gray-300 rounded-lg w-1/4 min-h-60 text-cyan-600 font-semibold text-sm';
-         case 'InProgress':
-            return 'relative flex flex-col items-center p-4 pt-12 overflow-x-hidden bg-white border border-gray-300 rounded-lg w-1/4 text-purple-600 font-semibold text-sm';
-         case 'Done':
-            return 'relative flex flex-col items-center p-4 pt-12 overflow-x-hidden bg-white border border-gray-300 rounded-lg w-1/4 text-green-600 font-semibold text-sm';
-         default:
-            return 'relative flex flex-col items-center p-4 pt-12 overflow-x-hidden bg-white border border-gray-300 rounded-lg w-1/4';
+        case "Todo":
+          return `${baseClasses} text-cyan-600`;
+        case "InProgress":
+          return `${baseClasses} text-purple-600`;
+        case "Done":
+          return `${baseClasses} text-green-600`;
+        default:
+          return baseClasses;
       }
-   };
+    };
+    
+    
 
    const getItemClasses = (key) => {
       switch (key) {
@@ -184,7 +189,7 @@ const Board = () => {
                </button>
             </div>
          </div>
-         <div className='flex justify-center gap-5 mt-10'>
+         <div className='flex justify-center gap-5 mt-10 h-[75vh] overflow-x-auto'>
             {Object.keys(lists).map((key) => (
                <div
                   key={key}
@@ -193,8 +198,18 @@ const Board = () => {
                   onDrop={(e) => handleDrop(e, key)}
                   onDragOver={handleDragOver}
                >
-                  <h2 className="absolute mb-2 text-lg font-semibold top-2 left-4">{key}</h2>
-                  {lists[key].map((item, index) => (
+                  <h2 className="absolute mb-2 text-lg font-semibold top-2 left-4 flex justify-between w-[90%]">
+                  <span>{key}</span> <span>x {lists[key].length}</span>
+                  </h2>
+                  
+                  {lists[key].length === 0 ? ( // Check if the list is empty
+                  <div className=" text-gray-400">
+                     {key === "Todo" && "No tasks in Todo"}
+                     {key === "InProgress" && "No tasks in Progress"}
+                     {key === "Done" && "No tasks in Done"}
+                  </div>
+                  ) : (
+                  lists[key].map((item, index) => (
                      <div
                         key={index}
                         draggable
@@ -203,10 +218,11 @@ const Board = () => {
                      >
                         {item.taskName} {/* Display taskName instead of the entire object */}
                      </div>
-                  ))}
+                  ))
+                  )}
                </div>
             ))}
-         </div>
+            </div>
       </div>
    );
 };

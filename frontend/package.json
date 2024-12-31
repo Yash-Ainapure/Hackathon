@@ -42,6 +42,7 @@
     "stream-chat": "^8.43.0",
     "stream-chat-react": "^12.5.1",
     "tailwind-merge": "^2.5.2",
+    "tailwind-scrollbar-hide": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",
     "uuid": "^11.0.2"
   },

@@ -34,7 +34,18 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      scrollbarHide: {
+        '.scrollbar-hide': {
+          '-ms-overflow-style': 'none', /* For IE and Edge */
+          'scrollbar-width': 'none', /* For Firefox */
+          '&::-webkit-scrollbar': {
+            display: 'none', /* For Chrome, Safari, and Opera */
+          },
+        },
+        },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"),
+    require('tailwind-scrollbar-hide')
+  ],
 }

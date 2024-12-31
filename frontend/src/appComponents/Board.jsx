@@ -171,7 +171,7 @@ const Board = () => {
                   onChange={(e) => setNewTask(e.target.value)}
                   type="text"
                   className="w-full p-2 mx-1 border border-gray-300 rounded"
-                  placeholder="Add a new task"
+                  placeholder="What needs to be done?"
                />
                <button
                   onClick={(e) => {

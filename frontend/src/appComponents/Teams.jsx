@@ -259,24 +259,43 @@ export default function Teams() {
     }
   }, [project]);
 
+const user = JSON.parse(localStorage.getItem('user-object'));
+const [matchingMember, setMatchingMember] = useState(null);
 
-  useEffect(() => {
-    // Convert projectMembers to the format expected by the DataGrid
-    // console.log("Project members updated:",projectMembers.members)
-    const members = projectMembers.members
-    // console.log("member:",members)
-    if (members && members.length > 0) {
+// Ensure projectMembers and members exist
 
-      const newRows = members.map((member, index) => ({
-        id: index + 1, // Use member ID or index as ID
-        name: member.name,
-        email: member.email,
-        role: member.role,
-      }));
-      console.log("New Rows:", newRows);
-      setRows(newRows); // Update rows state
-    }
-  }, [projectMembers]);
+
+useEffect(() => {
+  // Update rows for DataGrid
+  const members = projectMembers?.members;
+  if (members && members.length > 0) {
+    const newRows = members.map((member, index) => ({
+      id: index + 1, // Use member ID or index as ID
+      name: member.name,
+      email: member.email,
+      role: member.role,
+    }));
+    setRows(newRows);
+  }
+
+  // Find matching member
+  const user = JSON.parse(localStorage.getItem("user-object"));
+  if (members && Array.isArray(members)) {
+    const foundMember = members.find((member) => member.email === user?.email);
+    setMatchingMember(foundMember || null); // Update state with found member
+  } else {
+    console.error(
+      "projectMembers or members array is undefined or not properly initialized."
+    );
+  }
+}, [projectMembers]);
+
+
+
+const filteredColumns = matchingMember?.role === "Admin"
+  ? columns // Keep all columns for Admin
+  : columns.filter((column) => column.field !== "actions"); 
+
   return (
     <div>
     
@@ -308,24 +327,30 @@ export default function Teams() {
             backgroundColor: "white",
           }}
         >
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            editMode="row"
-            rowModesModel={rowModesModel}
-            onRowModesModelChange={handleRowModesModelChange}
-            onRowEditStop={handleRowEditStop}
-            processRowUpdate={processRowUpdate}
-            slots={{
-              toolbar: () => <EditToolbar setIsOpen={setIsOpen} />,
-            }}
-            slotProps={{
-              toolbar: { setRows, setRowModesModel },
-            }}
-            sx={{
-              padding: "30px",
-            }}
-          />
+
+      { matchingMember && (
+            <DataGrid
+              rows={rows}
+              columns={filteredColumns}
+              editMode="row"
+              rowModesModel={rowModesModel}
+              onRowModesModelChange={handleRowModesModelChange}
+              onRowEditStop={handleRowEditStop}
+              processRowUpdate={processRowUpdate}
+              slots={{
+                toolbar:
+                  matchingMember?.role === "Admin"
+                    ? () => <EditToolbar setIsOpen={setIsOpen} />
+                    : null,
+              }}
+              slotProps={{
+                toolbar: { setRows, setRowModesModel },
+              }}
+              sx={{
+                padding: "30px",
+              }}
+            />
+          )}
         </Box>
       </div>
 

@@ -272,7 +272,6 @@ export default function Teams() {
     }
   }, [project]);
 
-const user = JSON.parse(localStorage.getItem('user-object'));
 const [matchingMember, setMatchingMember] = useState(null);
 
 // Ensure projectMembers and members exist

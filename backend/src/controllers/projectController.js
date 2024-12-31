@@ -202,6 +202,33 @@ const fetchProjectMembers2 = async (req, res) => {
   }
 };
 
+const updateGithubInfo = async (req, res) => {
+  try {
+    const { projectId, githubInfo } = req.body;
+    if (!projectId || !githubInfo) {
+      return res.status(400).json({ message: "Project ID and Github info are required" });
+    }
+
+    const project = await Project.findById(projectId);
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    project.gitUsername = githubInfo.gitUsername;
+    project.gitRepo = githubInfo.gitRepo;
+    await project.save();
+
+    res.status(200).json({ message: "Github info updated successfully" });
+  } catch (error) {
+    console.error("Error updating Github info:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+
+
+
+
 // Get projects by user ID
 const getProjectByUserId = async (req, res) => {
   try {
@@ -379,4 +406,5 @@ module.exports = {
   fetchProjects,
   deleteProject,
   fetchProjectMembers2,
+  updateGithubInfo,
 };

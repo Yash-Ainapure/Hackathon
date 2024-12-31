@@ -9,6 +9,7 @@ const {
   fetchProjectMembers,
   fetchProjects,
   fetchProjectMembers2,
+  updateGithubInfo,
   deleteProject
 } = require("../controllers/projectController");
 
@@ -30,7 +31,7 @@ router.delete("/remove-member", removeMemberFromProject);
 
 // ? API to add members to a project using a json object containing list of member emails and their role
 router.post("/add-members", addMembersToProject);
-
+router.post("/github-update", updateGithubInfo);
 router.delete('/delete-project', deleteProject)
 
 module.exports = router;

@@ -59,6 +59,16 @@ const ProjectSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  gitUsername: {
+    type: String,
+    unique: true,
+    default: "",
+  },
+  gitRepo: {
+    type: String,
+    unique: true,
+    default: "",
+  },
 });
 
 const Project = mongoose.model("Project", ProjectSchema);

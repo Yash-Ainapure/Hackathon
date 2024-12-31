@@ -1,5 +1,6 @@
 const User = require("../models/User"); // Ensure User model is imported
 const Project = require("../models/Project");
+const sendEmail = require("../utils/emailService");
 
 // Create a new project
 const createProject = async (req, res) => {
@@ -157,21 +158,23 @@ const fetchProjectMembers = async (req, res) => {
 
 const fetchProjectMembers2 = async (req, res) => {
   try {
-    const { id } = req.params;  // Extract projectId from the route parameters (GET method)
+    const { id } = req.params; // Extract projectId from the route parameters (GET method)
 
     if (!id) {
       return res.status(400).json({ message: "Project ID is required" });
     }
 
-    const project = await Project.findById(id).populate('projectMembers').populate('projectAdmins'); // Use populate to get the members and admins in a single query
-    console.log("PrOjEcT :- ",project);
-    
+    const project = await Project.findById(id)
+      .populate("projectMembers")
+      .populate("projectAdmins"); // Use populate to get the members and admins in a single query
+    console.log("PrOjEcT :- ", project);
+
     if (!project) {
       return res.status(404).json({ message: "Project not found" });
     }
 
     const members = [];
-    
+
     // Populate project admins
     for (const admin of project.projectAdmins) {
       members.push({
@@ -199,12 +202,6 @@ const fetchProjectMembers2 = async (req, res) => {
   }
 };
 
-
-
-
-
-
-
 // Get projects by user ID
 const getProjectByUserId = async (req, res) => {
   try {
@@ -217,7 +214,6 @@ const getProjectByUserId = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
-
 
 // ! Api to add a member to a project using a json object containing list of member emails and their role
 // ! The json object should be in the following format:
@@ -232,11 +228,13 @@ const getProjectByUserId = async (req, res) => {
 
 const addMembersToProject = async (req, res) => {
   try {
-    const { projectId, members } = req.body;
+    const { projectId, members, owner } = req.body;
     console.log("Received Data:", projectId, members);
 
     if (!projectId || !members || !members.email || !members.role) {
-      return res.status(400).json({ message: "Project ID, email, and role are required" });
+      return res
+        .status(400)
+        .json({ message: "Project ID, email, and role are required" });
     }
 
     const project = await Project.findById(projectId);
@@ -276,7 +274,14 @@ const addMembersToProject = async (req, res) => {
       if (!member.projects.includes(project._id)) {
         member.projects.push(project._id);
       }
-      
+
+      await sendEmail(member.email, "addMember", {
+        owner: owner, // The project owner
+        member: member.name, // The member being added
+        role: role, // The role assigned to the member
+        projectName: project.name, // The project name
+      });
+
       await member.save();
     }
 
@@ -296,6 +301,7 @@ const addMembersToProject = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
 
 // ? Remove a member from a project.. Removes the user id from the project's projectMembers and projectAdmins arrays if it exists
 const removeMemberFromProject = async (req, res) => {

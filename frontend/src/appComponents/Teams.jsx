@@ -22,6 +22,7 @@ import {
   randomId,
   randomArrayItem,
 } from '@mui/x-data-grid-generator';
+import { ownerDocument } from '@mui/material';
 
 const roles = ['Administrator', 'Member'];
 const randomRole = () => {
@@ -224,10 +225,21 @@ export default function Teams() {
     if (emails.length === 0) return; // Stops execution if emails array is empty
 
     console.log("Data received:", emails, " ", role);
+
+    const userObject = localStorage.getItem('user-object');
+    if (!userObject) {
+      console.error("User object not found in localStorage");
+      return;
+    }
+
+    const user = JSON.parse(userObject);
+
+    // Create an object for the members, including emails and role
     const data = {
+      owner: user.name, // Retrieve owner name from parsed object
       projectId: project._id,
       members: {
-        email: emails,
+        email: emails, // Use the correct key for emails
         role: role,
       },
     };
@@ -247,9 +259,10 @@ export default function Teams() {
         console.log('Error adding members');
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error adding members:', error.response ? error.response.data : error.message);
     }
   };
+
 
 
   // Load project members initially
@@ -298,19 +311,19 @@ const filteredColumns = matchingMember?.role === "Admin"
 
   return (
     <div>
-    
-      <div className='px-32 py-20'>
-      <div className='flex items-center'>
-            <p
-               className='py-2 px-1 font-semibold cursor-pointer hover:underline'
-               onClick={() => navigate('/home')}
-            >
-              Projects
-            </p>
-            <p className='py-2 px-1'>/</p>
-            <p className='py-2 px-1 font-semibold'>{project ? project.name : "Loading..."}</p>
 
-         </div>
+      <div className='px-32 py-20'>
+        <div className='flex items-center'>
+          <p
+            className='py-2 px-1 font-semibold cursor-pointer hover:underline'
+            onClick={() => navigate('/home')}
+          >
+            Projects
+          </p>
+          <p className='py-2 px-1'>/</p>
+          <p className='py-2 px-1 font-semibold'>{project ? project.name : "Loading..."}</p>
+
+        </div>
         <h1 className='text-xl font-medium my-4'>Manage Teams Here</h1>
         {/* <p>{JSON.stringify(project)}</p> */}
         {/* <p>{projectMembers ? JSON.stringify(projectMembers) : "Loading project members..."}</p> */}

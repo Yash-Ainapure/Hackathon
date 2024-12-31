@@ -37,7 +37,9 @@ function SignUp(props) {
         console.log("inside send mail");
         
         axios.post('http://localhost:3000/api/sendMail', {
-            email: emailValue
+            email: emailValue,
+            purpose: 'register',
+            data: {}
         })
         .then(response => {
             console.log('Email sent successfully:', response.data);

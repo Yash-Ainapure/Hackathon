@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useProject } from './ProjectContext';
 import axios from 'axios';
+import addTaskIcon from '../assets/addTask.svg';
 import { v4 as uuidv4 } from 'uuid';
 const initialLists = {
    Todo: [],
@@ -102,15 +103,15 @@ const Board = () => {
       if (!newTask.trim()) return;
       const taskObject = {
          taskid: uuidv4(), // Generate a unique ID for the task
-         taskName: newTask.trim(), 
-         taskDescription: "", 
-         assignedTo: "", 
-         reporter: localStorage.getItem('user-object') 
-             ? JSON.parse(localStorage.getItem('user-object')).name 
-             : "", 
+         taskName: newTask.trim(),
+         taskDescription: "",
+         assignedTo: "",
+         reporter: localStorage.getItem('user-object')
+            ? JSON.parse(localStorage.getItem('user-object')).name
+            : "",
          startDate: formatDate(Date.now()), // Format current date
          dueDate: "", // Keep it empty for now, can be updated later
-     };
+      };
 
       setLists((prevLists) => {
          const updatedLists = {
@@ -164,22 +165,22 @@ const Board = () => {
          </div>
          {/* <p>{JSON.stringify(project)}</p> */}
          <div className='flex justify-center'>
-            <div className='w-1/2'>
-               <input 
-                  value={newTask} 
-                  onChange={(e) => setNewTask(e.target.value)} 
-                  type="text" 
-                  className="w-full p-2 border border-gray-300 rounded" 
-                  placeholder="Add a new task" 
+            <div className='flex w-1/2'>
+               <input
+                  value={newTask}
+                  onChange={(e) => setNewTask(e.target.value)}
+                  type="text"
+                  className="w-full p-2 mx-1 border border-gray-300 rounded"
+                  placeholder="Add a new task"
                />
                <button
                   onClick={(e) => {
                      e.preventDefault();
                      addNewTask();
                   }}
-                  className="w-full p-2 mt-2 text-white bg-blue-500 rounded"
+                  className="w-11 flex justify-center items-center p-2 mx-1 text-white hover:bg-blue-600 bg-blue-500 rounded"
                >
-                  Add Task
+                  <img src={addTaskIcon} alt="addTaskIcon" className='h-5 w-5'/>
                </button>
             </div>
          </div>

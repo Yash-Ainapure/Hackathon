@@ -48,28 +48,33 @@ const sendEmail = async (to, purpose, data) => {
     mailOptions = {
       from: "colab.undefined@gmail.com",
       to,
-      subject: `Welcome to the project, ${member}!`,
+      subject: `🎉 Welcome to the Project, ${member}! 🎉`,
       text: `
-          Hello ${member},
-  
-          Congratulations! You have been added to a project on Co-Lab.
-  
-          Project Owner: *${owner}* 
-          Assigned Role: ${role}
-  
-          You are now a valued member of the team. Please log in to your Co-Lab account to view the project details and your responsibilities.
-  
-          If you have any questions or need assistance, feel free to reach out to ${owner} or contact our support team.
+          **Hello ${member},**
 
-          Welcome aboard, and we look forward to seeing your contributions!
+          🎉 **Congratulations!** You have been successfully added to a project on **Co-Lab**.
 
-          Best regards,  
-          The Co-Lab Team
-  
-          ---
-  
-          For any questions or support, feel free to contact us at [support@colab.com](mailto:support@colab.com).
-      `,
+          📝 **Project Owner:** ${owner}  
+          🔑 **Assigned Role:** ${role}
+
+          You are now a **valued member** of the team, and we’re excited to have you onboard! 🚀  
+          Please log in to your **Co-Lab account** to view the project details and your responsibilities.
+
+          If you have any questions or need assistance, feel free to reach out to **${owner}** or contact our **support team**.
+
+          ---  
+
+          **🌟 Welcome aboard!** We look forward to your amazing contributions and teamwork.  
+
+          **Best regards,**  
+          The **Co-Lab Team**  
+
+          ---  
+
+          🛠 **Need help?**  
+          For any questions or support, feel free to contact us at:  
+          **📧 [support@colab.com](mailto:support@colab.com)**  
+              `,
     };
   }
 

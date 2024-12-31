@@ -42,7 +42,7 @@ export default function YourWork({ projects, searchQuery, fetch }) {
               />
             ))
           ) : (
-            <p>No personal projects found.</p>
+            <p className='mt-8'>No personal projects found.</p>
           )}
         </div>
 
@@ -66,7 +66,7 @@ export default function YourWork({ projects, searchQuery, fetch }) {
               />
             ))
           ) : (
-            <p>No shared projects found.</p>
+            <p className='mt-8'>No shared projects found.</p>
           )}
         </div>
       </div>

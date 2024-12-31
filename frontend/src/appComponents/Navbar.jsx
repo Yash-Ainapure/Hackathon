@@ -148,7 +148,7 @@ function Navbar(props) {
       <div className="flex items-center justify-between w-full p-2 px-24 border-b">
         <div className="flex items-center gap-4">
           <h1 onClick={()=> navigate('/home')} className="text-xl font-semibold cursor-pointer">CoLab</h1>
-          <select
+          {/* <select
             name=""
             id=""
             className="font-semibold bg-transparent text-sky-800"
@@ -165,10 +165,10 @@ function Navbar(props) {
             <option value="">Projects</option>
             <option value="">Project 1</option>
             <option value="">Project 2</option>
-          </select>
+          </select> */}
           <button
             onClick={openModal}
-            className="px-4 py-2 font-semibold text-white rounded bg-sky-600"
+            className="px-4 py-2 mx-10 font-semibold text-white rounded bg-sky-600"
           >
             Create
           </button>

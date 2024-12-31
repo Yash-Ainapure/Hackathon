@@ -9,7 +9,7 @@ export default function Footer() {
   return (
     <div className='flex flex-col items-center pt-10 mt-8 bg-black'>
       <div className="flex flex-col items-center justify-center w-full overflow-hidden bg-black rounded-md">
-        <h1 className="relative z-20 text-3xl font-bold text-center text-white md:text-3xl lg:text-3xl">
+        <h1 className="relative z-20 text-3xl mb-4 font-bold text-center text-white md:text-3xl lg:text-3xl">
           CoLab
         </h1>
         <div className="w-[40rem] h-40 relative">

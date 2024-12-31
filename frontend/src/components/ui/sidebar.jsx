@@ -134,8 +134,8 @@ export const SidebarLink = ({
           "flex items-center justify-start gap-2 group/sidebar py-2 px-2 rounded-lg transition duration-200",
           className,
           isActive
-            ? " bg-teal-500 text-white font-medium"  // Active state: Soft teal background with white text
-            : "hover:bg-teal-100 dark:hover:bg-teal-700 dark:text-neutral-200",  // Hover effect for inactive state
+            ? " bg-gray-300 text-white font-medium"  // Active state: Soft teal background with white text
+            : "hover:bg-gray-200 dark:hover:bg-gray-600 dark:text-neutral-200",  // Hover effect for inactive state
         )
       }
       onClick={() => {

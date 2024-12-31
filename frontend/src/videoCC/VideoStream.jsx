@@ -139,7 +139,7 @@ const VideoStream = () => {
       <div id="stream-wrapper">
         <div id="video-streams" style={{height:"75vh"}}></div>
         {isJoined && (
-          <div id="stream-controls" className="flex justify-center">
+          <div id="stream-controls" className="flex justify-center py-5">
             <div className='flex justify-center'>
               <button
                 id="leave-btn"

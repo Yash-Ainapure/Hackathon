@@ -29,7 +29,7 @@ console.log("Outer Updated Project Object:",project);
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 100 },
-    { field: 'taskName', headerName: 'Task Name', width: 200, editable: true },
+    { field: 'taskName', headerName: 'Task Name', width: 300, editable: true },
     { field: 'status', headerName: 'Status', width: 150, editable: true },
     {
         field: 'assignedTo',
@@ -276,12 +276,12 @@ useEffect(() => {
         <DataGrid
             processRowUpdate={processRowUpdate}
             onProcessRowUpdateError={(error) => console.error(error)}
-            className="bg-white"
+            className="bg-white px-2"
             rows={rows}
             columns={columns}
             initialState={{ pagination: { paginationModel } }}
             pageSizeOptions={[5, 10]}
-            checkboxSelection
+            // checkboxSelection
             sx={{ border: 0 }}
         />
 

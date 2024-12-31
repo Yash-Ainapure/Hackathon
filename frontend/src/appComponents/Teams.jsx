@@ -23,6 +23,7 @@ import {
   randomArrayItem,
 } from '@mui/x-data-grid-generator';
 import { ownerDocument } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const roles = ['Administrator', 'Member'];
 const randomRole = () => {
@@ -73,7 +74,7 @@ export default function Teams() {
 
   const [rows, setRows] = React.useState();
   const [rowModesModel, setRowModesModel] = React.useState({});
-
+  const navigate = useNavigate();
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
       event.defaultMuiPrevented = true;
@@ -272,41 +273,41 @@ export default function Teams() {
     }
   }, [project]);
 
-const [matchingMember, setMatchingMember] = useState(null);
+  const [matchingMember, setMatchingMember] = useState(null);
 
-// Ensure projectMembers and members exist
-
-
-useEffect(() => {
-  // Update rows for DataGrid
-  const members = projectMembers?.members;
-  if (members && members.length > 0) {
-    const newRows = members.map((member, index) => ({
-      id: index + 1, // Use member ID or index as ID
-      name: member.name,
-      email: member.email,
-      role: member.role,
-    }));
-    setRows(newRows);
-  }
-
-  // Find matching member
-  const user = JSON.parse(localStorage.getItem("user-object"));
-  if (members && Array.isArray(members)) {
-    const foundMember = members.find((member) => member.email === user?.email);
-    setMatchingMember(foundMember || null); // Update state with found member
-  } else {
-    console.error(
-      "projectMembers or members array is undefined or not properly initialized."
-    );
-  }
-}, [projectMembers]);
+  // Ensure projectMembers and members exist
 
 
+  useEffect(() => {
+    // Update rows for DataGrid
+    const members = projectMembers?.members;
+    if (members && members.length > 0) {
+      const newRows = members.map((member, index) => ({
+        id: index + 1, // Use member ID or index as ID
+        name: member.name,
+        email: member.email,
+        role: member.role,
+      }));
+      setRows(newRows);
+    }
 
-const filteredColumns = matchingMember?.role === "Admin"
-  ? columns // Keep all columns for Admin
-  : columns.filter((column) => column.field !== "actions"); 
+    // Find matching member
+    const user = JSON.parse(localStorage.getItem("user-object"));
+    if (members && Array.isArray(members)) {
+      const foundMember = members.find((member) => member.email === user?.email);
+      setMatchingMember(foundMember || null); // Update state with found member
+    } else {
+      console.error(
+        "projectMembers or members array is undefined or not properly initialized."
+      );
+    }
+  }, [projectMembers]);
+
+
+
+  const filteredColumns = matchingMember?.role === "Admin"
+    ? columns // Keep all columns for Admin
+    : columns.filter((column) => column.field !== "actions");
 
   return (
     <div>
@@ -340,7 +341,7 @@ const filteredColumns = matchingMember?.role === "Admin"
           }}
         >
 
-      { matchingMember && (
+          {matchingMember && (
             <DataGrid
               rows={rows}
               columns={filteredColumns}

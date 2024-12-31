@@ -50,12 +50,12 @@ function SignUp(props) {
     }
 
     return (
-        <div className='ml-4 shadow-lg border border-2 w-[500px] px-4 py-2 flex justify-center items-center flex-col h-[350px] rounded-lg'>
+        <div className='ml-4 shadow-lg border-2 w-[500px] px-4 py-2 flex justify-center items-center flex-col h-[350px] rounded-lg'>
             <div className='border-b  py-4 border-gray-400 flex items-center flex-col'>
                 <div className='flex justify-center flex-col items-end'>
                     <div className='flex items-center'>
                         {/* <label htmlFor="">Email</label>  */}
-                        <input type="email" value={emailValue} onChange={(event) => { setEmailValue(event.target.value) }} className='border-2 mx-2 p-2 w-[400px] border rounded-[5px]' placeholder='Enter your email' />
+                        <input type="email" value={emailValue} onChange={(event) => { setEmailValue(event.target.value) }} className='border-2 mx-2 p-2 w-[400px] rounded-[5px]' placeholder='Enter your email' />
                     </div>
                     <p className='mr-4' onClick={change}><span className=' hover:text-purple-600 cursor-pointer'>Already have account ?</span></p>
                 </div>

@@ -7,8 +7,8 @@ const generateOTP = () => {
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "sergiomarquina004@gmail.com",
-    pass: "Sergio@marquina2004",
+    user: "colab.undefined@gmail.com",
+    pass: "zhoz zdaz amsl stns",
   },
 });
 
@@ -16,7 +16,7 @@ const sendEmail = async (to) => {
   const otp = generateOTP();
 
   const mailOptions = {
-    from: "sergiomarquina004@gmail.com",
+    from: "colab.undefined@gmail.com",
     to,
     subject: "OTP Verification for Co-Lab!",
     text: `

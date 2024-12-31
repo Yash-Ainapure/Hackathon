@@ -1,0 +1,563 @@
+{
+    "info": {
+        "_postman_id": "ee9e63c8-2c1d-4e95-b2f2-61a9e8e69ff5",
+        "name": "CoLab",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": ""
+    },
+    "item": [
+        {
+            "name": "Auth",
+            "item": [
+                {
+                    "name": "Create User",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "http://localhost:3000/api/auth/register",
+                            "path": [
+                                "api",
+                                "auth",
+                                "register"
+                            ],
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000"
+                        },
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\r\n  \"name\": \"Alice Johnson\",\r\n  \"email\": \"alice.johnson@example.com\",\r\n  \"password\": \"mystrongpassword\",\r\n  \"profilePic\": \"https://example.com/images/alice.jpg\",\r\n  \"jobInfo\": {\r\n    \"title\": \"Software Developer\",\r\n    \"department\": \"Engineering\",\r\n    \"organization\": \"TechCorp\",\r\n    \"location\": \"New York\"\r\n  }\r\n}\r\n"
+                        }
+                    }
+                },
+                {
+                    "name": "Login User ",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "http://localhost:3000/api/auth/login",
+                            "path": [
+                                "api",
+                                "auth",
+                                "login"
+                            ],
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000"
+                        },
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"email\": \"alice.johnson@example.com\",\n  \"password\": \"mystrongpassword\"\n}\n"
+                        }
+                    }
+                },
+                {
+                    "name": "Fetch User",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "http://localhost:3000/api/auth/fetch-user",
+                            "path": [
+                                "api",
+                                "auth",
+                                "fetch-user"
+                            ],
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000"
+                        },
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"userId\": \"66d1f445bf20097cf324f0d6\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Update User",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "http://localhost:3000/api/auth/update-user",
+                            "path": [
+                                "api",
+                                "auth",
+                                "update-user"
+                            ],
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000"
+                        },
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"user\":{\n    \"userId\": \"66d2faf802d66886977843be\",\n    \"name\": \"pawan malgavi\",\n    \"email\": \"pawanmalgavi@gmail.com\",\n    \"jobInfo\": \"A G.O.A.T. programmer\"\n  }\n}"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Project",
+            "item": [
+                {
+                    "name": "Create Project",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "http://localhost:3000/api/projects/createproject",
+                            "path": [
+                                "api",
+                                "projects",
+                                "createproject"
+                            ],
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000"
+                        },
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"name\": \"Some sample project made by me\",\n  \"owner\": \"66d2faf802d66886977843be\",\n  \"ownerName\": \"Pawan\",\n  \"projectDescription\": \"A project to build a data analysis tool for business intelligence.\",\n  \"progress\": 0,\n  \"projectAdmins\": [],\n  \"projectMembers\": [],\n  \"startDate\": \"2024-09-15T00:00:00.000Z\",\n  \"endDate\": \"2025-02-28T00:00:00.000Z\",\n  \"createdAt\": \"2024-09-15T00:00:00.000Z\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Add Member",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "http://localhost:3000/api/projects/add-member",
+                            "path": [
+                                "api",
+                                "projects",
+                                "add-member"
+                            ],
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000"
+                        },
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"userId\": \"66d1f445bf20097cf324f0d6\",\n  \"projectId\": \"66d438f0caa2f7fbcef130ff\"\n}\n"
+                        }
+                    }
+                },
+                {
+                    "name": "Fetch Projects",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "http://localhost:3000/api/projects/66d2faf802d66886977843be",
+                            "path": [
+                                "api",
+                                "projects",
+                                "66d2faf802d66886977843be"
+                            ],
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000"
+                        },
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "Fetch Project Object",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "http://localhost:3000/api/projects/fetchProjects/66d2af3b6e6beeb87bd5c2e1",
+                            "path": [
+                                "api",
+                                "projects",
+                                "fetchProjects",
+                                "66d2af3b6e6beeb87bd5c2e1"
+                            ],
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000"
+                        }
+                    }
+                },
+                {
+                    "name": "AddMembersAdmins",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "http://localhost:3000/api/projects/add-members",
+                            "path": [
+                                "api",
+                                "projects",
+                                "add-members"
+                            ],
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000"
+                        },
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\r\n  \"projectId\": \"67152e8d42e30ea3c0ac59e9\",\r\n  \"members\": {\r\n    \"email\": [\"alice.johnson@example.com\", \"harsh2504patil@gmail.com\"],\r\n    \"role\": \"admin\"\r\n  }\r\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Remove member from project",
+                    "request": {
+                        "method": "DELETE",
+                        "url": {
+                            "raw": "http://localhost:3000/api/projects/remove-member",
+                            "path": [
+                                "api",
+                                "projects",
+                                "remove-member"
+                            ],
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000"
+                        },
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"projectId\": \"67152e8d42e30ea3c0ac59e9\",\n  \"userId\": \"66d357baea7824eb12d76d4f\" \n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Fetch Members",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "http://localhost:3000/api/projects/fetchProjectMembers",
+                            "path": [
+                                "api",
+                                "projects",
+                                "fetchProjectMembers"
+                            ],
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000"
+                        },
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"projectId\": \"67152e8d42e30ea3c0ac59e9\"\n}"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Email",
+            "item": [
+                {
+                    "name": "Send Mail",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "http://localhost:3000/api/sendMail",
+                            "path": [
+                                "api",
+                                "sendMail"
+                            ],
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000"
+                        },
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"email\": \"harsh2504patil@gmail.com\"\n}"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Task",
+            "item": [
+                {
+                    "name": "Create Task",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "http://localhost:3000/api/tasks/create",
+                            "path": [
+                                "api",
+                                "tasks",
+                                "create"
+                            ],
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000"
+                        },
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"taskName\": \"To Do task of which status is to be changed\",\n  \"taskDescription\": \"Debugging task\",\n  \"projectId\": \"671c7d3ebefbd6b87caf3db6\",\n  \"startDate\": \"2024-10-26\",\n  \"endDate\": \"2024-10-27\"\n}\n"
+                        }
+                    }
+                },
+                {
+                    "name": "Update Task",
+                    "request": {
+                        "method": "PUT",
+                        "url": {
+                            "raw": "http://localhost:3000/api/tasks/update/66d33628b1795b016f6f784f",
+                            "path": [
+                                "api",
+                                "tasks",
+                                "update",
+                                "66d33628b1795b016f6f784f"
+                            ],
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000"
+                        },
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"taskName\": \"Design Landing Page\",\n  \"taskDescription\": \"Create a responsive landing page for the new product launch.\",\n  \"status\": \"InProgress\",\n  \"assignedTo\": \"66d1f445bf20097cf324f0d6\",\n  \"startDate\": \"2024-09-01T00:00:00Z\",\n  \"endDate\": \"2024-09-15T23:59:59Z\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Task",
+                    "request": {
+                        "method": "DELETE",
+                        "url": {
+                            "raw": "http://localhost:3000/api/tasks/deleteTask/66d268ab9248650dfed0f755",
+                            "path": [
+                                "api",
+                                "tasks",
+                                "deleteTask",
+                                "66d268ab9248650dfed0f755"
+                            ],
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000"
+                        },
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "Get Tasks",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "http://localhost:3000/api/tasks/get-tasks/66d334e657cbed50a0e982ea",
+                            "path": [
+                                "api",
+                                "tasks",
+                                "get-tasks",
+                                "66d334e657cbed50a0e982ea"
+                            ],
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000"
+                        }
+                    }
+                },
+                {
+                    "name": "Task Status",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "http://localhost:3000/api/tasks/updateTaskStatus",
+                            "path": [
+                                "api",
+                                "tasks",
+                                "updateTaskStatus"
+                            ],
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000"
+                        },
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"projectId\": \"671c7d3ebefbd6b87caf3db6\",\n   \"toDO\": [\"671c7de9befbd6b87caf3dca\"],\n   \"inProgress\": [],\n   \"completed\": [\"In progress task\"]\n}"
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

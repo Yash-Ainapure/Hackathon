@@ -1,27 +1,22 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "../components/ui/sidebar";
 import {
   IconArrowLeft,
-  IconBrandTabler,
-  IconSettings,
-  IconUserBolt,
 } from "@tabler/icons-react";
 import { Link, Outlet } from "react-router-dom";
 import { motion } from "framer-motion";
 import { cn } from "../lib/utils";
-import Banner from '../assets/banner.jpg'
 import GridViewIcon from '@mui/icons-material/GridView';
 import ListIcon from '@mui/icons-material/List';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import SearchIcon from '@mui/icons-material/Search';
-import Navbar from "./Navbar";
 import VideoCallIcon from '@mui/icons-material/VideoCall';
-import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
 import { useProject } from './ProjectContext';
-export default function Dashboard() {
+import { useNavigate } from "react-router-dom";
 
+export default function Dashboard() {
+  const navigate = useNavigate();
   const links = [
     {
       label: "CoMeet",
@@ -143,7 +138,7 @@ export const Logo = ({ project }) => {
 
   return (
     (<Link
-      href="#"
+      to="/home"
       className="relative z-20 flex items-center py-1 space-x-2 text-sm font-normal text-black">
       <div
         className="flex-shrink-0 w-6 h-5 bg-black rounded-tl-lg rounded-tr-sm rounded-bl-sm rounded-br-lg dark:bg-white" />

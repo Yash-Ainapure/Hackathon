@@ -33,7 +33,7 @@ console.log("Outer Updated Project Object:",project);
     { field: 'status', headerName: 'Status', width: 150, editable: true },
     {
         field: 'assignedTo',
-        headerName: 'Assignee',
+        headerName: 'Assigned to',
         width: 250,
         editable: true,
         renderCell: (params) => {

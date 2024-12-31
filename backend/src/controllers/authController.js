@@ -61,7 +61,7 @@ const fetchUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-    const { _id, name, email, jobInfo } = req.body.user;
+    const { _id, name, email, jobInfo, profilePic } = req.body.user;
 
     if (!_id) {
       return res.status(400).json({ error: "User ID is required" });
@@ -71,17 +71,24 @@ const updateUser = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    
+
+    // Update user fields if provided
     user.name = name || user.name;
     user.email = email || user.email;
 
     // Check if jobInfo is an object with a title property
-    if (jobInfo && typeof jobInfo === 'object' && jobInfo.title) {
+    if (jobInfo && typeof jobInfo === "object" && jobInfo.title) {
       user.jobInfo = jobInfo.title;
-    } else if (typeof jobInfo === 'string') {
-      user.jobInfo = jobInfo; 
+    } else if (typeof jobInfo === "string") {
+      user.jobInfo = jobInfo;
     }
 
+    // Update the profilePic if provided
+    if (profilePic) {
+      user.profilePic = profilePic; // Store the uploaded profile picture URL
+    }
+
+    // Save the updated user
     await user.save();
 
     res.status(200).json({ message: "User updated successfully", user });
@@ -89,9 +96,7 @@ const updateUser = async (req, res) => {
     console.error("Error updating user:", error);
     res.status(500).json({ message: "Server error" });
   }
-}
-
-
+};
 
 // ? Login user
 const loginUser = async (req, res) => {

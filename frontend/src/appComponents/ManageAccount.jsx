@@ -3,8 +3,14 @@ import Navbar from "./Navbar";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+// require('dotenv').config();
+const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+const CLOUDINARY_PRESET = import.meta.env.VITE_CLOUDINARY_PRESET;
+
 const ManageAccount = () => {
    const navigate = useNavigate();
+   const location = useLocation();
+
    const [user, setUser] = useState({
       name: '',
       firstName: '',
@@ -18,7 +24,10 @@ const ManageAccount = () => {
          postalCode: ''
       }
    });
-   const location = useLocation();
+
+   const [preview, setPreview] = useState(null);
+   const [selectedFile, setSelectedFile] = useState(null);
+   const [uploading, setUploading] = useState(false);
 
    const handleChange = (e) => {
       const { name, value } = e.target;
@@ -39,12 +48,38 @@ const ManageAccount = () => {
       }));
    };
 
+   const handleFileChange = (e) => {
+      const file = e.target.files[0];
+      setSelectedFile(file);
+      setPreview(URL.createObjectURL(file));
+   };
+
    const handleSubmit = async (e) => {
       e.preventDefault();
       try {
+         let profilePictureUrl = user.profilePicture;
+         if (selectedFile) {
+            setUploading(true);
+
+            const formData = new FormData();
+            formData.append("file", selectedFile);
+            formData.append("upload_preset", CLOUDINARY_PRESET); // Replace with your Cloudinary upload preset
+            formData.append("cloud_name", CLOUDINARY_CLOUD_NAME); // Replace with your Cloudinary cloud name
+
+            const cloudinaryResponse = await axios.post(
+               `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, // Replace with your Cloudinary URL
+               formData
+            );
+            profilePictureUrl = cloudinaryResponse.data.secure_url; // Get the uploaded image URL
+            setUploading(false);
+         }
+
+         user.profilePic = profilePictureUrl;
+
          const response = await axios.post('http://localhost:3000/api/auth/update-user', {
             user
          });
+
          console.log(response);
 
          if (response.status === 200) {
@@ -115,36 +150,43 @@ const ManageAccount = () => {
 
                         {/* Profile Photo */}
                         <div className="col-span-full">
-                           <label htmlFor="photo" className="block text-sm font-medium leading-6 text-gray-900">
-                              Photo
-                           </label>
-                           <div className="mt-2 flex items-center gap-x-3">
-                              <button
-                                 type="button"
-                                 className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                              >
-                                 Change
-                              </button>
-                           </div>
-                        </div>
-                        <div className="col-span-full">
-                           <label htmlFor="cover-photo" className="block text-sm font-medium leading-6 text-gray-900">
-                              Cover photo
-                           </label>
-                           <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-                              <div className="text-center">
-                                 {/* <PhotoIcon aria-hidden="true" className="mx-auto h-12 w-12 text-gray-300" /> */}
-                                 <div className="mt-4 flex text-sm leading-6 text-gray-600">
-                                    <label
-                                       htmlFor="file-upload"
-                                       className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
-                                    >
-                                       <span>Upload a file</span>
-                                       <input id="file-upload" name="file-upload" type="file" className="sr-only" />
-                                    </label>
-                                    <p className="pl-1">or drag and drop</p>
+                           <div className="col-span-full">
+                              <label htmlFor="cover-photo" className="block text-sm font-medium leading-6 text-gray-900">
+                                 Profile Picture
+                              </label>
+                              <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                                 <div className="text-center">
+                                    {user.profilePicture && (
+                                       <img
+                                          src={user.profilePicture}
+                                          alt="Profile"
+                                          className="mx-auto mb-4 h-20 w-20 rounded-full object-cover"
+                                       />
+                                    )}
+                                    <div className="mt-4 flex text-sm leading-6 text-gray-600">
+                                       <label
+                                          htmlFor="file-upload"
+                                          className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                                       >
+                                          <span>Upload a file</span>
+                                          <input
+                                             id="file-upload"
+                                             name="file-upload"
+                                             type="file"
+                                             className="sr-only"
+                                             onChange={handleFileChange}
+                                          />
+                                          {preview && (
+                                             <div>
+                                                <h4>Image Preview:</h4>
+                                                <img src={preview} alt="Preview" style={{ width: '200px', height: 'auto', borderRadius: '8px' }} />
+                                             </div>
+                                          )}
+                                       </label>
+                                       <p className="pl-1">or drag and drop</p>
+                                    </div>
+                                    <p className="text-xs leading-5 text-gray-600">PNG, JPG, JPEG up to 10MB</p>
                                  </div>
-                                 <p className="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
                               </div>
                            </div>
                         </div>
@@ -274,7 +316,7 @@ const ManageAccount = () => {
                         className="rounded-md bg-white px-3.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
                         onClick={() => {
                            navigate('/home');
-                           window.scrollTo(0, 0); 
+                           window.scrollTo(0, 0);
                         }}
                      >
                         Cancel
@@ -282,8 +324,9 @@ const ManageAccount = () => {
                      <button
                         type="submit"
                         className="rounded-md bg-sky-500 px-3.5 py-1.5 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-sky-600"
+                        disabled={uploading}
                      >
-                        Save
+                        {uploading ? "Saving..." : "Save"}
                      </button>
                   </div>
                </div>

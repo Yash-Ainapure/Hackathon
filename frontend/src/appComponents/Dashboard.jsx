@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  
   const links = [
     {
       label: "CoMeet",
@@ -72,6 +73,7 @@ export default function Dashboard() {
   const { project, setProject } = useProject();
   const user = JSON.parse(localStorage.getItem('user-object'));
   const userName = user.name;
+  const profilePicUrl = user.profilePic;
   return (
     (
       <div
@@ -97,8 +99,8 @@ export default function Dashboard() {
                   href: "#",
                   icon: (
                     <img
-                      src="https://assets.aceternity.com/manu.png"
-                      className="flex-shrink-0 rounded-full h-7 w-7"
+                      src={profilePicUrl ? profilePicUrl : "https://assets.aceternity.com/manu.png"}
+                      className="flex-shrink-0 object-cover rounded-full w-7 h-7"
                       width={50}
                       height={50}
                       alt="Avatar" />

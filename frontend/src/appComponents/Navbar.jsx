@@ -16,7 +16,7 @@ function Navbar(props) {
   const navigateTo = useNavigate();
   // const user = useSelector(state => state.setUserObjReducer.user);
   const user = JSON.parse(localStorage.getItem('user-object'));
-
+  const profilePicUrl = user.profilePic;
   // console.log('User:', user);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [profileModal, setProfileModal] = useState(false);
@@ -85,7 +85,7 @@ function Navbar(props) {
       console.log('Project saved successfully:', response.data);
       props.fetch();
       closeModal();
-      
+
       // Handle successful response here (e.g., display a success message, reset the form)
     } catch (error) {
       console.error('Error saving project:', error);
@@ -147,7 +147,7 @@ function Navbar(props) {
     <div>
       <div className="flex items-center justify-between w-full p-2 px-24 border-b">
         <div className="flex items-center gap-4">
-          <h1 onClick={()=> navigate('/home')} className="text-xl font-semibold cursor-pointer">CoLab</h1>
+          <h1 onClick={() => navigate('/home')} className="text-xl font-semibold cursor-pointer">CoLab</h1>
           {/* <select
             name=""
             id=""
@@ -185,10 +185,11 @@ function Navbar(props) {
           </div>
           <div className="pr-2" onClick={() => setProfileModal(true)}>
             <img
-              className="w-12 h-12 rounded-full cursor-pointer"
-              src="https://assets.aceternity.com/manu.png"
+              className="w-12 h-12 object-cover rounded-full cursor-pointer"
+              src={profilePicUrl ? profilePicUrl : "https://assets.aceternity.com/manu.png"}
               alt="Profile"
             />
+
           </div>
 
           {showNotificationModal && (
@@ -204,7 +205,11 @@ function Navbar(props) {
             </div>
 
             <div className="my-2 flex items-center justify-center">
-              <img src="https://via.placeholder.com/40" alt="Profile Picture" className="mr-2 rounded-full" />
+              <img
+                src={profilePicUrl ? profilePicUrl : "https://assets.aceternity.com/manu.png"}
+                alt="Profile Picture"
+                className="mr-2 w-12 h-12 rounded-full object-cover"
+              />
               <div className="flex flex-col">
                 <p className="font-roboto font-bold tracking-wide">{user.name}</p>
                 <p className="font-roboto tracking-wide">{user.email}</p>

@@ -59,7 +59,7 @@ function SignUp(props) {
                         {/* <label htmlFor="">Email</label>  */}
                         <input type="email" value={emailValue} onChange={(event) => { setEmailValue(event.target.value) }} className='border-2 mx-2 p-2 w-[400px] rounded-[5px]' placeholder='Enter your email' />
                     </div>
-                    <p className='mr-4' onClick={change}><span className=' hover:text-purple-600 cursor-pointer'>Already have account ?</span></p>
+                    {/* <p className='mr-4' onClick={change}><span className=' hover:text-purple-600 cursor-pointer'>Already have account ?</span></p> */}
                 </div>
                 {/* <button className='p-3 px-5 mt-2 border w-[100px] rounded-[30px] bg-[#6a27bb] text-white'>Sign Up</button> */}
                 <button className="mb-3 p-[3px] relative mt-3 " onClick={sendEmail} >
@@ -69,7 +69,9 @@ function SignUp(props) {
                     </div>
                 </button>
             </div>
-            <div className='mt-4'>
+            <p className='mt-4' onClick={change}>Already have account ? <span className='font-bold cursor-pointer hover:text-purple-600'>Login Here</span></p>
+
+            {/* <div className='mt-4'>
                 <button className="p-[3px] relative mt-3 mx-2">
                     <div className="absolute inset-0 bg-gradient-to-r from-gray-900 to-slate-700 rounded-full" />
                     <div className="px-8 py-2 bg-gray-900 rounded-full  relative group transition duration-200 text-white hover:bg-white hover:text-black ">
@@ -82,7 +84,7 @@ function SignUp(props) {
                         Github
                     </div>
                 </button>
-            </div>
+            </div> */}
         </div>
     )
 }

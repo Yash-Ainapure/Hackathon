@@ -74,7 +74,7 @@ export default function Hero1() {
               <li className='my-4'>Choose your own adventure: Jira Software is flexible enough to mold to your team’s own unique way of working, whether it is Scrum, Kanban, or something in between.</li>
             </div>
             <div className='w-4/5'>
-              <DummyContent counter={1} />
+              <DummyContent counter={2} />
             </div>
           </div>
         </div>

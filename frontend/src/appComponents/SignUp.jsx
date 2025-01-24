@@ -34,7 +34,7 @@ function SignUp(props) {
     }
 
     const sendEmail = () => {
-        console.log("inside send mail");
+        console.log("sending mail ");
         
         axios.post('http://localhost:3000/api/sendMail', {
             email: emailValue,

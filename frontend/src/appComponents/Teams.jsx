@@ -247,7 +247,7 @@ export default function Teams() {
 
     try {
       const response = await axios.post('http://localhost:3000/api/projects/add-members', data);
-
+      console.log(response);
       if (response.status === 200) {
         console.log('Members added successfully', response.data);
         setEmails([]); // Clear emails after adding

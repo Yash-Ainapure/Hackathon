@@ -36,7 +36,7 @@ io.on('connection', (socket) => {
 
   //listner for message
   socket.on('message',(data)=>{
-    console.log(data)
+    // console.log(data)
     socket.broadcast.emit("receive-message",data) 
   })
 

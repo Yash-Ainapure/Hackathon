@@ -32,7 +32,7 @@ router.post('/create-channel', async (req, res) => {
         if (!userId || !projectId) {
             return res.status(400).json({ message: 'userId and projectId are required' });
         }
-        console.log("Creating channel for Project ID:", projectId, "with User ID:", userId);
+        // console.log("Creating channel for Project ID:", projectId, "with User ID:", userId);
         // Create a unique channel for the project, based on projectId
         const channel = streamClient.channel('team', projectId, {
             name: `Project ${projectId}`,

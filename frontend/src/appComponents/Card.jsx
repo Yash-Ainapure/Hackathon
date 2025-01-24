@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { useProject } from './ProjectContext';
 import { MdDelete } from "react-icons/md";
 import axios from 'axios';
+const BACKEND_URL = import.meta.env.VITE_API_URL;
+
+
 function CardMenu() {
     return (
         <div className="cardmenu ">
@@ -123,7 +126,7 @@ export default function Card(props) {
     const navigate1 = useNavigate();
     const project = props.project;
     const { setProject, setProjectId } = useProject();
-    console.log("project details", project);
+    // console.log("project details", project);
     const [menuVisible, setMenuVisible] = useState(false);
     function truncateString(str) {
         const maxLength = 100;
@@ -151,10 +154,10 @@ export default function Card(props) {
     const remainingWidth = totalTasks > 0 ? `${((todoCount + progressCount) / totalTasks) * 100}%` : "100%";
     const deleteProject = async (projectId) => {
         try {
-            const response = await axios.delete(`http://localhost:3000/api/projects/delete-project`, {
+            const response = await axios.delete(`${BACKEND_URL}/api/projects/delete-project`, {
                 data: { projectId: projectId }, // Add project ID or any required data
             });
-            console.log('Project deleted:', response.data);
+            // console.log('Project deleted:', response.data);
         } catch (error) {
             console.error('Error deleting project:', error);
         }
@@ -163,11 +166,11 @@ export default function Card(props) {
     const handleDelete = async () => {
         const confirmed = confirm(`Are you sure you want to delete this project (${project.name})? This action cannot be undone.`);
         if (confirmed) {
-            console.log("Delete project in progress", project._id, project.name);
+            // console.log("Delete project in progress", project._id, project.name);
 
             try {
                 await deleteProject(project._id); // Wait for deletion to complete
-                console.log("Project deleted successfully.");
+                // console.log("Project deleted successfully.");
                 props.fetch(); // Fetch new data only if deletion was successful
             } catch (error) {
                 console.error("Error deleting project:", error);

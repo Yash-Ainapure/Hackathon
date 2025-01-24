@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import { IoLogInOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+const BACKEND_URL = import.meta.env.VITE_API_URL;
 
 
 //Modal State
@@ -34,7 +35,7 @@ function Navbar(props) {
   const onManageAccountClick = async () => {
     const userId = localStorage.getItem("userid");
     try {
-      const response = await fetch('http://localhost:3000/api/auth/fetch-user', {
+      const response = await fetch(`${BACKEND_URL}/api/auth/fetch-user`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -43,9 +44,9 @@ function Navbar(props) {
       });
       if (!response.ok) throw new Error('Network response was not ok');
       const data = await response.json();
-      console.log('User data:', data);
+      // console.log('User data:', data);
       setProfileModal(false);
-      console.log('User data before navigating:', data);
+      // console.log('User data before navigating:', data);
       navigate('/manageaccount', { state: { user: data } });
     } catch (error) {
       console.error('Failed to load user data:', error);
@@ -80,9 +81,9 @@ function Navbar(props) {
     };
 
     try {
-      console.log(user._id)
-      const response = await axios.post('http://localhost:3000/api/projects/createproject', projectData);
-      console.log('Project saved successfully:', response.data);
+      // console.log(user._id)
+      const response = await axios.post(`${BACKEND_URL}/api/projects/createproject`, projectData);
+      // console.log('Project saved successfully:', response.data);
       props.fetch();
       closeModal();
 

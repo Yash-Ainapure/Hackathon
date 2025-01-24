@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-
+const BACKEND_URL = import.meta.env.VITE_API_URL;
 const useAuth = () => {
   const navigate = useNavigate();
   const hasRedirectedRef = useRef(false);
@@ -8,7 +8,7 @@ const useAuth = () => {
   useEffect(() => {
     const validateToken = async () => {
       const token = localStorage.getItem("auth-token");
-      console.log('Token from useAuth:', token);
+      // console.log('Token from useAuth:', token);
       
       if (!token && !hasRedirectedRef.current) {
         alert("Sorry! You need to login first.");
@@ -19,7 +19,7 @@ const useAuth = () => {
 
       try {
         const response = await fetch(
-          "http://localhost:3000/api/auth/validate-token",
+          `${BACKEND_URL}/api/auth/validate-token`,
           {
             method: "GET",
             headers: {
@@ -28,7 +28,7 @@ const useAuth = () => {
           }
         );
       
-        console.log('Response status:', response.status); // Add this line to debug
+        // console.log('Response status:', response.status); // Add this line to debug
       
         if (response.status === 401) {
           alert("Session expired. Please log in again.");

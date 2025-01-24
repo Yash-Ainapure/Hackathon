@@ -39,7 +39,7 @@ const VideoStream = () => {
 
   const joinStream = async () => {
     try {
-      console.log(CHANNEL);
+      // console.log(CHANNEL);
       
       const UID = await clientRef.current.join(APP_ID, CHANNEL, TOKEN, null);
       localTracksRef.current = await AgoraRTC.createMicrophoneAndCameraTracks();

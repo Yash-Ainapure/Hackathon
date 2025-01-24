@@ -9,6 +9,7 @@ import CancelIcon from '@mui/icons-material/Close';
 import { useProject } from './ProjectContext';
 import '.././App.css'
 import axios from 'axios';
+const BACKEND_URL = import.meta.env.VITE_API_URL;
 
 import {
   GridRowModes,
@@ -204,10 +205,10 @@ export default function Teams() {
 
   const fetchProjectMembers = async () => {
     try {
-      const response = await axios.post('http://localhost:3000/api/projects/fetchProjectMembers', {
+      const response = await axios.post(`${BACKEND_URL}/api/projects/fetchProjectMembers`, {
         projectId: project._id,
       });
-      console.log("bis Project Members:", response.data);
+      // console.log("bis Project Members:", response.data);
       setProjectMembers(response.data);
     } catch (error) {
       console.error("Error fetching project members:", error);
@@ -225,7 +226,7 @@ export default function Teams() {
     // Only proceed with the API call if there's at least one email
     if (emails.length === 0) return; // Stops execution if emails array is empty
 
-    console.log("Data received:", emails, " ", role);
+    // console.log("Data received:", emails, " ", role);
 
     const userObject = localStorage.getItem('user-object');
     if (!userObject) {
@@ -246,10 +247,10 @@ export default function Teams() {
     };
 
     try {
-      const response = await axios.post('http://localhost:3000/api/projects/add-members', data);
-      console.log(response);
+      const response = await axios.post(`${BACKEND_URL}/api/projects/add-members`, data);
+      // console.log(response);
       if (response.status === 200) {
-        console.log('Members added successfully', response.data);
+        // console.log('Members added successfully', response.data);
         setEmails([]); // Clear emails after adding
         setInputValue(''); // Clear input
         closeModal();

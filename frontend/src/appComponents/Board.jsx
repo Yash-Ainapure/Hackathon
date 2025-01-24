@@ -4,6 +4,7 @@ import { useProject } from './ProjectContext';
 import axios from 'axios';
 import addTaskIcon from '../assets/addTask.svg';
 import { v4 as uuidv4 } from 'uuid';
+const BACKEND_URL = import.meta.env.VITE_API_URL;
 const initialLists = {
    Todo: [],
    InProgress: [],
@@ -27,7 +28,7 @@ const Board = () => {
             Done: project.completed,
          });
       }
-      console.log("Project:", project);
+      // console.log("Project:", project);
    }, [project]);
 
    const handleDragStart = (item, listKey) => {
@@ -133,28 +134,34 @@ const Board = () => {
 
    const updateProjectData = async (updatedLists) => {
       const newProject = {
-         ...project,
-         toDO: updatedLists.Todo,
-         inProgress: updatedLists.InProgress,
-         completed: updatedLists.Done,
+          ...project,
+          toDO: updatedLists.Todo,
+          inProgress: updatedLists.InProgress,
+          completed: updatedLists.Done,
       };
-
-      setProject(newProject);
-      localStorage.setItem(project._id, JSON.stringify(newProject));
-
-      // API call to update task status on the server
+  
+      // Update the context and local storage
+      const updateStateAndStorage = () => {
+          setProject(newProject);
+          localStorage.setItem(project._id, JSON.stringify(newProject));
+         //  console.log("Project data updated successfully");
+      };
+  
+      // API call to update the task status on the server
       try {
-         await axios.post('http://localhost:3000/api/tasks/updateTaskStatus', {
-            projectId: project._id,
-            toDO: updatedLists.Todo,
-            inProgress: updatedLists.InProgress,
-            completed: updatedLists.Done,
-         });
-         console.log("Task status updated successfully");
+          await axios.post(`${BACKEND_URL}/api/tasks/updateTaskStatus`, {
+              projectId: project._id,
+              toDO: updatedLists.Todo,
+              inProgress: updatedLists.InProgress,
+              completed: updatedLists.Done,
+          });
+          console.log("Task status updated successfully");
+          updateStateAndStorage(); // Only update state after the API call
       } catch (error) {
-         console.error("Error updating task status:", error);
+          console.error("Error updating task status:", error);
       }
-   };
+  };
+  
 
    return (
       <div className="flex flex-col min-h-screen p-4 space-x-4 justify-top">

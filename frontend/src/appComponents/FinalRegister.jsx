@@ -1,22 +1,22 @@
 import React,{useState}from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+const BACKEND_URL = import.meta.env.VITE_API_URL;
 export default function FinalRegister(props) {
   const navigate = useNavigate();
     
     const [password,setpassword] = useState("");
     const [fullname,setFullName] = useState("");
     const registerUser = ()=>{
-      console.log("inside register user");
+      // console.log("inside register user");
         
-      axios.post('http://localhost:3000/api/auth/register', {
+      axios.post(`${BACKEND_URL}/api/auth/register`, {
           email: props.emailId,
           name:fullname,
           password:password
       })
       .then(response => {
-          console.log('User registered successfully:', response.data);
+          // console.log('User registered successfully:', response.data);
           navigate('/');
       })
       .catch(error => {

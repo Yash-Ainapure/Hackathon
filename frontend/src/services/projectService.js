@@ -1,6 +1,8 @@
+const BACKEND_URL = import.meta.env.VITE_API_URL;
+
 export const getProjectsForUser = async (userId) => {
     try {
-      const userProjectsResponse = await fetch(`http://localhost:3000/api/projects/${userId}`);
+      const userProjectsResponse = await fetch(`${BACKEND_URL}/api/projects/${userId}`);
       if (!userProjectsResponse.ok) {
         throw new Error("Failed to fetch project IDs");
       }
@@ -16,7 +18,7 @@ export const getProjectsForUser = async (userId) => {
   
       for (const projectId of projectIds) {
         try {
-          const res = await fetch(`http://localhost:3000/api/projects/fetchProjects/${projectId}`);
+          const res = await fetch(`${BACKEND_URL}/api/projects/fetchProjects/${projectId}`);
   
           // Check content type
           const contentType = res.headers.get("content-type");
@@ -44,7 +46,7 @@ export const getProjectsForUser = async (userId) => {
         }
       }
   
-      console.log("Fetched projects:", projects);
+      // console.log("Fetched projects:", projects);
   
       return projects;
     } catch (error) {

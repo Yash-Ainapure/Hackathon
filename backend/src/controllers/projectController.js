@@ -4,7 +4,7 @@ const sendEmail = require("../utils/emailService");
 
 // Create a new project
 const createProject = async (req, res) => {
-  console.log(req);
+  // console.log(req);
   const {
     name,
     owner,
@@ -167,7 +167,7 @@ const fetchProjectMembers2 = async (req, res) => {
     const project = await Project.findById(id)
       .populate("projectMembers")
       .populate("projectAdmins"); // Use populate to get the members and admins in a single query
-    console.log("PrOjEcT :- ", project);
+    // console.log("Project :- ", project);
 
     if (!project) {
       return res.status(404).json({ message: "Project not found" });
@@ -256,7 +256,7 @@ const getProjectByUserId = async (req, res) => {
 const addMembersToProject = async (req, res) => {
   try {
     const { projectId, members, owner } = req.body;
-    console.log("Received Data:", projectId, members);
+    // console.log("Received Data:", projectId, members);
 
     if (!projectId || !members || !members.email || !members.role) {
       return res

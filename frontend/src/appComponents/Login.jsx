@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setUserObj } from '../state/action';
 import { useSelector } from "react-redux";
-
+const BACKEND_URL = import.meta.env.VITE_API_URL;
 function Login(props) {
 
   const dispatch = useDispatch();
@@ -15,14 +15,14 @@ function Login(props) {
     props.type("Signup");
   }
   const login = () => {
-    axios.post('http://localhost:3000/api/auth/login', {
+    axios.post(`${BACKEND_URL}/api/auth/login`, {
       email: email,
       password: password,
     })
       .then(response => {
         // console.log('Loged In', response.data);
         localStorage.setItem('auth-token', response.data.token);
-        console.log('Added token into storage after login', localStorage.getItem('auth-token'));
+        // console.log('Added token into storage after login', localStorage.getItem('auth-token'));
 
         // console.log(response.data.user);
         dispatch(setUserObj(response.data.user));

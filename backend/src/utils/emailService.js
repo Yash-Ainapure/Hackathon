@@ -17,7 +17,7 @@ const sendEmail = async (to, purpose, data) => {
   let mailOptions = {}; // Use `let` instead of `const` for reassignment
 
   if (purpose === "register") {
-    console.log("Sending OTP for registration");
+    // console.log("Sending OTP for registration");
     mailOptions = {
       from: "colab.undefined@gmail.com",
       to,
@@ -42,7 +42,7 @@ const sendEmail = async (to, purpose, data) => {
       `,
     };
   } else if (purpose === "addMember") {
-    console.log("Sending email to add member");
+    // console.log("Sending email to add member");
     const { owner, member, role } = data;
 
     mailOptions = {
@@ -80,7 +80,7 @@ const sendEmail = async (to, purpose, data) => {
 
   try {
     await transporter.sendMail(mailOptions);
-    console.log("Email sent successfully");
+    // console.log("Email sent successfully");
 
     // Return a response object with a success message and the generated OTP if applicable
     return {

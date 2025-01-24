@@ -3,6 +3,8 @@ import React from 'react'
 import { useState } from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+const BACKEND_URL = import.meta.env.VITE_API_URL;
+
 function SignUp(props) {
 
     const [emailValue, setEmailValue] = useState('');
@@ -28,7 +30,7 @@ function SignUp(props) {
     
 
     const change = () => {
-        console.log("s");
+        // console.log("s");
         props.type("Login");
 
     }
@@ -36,14 +38,14 @@ function SignUp(props) {
     const sendEmail = () => {
         console.log("sending mail ");
         
-        axios.post('http://localhost:3000/api/sendMail', {
+        axios.post(`${BACKEND_URL}/api/sendMail`, {
             email: emailValue,
             purpose: 'register',
             data: {}
         })
         .then(response => {
             console.log('Email sent successfully:', response.data);
-            console.log(props.type)
+            // console.log(props.type)
             navigate('/register', { state: { emailId:emailValue,generatedOtp: response.data.otp.otp }});
         })
         .catch(error => {

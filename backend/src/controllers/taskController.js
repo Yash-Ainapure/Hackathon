@@ -121,31 +121,31 @@ const getAllTasks = async (req, res) => {
     const inProgressIds = project.inProgress;
     const completedIds = project.completed;
 
-    console.log("Project found with task IDs:", {
-      toDOIds,
-      inProgressIds,
-      completedIds,
-    });
+    // console.log("Project found with task IDs:", {
+    //   toDOIds,
+    //   inProgressIds,
+    //   completedIds,
+    // });
 
     const taskQueries = [];
 
     if (toDOIds && toDOIds.length > 0) {
-      console.log(`Finding tasks with IDs: ${toDOIds}`);
+      // console.log(`Finding tasks with IDs: ${toDOIds}`);
       taskQueries.push(await Task.find({ _id: { $in: toDOIds } }).exec());
-      console.log(taskQueries);
+      // console.log(taskQueries);
     } else {
       taskQueries.push(Promise.resolve([]));
     }
 
     if (inProgressIds && inProgressIds.length > 0) {
-      console.log(`Finding tasks with IDs: ${inProgressIds}`);
+      // console.log(`Finding tasks with IDs: ${inProgressIds}`);
       taskQueries.push(Task.find({ _id: { $in: inProgressIds } }).json());
     } else {
       taskQueries.push(Promise.resolve([]));
     }
 
     if (completedIds && completedIds.length > 0) {
-      console.log(`Finding tasks with IDs: ${completedIds}`);
+      // console.log(`Finding tasks with IDs: ${completedIds}`);
       taskQueries.push(Task.find({ _id: { $in: completedIds } }).exec());
     } else {
       taskQueries.push(Promise.resolve([]));
@@ -156,11 +156,11 @@ const getAllTasks = async (req, res) => {
       taskQueries
     );
 
-    console.log("Tasks retrieved:", {
-      toDOTasks,
-      inProgressTasks,
-      completedTasks,
-    });
+    // console.log("Tasks retrieved:", {
+    //   toDOTasks,
+    //   inProgressTasks,
+    //   completedTasks,
+    // });
 
     // Return the tasks grouped by status
     res.status(200).json({
@@ -177,7 +177,7 @@ const getAllTasks = async (req, res) => {
 // TODO: Whether the task name should be added or task ids is to be checked
 const updateTaskStatus = async (req, res) => {
   const { projectId, toDO, inProgress, completed } = req.body;
-  console.log("Recieved data:",toDO, inProgress, completed);
+  // console.log("Recieved data:",toDO, inProgress, completed);
   // Simple validation for required fields
   if (!projectId || !Array.isArray(toDO) || !Array.isArray(inProgress) || !Array.isArray(completed)) {
     return res.status(400).json({ error: "Invalid input data" });

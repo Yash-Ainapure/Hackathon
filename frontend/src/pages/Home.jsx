@@ -30,7 +30,7 @@ export default function Home() {
   const fetchProjects = async () => {
     try {
       const uid = localStorage.getItem("userid");
-      console.log("Fetching projects for user ID:", uid);
+      // console.log("Fetching projects for user ID:", uid);
 
       // Await the promise returned by getProjectsForUser
       const projects = await getProjectsForUser(uid);

@@ -5,6 +5,7 @@ import Paper from '@mui/material/Paper';
 import { useProject } from './ProjectContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+const BACKEND_URL = import.meta.env.VITE_API_URL;
 
 const TaskList = () => {
   const { project, setProject } = useProject();
@@ -21,7 +22,7 @@ const TaskList = () => {
       ];
       setProjectTasks(allTasks);
     }
-console.log("Outer Updated Project Object:",project);
+// console.log("Outer Updated Project Object:",project);
 
   }, [project]);
 
@@ -146,7 +147,7 @@ console.log("Outer Updated Project Object:",project);
     // Find the index of the task being updated
     const taskIndex = updatedTasks.findIndex(task => task.taskid === originalRow.taskid);
 
-    console.log("index=", taskIndex, "originalRow=", originalRow, "updatedRow=", updatedRow);
+    // console.log("index=", taskIndex, "originalRow=", originalRow, "updatedRow=", updatedRow);
 
     if (taskIndex !== -1) {
         // Update the task with the new data from `updatedRow`
@@ -162,9 +163,9 @@ console.log("Outer Updated Project Object:",project);
 
         // Update `projectTasks` state
         setProjectTasks(updatedTasks);
-        console.log("Updated Project Tasks:", updatedTasks);
-        console.log("Before Updated Project Object:", project);
-        console.log("task which is updated",updatedTasks[taskIndex].taskid );
+        // console.log("Updated Project Tasks:", updatedTasks);
+        // console.log("Before Updated Project Object:", project);
+        // console.log("task which is updated",updatedTasks[taskIndex].taskid );
 
         // Now reconstruct the project object by categorizing tasks into their respective arrays
         const updatedProject = {
@@ -176,21 +177,21 @@ console.log("Outer Updated Project Object:",project);
     
         };
 
-        console.log("Updated Project Object:", updatedProject);
+        // console.log("Updated Project Object:", updatedProject);
 
         // Set the updated project in the context to trigger localStorage update
         await setProject(updatedProject);
         localStorage.setItem(project._id, JSON.stringify(updatedProject));
-        console.log("Updated Project Object:", updatedProject);
+        // console.log("Updated Project Object:", updatedProject);
       // API call to update task status on the server
           try {
-            await axios.post('http://localhost:3000/api/tasks/updateTaskStatus', {
+            await axios.post(`${BACKEND_URL}/api/tasks/updateTaskStatus`, {
                 projectId: project._id,
                 toDO: updatedProject.toDO,
                 inProgress: updatedProject.inProgress,
                 completed: updatedProject.completed,
             });
-            console.log("Task DATA updated successfully");
+            // console.log("Task DATA updated successfully");
           } catch (error) {
             console.error("Error updating task data:", error);
           }
@@ -213,7 +214,7 @@ const [projectMembers, setProjectMembers] = useState([]);
 
 const fetchOnlineMembers = async () => {
   try {
-    const response = await axios.post('http://localhost:3000/api/projects/fetchProjectMembers', {
+    const response = await axios.post(`${BACKEND_URL}/api/projects/fetchProjectMembers`, {
       projectId: project._id,
     });
     // console.log("Project Members:", response.data);

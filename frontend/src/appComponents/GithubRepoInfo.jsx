@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import GitHubCommits from './GitHubCommits';
 import { useProject } from './ProjectContext';
 import axios from 'axios';
+const BACKEND_URL = import.meta.env.VITE_API_URL;
+
 const GitHubRepoInfo = () => {
    const [commitMessages, setCommitMessages] = useState([]);
    const [loading, setLoading] = useState(true);
@@ -14,14 +16,14 @@ const GitHubRepoInfo = () => {
  
 
    const accessToken = import.meta.env.VITE_GITHUB_TOKEN;
-   const username = 'Yash-Ainapure'; // Replace with the GitHub username
+   const username = ''; // Replace with the GitHub username
    const { project,setProject} = useProject();
 
    // Load project members initially
    useEffect(() => {
          if (project) {
            fetchProjectMembers();
-           console.log(project.gitUsername , project.gitRepo);
+         //   console.log(project.gitUsername , project.gitRepo);
               if (project.gitUsername && project.gitRepo) {
                  setOwner(project.gitUsername);
                  setRepo(project.gitRepo);
@@ -44,7 +46,7 @@ const GitHubRepoInfo = () => {
             localStorage.setItem(project._id, JSON.stringify(newProject));
 
            try {
-             const response = await axios.post("http://localhost:3000/api/projects/github-update", {
+             const response = await axios.post(`${BACKEND_URL}/api/projects/github-update`, {
                projectId: project._id,
                githubInfo: {
                  gitUsername: owner,
@@ -53,7 +55,7 @@ const GitHubRepoInfo = () => {
              });
      
              if (response.status === 200) {
-               console.log("GitHub Info Linked Successfully:", response.data);
+               // console.log("GitHub Info Linked Successfully:", response.data);
                setIsLinked(true);
                alert("GitHub repository linked successfully!");
              } else {
@@ -82,7 +84,7 @@ const GitHubRepoInfo = () => {
             localStorage.setItem(project._id, JSON.stringify(newProject));
 
 
-           const response = await axios.post("http://localhost:3000/api/projects/github-update", {
+           const response = await axios.post(`${BACKEND_URL}/api/projects/github-update`, {
              projectId: project._id,
              githubInfo: {
                gitUsername: "",
@@ -91,7 +93,7 @@ const GitHubRepoInfo = () => {
            });
      
            if (response.status === 200) {
-             console.log("GitHub Info Unlinked Successfully:", response.data);
+            //  console.log("GitHub Info Unlinked Successfully:", response.data);
              setOwner("");
              setRepo("");
              setIsLinked(false);
@@ -123,11 +125,11 @@ const GitHubRepoInfo = () => {
    
    const fetchProjectMembers = async () => {
       try {
-        const response = await axios.post('http://localhost:3000/api/projects/fetchProjectMembers', {
+        const response = await axios.post(`${BACKEND_URL}/api/projects/fetchProjectMembers`, {
           projectId: project._id,
         });
 
-        console.log("bis Project Members:", response.data);
+      //   console.log("bis Project Members:", response.data);
         setProjectMembers(response.data);
       } catch (error) {
         console.error("Error fetching project members:", error);
@@ -170,7 +172,7 @@ const GitHubRepoInfo = () => {
             }
 
             const repos = await reposResponse.json();
-            console.log('Repositories:', repos); // Log repositories for debugging
+            // console.log('Repositories:', repos); // Log repositories for debugging
 
             // // Initialize an array to hold all commit messages
             const allCommitMessages = [];
@@ -188,7 +190,7 @@ const GitHubRepoInfo = () => {
                }
 
                const commits = await commitsResponse.json();
-               console.log(`Commits for ${repo.name}:`, commits); // Log commits for debugging
+               // console.log(`Commits for ${repo.name}:`, commits); // Log commits for debugging
 
                commits.forEach((commit) => {
                   allCommitMessages.push(commit.commit.message);

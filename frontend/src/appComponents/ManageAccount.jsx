@@ -3,6 +3,7 @@ import Navbar from "./Navbar";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+const BACKEND_URL = import.meta.env.VITE_API_URL;
 // require('dotenv').config();
 const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
 const CLOUDINARY_PRESET = import.meta.env.VITE_CLOUDINARY_PRESET;
@@ -76,11 +77,11 @@ const ManageAccount = () => {
 
          user.profilePic = profilePictureUrl;
 
-         const response = await axios.post('http://localhost:3000/api/auth/update-user', {
+         const response = await axios.post(`${BACKEND_URL}/api/auth/update-user`, {
             user
          });
 
-         console.log(response);
+         // console.log(response);
 
          if (response.status === 200) {
             setUser((prevUser) => ({

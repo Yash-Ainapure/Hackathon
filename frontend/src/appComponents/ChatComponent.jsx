@@ -73,6 +73,7 @@ import { StreamChat } from 'stream-chat';
 import axios from 'axios';
 import { Chat, Channel, MessageList, MessageInput } from 'stream-chat-react';
 import 'stream-chat-react/dist/css/v2/index.css';
+const BACKEND_URL = import.meta.env.VITE_API_URL;
 
 const ChatComponent = () => {
   const [client, setClient] = useState(null);
@@ -91,7 +92,7 @@ const ChatComponent = () => {
          await client.disconnectUser();
        }
        // Fetch token from backend
-       const response = await axios.post('http://localhost:3000/api/chat/generate-token', {
+       const response = await axios.post(BACKEND_URL+'/api/chat/generate-token', {
          userId: user._id,
          userName: user.name,
        });
@@ -107,18 +108,18 @@ const ChatComponent = () => {
        setClient(chatClient);
  
        // Fetch project members
-       const projectResponse = await axios.get(`http://localhost:3000/api/projects/${projectId}/members`);
+       const projectResponse = await axios.get(`${BACKEND_URL}/api/projects/${projectId}/members`);
        
        
        const members = [...projectResponse.data.members.map(member => member._id)];  // Create members list
-       console.log('** Project Members : ',projectResponse);
+      //  console.log('** Project Members : ',projectResponse);
        // Create channel with project members
-       const responseChannel = await axios.post('http://localhost:3000/api/chat/create-channel', {
+       const responseChannel = await axios.post(BACKEND_URL+'/api/chat/create-channel', {
          userId: user._id,
          projectId: projectId,
          members, // Send members list (including the current user)
        });
-       console.log('Response.Data :- ',responseChannel);
+      //  console.log('Response.Data :- ',responseChannel);
        
        const { channelId } = responseChannel.data;
  

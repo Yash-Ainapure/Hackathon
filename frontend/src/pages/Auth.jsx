@@ -20,7 +20,7 @@ function Auth() {
   const [authType, setAuthType] = useState("Login");
 
   useEffect(() => {
-    console.log("changed");
+    // console.log("changed");
 
   }, [authType])
 

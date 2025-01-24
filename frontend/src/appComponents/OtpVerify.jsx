@@ -4,7 +4,7 @@ export default function OtpVerify(props) {
     const [otp,setotp] = useState("");
     
     const checkOtp = ()=>{
-        console.log(otp);
+        // console.log(otp);
         if (props.generatedOtp == otp){
             return  props.check(true)
         }

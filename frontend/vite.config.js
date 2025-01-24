@@ -3,8 +3,11 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
+  resolve: {
+    extensions: ['.js', '.jsx'],
+  },
   build: {
-    sourcemap: false, // Disable source maps for production
     outDir: 'dist',
+    sourcemap: false,
   },
 });

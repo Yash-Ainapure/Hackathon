@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import GitHubCommits from './GitHubCommits';
+import GitHubCommits from './GitHubCommits.jsx';
 import { useProject } from './ProjectContext';
 import axios from 'axios';
 const BACKEND_URL = import.meta.env.VITE_API_URL;

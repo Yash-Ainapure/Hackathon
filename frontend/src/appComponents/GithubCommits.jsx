@@ -1,6 +1,6 @@
 // GitHubActivity.jsx
 import React, { useEffect, useState } from 'react';
-import GitHubHeatMap from './GitHubHeatMap';
+import GitHubHeatMap from './GitHubHeatMap.jsx';
 
 const GitHubActivity = ({ owner, repo }) => {
     const [activeTab, setActiveTab] = useState('commits');

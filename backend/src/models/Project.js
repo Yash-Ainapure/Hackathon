@@ -61,12 +61,10 @@ const ProjectSchema = new Schema({
   },
   gitUsername: {
     type: String,
-    unique: true,
     default: "",
   },
   gitRepo: {
     type: String,
-    unique: true,
     default: "",
   },
 });

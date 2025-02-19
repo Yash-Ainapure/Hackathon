@@ -132,9 +132,10 @@ const ChatComponent = () => {
        console.error('Error initializing Stream Chat:', error);
      }
    };
- 
+   
+
    initStreamChat();
- 
+   
    return () => {
       if (client) {
         client.disconnectUser();  // Disconnect user when leaving or logging out
@@ -142,9 +143,23 @@ const ChatComponent = () => {
     };
  }, [user._id, projectId]);  // Removed projectMembers from dependencies
   // Added dependencies for re-fetching members
-
+  // useEffect(() => {
+  //   const chatContainer = document.querySelector(".str-chat__container");
+  //   const chatContainer2 = document.querySelector(".str-chat__channel");
+  //   if (chatContainer) {
+  //     chatContainer.style.display = "block";
+  //     chatContainer2.style.display = "block";
+  //   }
+  // }, []);
+  
   return client ? (
+
+    
     <Chat client={client} theme="messaging light">
+      <button id='fix-o' className="p-2 px-4 m-2 bg-blue-700 text-white rounded-2xl font-bold" onClick={() => {
+      document.querySelector('.str-chat__container').style.display = "block";
+      document.querySelector('.str-chat__container').style.height = "80vh";
+    }}>Orientation</button>
       {channel && (
         <Channel channel={channel}>
           <MessageList />

@@ -142,24 +142,26 @@ const ChatComponent = () => {
       }
     };
  }, [user._id, projectId]);  // Removed projectMembers from dependencies
-  // Added dependencies for re-fetching members
-  // useEffect(() => {
-  //   const chatContainer = document.querySelector(".str-chat__container");
-  //   const chatContainer2 = document.querySelector(".str-chat__channel");
-  //   if (chatContainer) {
-  //     chatContainer.style.display = "block";
-  //     chatContainer2.style.display = "block";
-  //   }
-  // }, []);
-  
+ 
+  useEffect(() => {
+    if (channel) {
+      setTimeout(() => {
+        const chatContainer = document.querySelector('.str-chat__container');
+        if (chatContainer) {
+          chatContainer.style.display = "block";
+          chatContainer.style.height = "80vh";
+        }
+      }, 500); // Delay to ensure chat fully loads
+    }
+  }, [channel]);
   return client ? (
 
     
     <Chat client={client} theme="messaging light">
-      <button id='fix-o' className="p-2 px-4 m-2 bg-blue-700 text-white rounded-2xl font-bold" onClick={() => {
+      {/* <button id='fix-o' className="p-2 px-4 m-2 bg-blue-700 text-white rounded-2xl font-bold" onClick={() => {
       document.querySelector('.str-chat__container').style.display = "block";
       document.querySelector('.str-chat__container').style.height = "80vh";
-    }}>Orientation</button>
+    }}>Orientation</button> */}
       {channel && (
         <Channel channel={channel}>
           <MessageList />

@@ -11,6 +11,7 @@ import MicOffIcon from '@mui/icons-material/MicOff';
 import VideocamIcon from '@mui/icons-material/Videocam';
 import VideocamOffIcon from '@mui/icons-material/VideocamOff';
 import CallEndIcon from '@mui/icons-material/CallEnd';
+import inDev from '../assets/Indev1.png';
 import VideoCallIcon from '@mui/icons-material/VideoCall';
 import { useProject } from '../appComponents/ProjectContext';
 const APP_ID = import.meta.env.VITE_APP_ID;
@@ -108,32 +109,33 @@ const VideoStream = () => {
     }
   };
 
-  const toggleCamera = async () => {
-    const videoTrack = localTracksRef.current[1];
-    if (videoTrack.muted) {
-      await videoTrack.setMuted(false);
-      setIsCameraOn(true);
-    } else {
-      await videoTrack.setMuted(true);
-      setIsCameraOn(false);
-    }
-  };
+  // const toggleCamera = async () => {
+  //   const videoTrack = localTracksRef.current[1];
+  //   if (videoTrack.muted) {
+  //     await videoTrack.setMuted(false);
+  //     setIsCameraOn(true);
+  //   } else {
+  //     await videoTrack.setMuted(true);
+  //     setIsCameraOn(false);
+  //   }
+  // };
 
   return (
     <div className='p-10'>
       <div className='flex items-center'>
-            <p
-               className='py-2 px-1 font-semibold cursor-pointer hover:underline'
-               onClick={() => navigate('/home')}
-            >
-               Projects
-            </p>
-            <p className='py-2 px-1'>/</p>
-            <p className='py-2 px-1 font-semibold'>{project ? project.name : "Loading..."}</p>
-
-         </div>
-      <div className='flex flex-col items-center justify-center h-[65vh] '>
-      <h1 className='text-3xl font-semibold mt-5'>Coming Soon...</h1>
+        <p
+           className='py-2 px-1 font-semibold cursor-pointer hover:underline'
+           onClick={() => navigate('/home')}
+        >
+           Projects
+        </p>
+        <p className='py-2 px-1'>/</p>
+        <p className='py-2 px-1 font-semibold'>{project ? project.name : "Loading..."}</p>
+       </div>
+      <div className='flex flex-col items-center justify-center h-[80vh] '>
+          <img src={inDev} alt='coming-soon' className='h-[400px]' />
+          <h1 className='text-3xl font-semibold mt-5'>This feature is under development</h1>
+          <p className='text-lg mt-2'>We are working hard to bring this feature to you soon. Stay tuned!</p>
       </div>
       {/* <button id="join-btn" onClick={joinStream} disabled={isJoined} className="px-3 py-2 bg-purple-500 rounded-md hover:bg-purple-700 text-white mx-5">
         <VideoCallIcon  fontSize="large" />

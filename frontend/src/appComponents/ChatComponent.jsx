@@ -142,28 +142,37 @@ const ChatComponent = () => {
       }
     };
  }, [user._id, projectId]);  // Removed projectMembers from dependencies
- 
-  useEffect(() => {
-    if (channel) {
-      setTimeout(() => {
-        const chatContainer = document.querySelector('.str-chat__container');
-        if (chatContainer) {
-          chatContainer.style.display = "block";
-          chatContainer.style.height = "80vh";
-        }
-      }, 500); // Delay to ensure chat fully loads
-    }
-  }, [channel]);
+
+ useEffect(() => {
+  if (channel) {
+    setTimeout(() => {
+      const chatContainer = document.querySelector('.str-chat__container');
+      if (chatContainer) {
+        chatContainer.style.display = "block";
+        chatContainer.style.height = "80vh";
+        chatContainer.style.opacity = "0"; // Start with 0 opacity
+        // Slightly smaller
+
+        // Trigger animation with transition
+        setTimeout(() => {
+          chatContainer.style.transition = "opacity 0.5s ease-out, transform 0.5s ease-out";
+          chatContainer.style.opacity = "1";
+        }, 50);
+      }
+    }, 500); // Delay to ensure chat fully loads
+  }
+}, [channel]);
+
   return client ? (
 
     
-    <Chat client={client} theme="messaging light">
+    <Chat client={client} theme="messaging light" >
       {/* <button id='fix-o' className="p-2 px-4 m-2 bg-blue-700 text-white rounded-2xl font-bold" onClick={() => {
       document.querySelector('.str-chat__container').style.display = "block";
       document.querySelector('.str-chat__container').style.height = "80vh";
     }}>Orientation</button> */}
       {channel && (
-        <Channel channel={channel}>
+        <Channel channel={channel} >
           <MessageList />
           <MessageInput />
         </Channel>

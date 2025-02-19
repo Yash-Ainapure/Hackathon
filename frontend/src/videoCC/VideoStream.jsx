@@ -132,7 +132,10 @@ const VideoStream = () => {
             <p className='py-2 px-1 font-semibold'>{project ? project.name : "Loading..."}</p>
 
          </div>
-      <button id="join-btn" onClick={joinStream} disabled={isJoined} className="px-3 py-2 bg-purple-500 rounded-md hover:bg-purple-700 text-white mx-5">
+      <div className='flex flex-col items-center justify-center h-[65vh] '>
+      <h1 className='text-3xl font-semibold mt-5'>Coming Soon...</h1>
+      </div>
+      {/* <button id="join-btn" onClick={joinStream} disabled={isJoined} className="px-3 py-2 bg-purple-500 rounded-md hover:bg-purple-700 text-white mx-5">
         <VideoCallIcon  fontSize="large" />
         <p className='text-sm mt-2 font-medium'>Join Stream</p>
       </button>
@@ -165,7 +168,7 @@ const VideoStream = () => {
             </div>
           </div>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };

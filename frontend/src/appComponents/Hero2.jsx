@@ -5,20 +5,20 @@ import Ilustration2 from '../assets/illustration_2.jpg'
 import Ilustration3 from '../assets/illustration_3.jpg'
 function Hero2() {
     return (
-        <div className='mt-[100px] px-40 m-5 '>
-            <div className='flex items-center overflow-hidden text-xl text-white bg-white border-2 bg-gradient-to-br from-blue-800 to-purple-900 rounded-xl'>
-                <p className='px-8 text-md'>Welcome to CoLab , your ultimate platform for seamless remote project collaboration. Whether youre a small team or a large enterprise, our platform is designed to enhance productivity and streamline communication across all stages of your projects.
+        <div className='mt-[100px] px-4 md:px-40 m-5'>
+            <div className=' flex flex-col md:flex-row items-center overflow-hidden text-xl text-white bg-white border-2 bg-gradient-to-br from-blue-800 to-purple-900 rounded-xl'>
+                <p className='px-4 p-4 md:px-8 text-md'>Welcome to CoLab, your ultimate platform for seamless remote project collaboration. Whether you're a small team or a large enterprise, our platform is designed to enhance productivity and streamline communication across all stages of your projects.
                 </p>
-                <img src={Ilustration} className='w-[500px] max-h-[350px] rounded-r-md' alt="" />
+                <img src={Ilustration} className='w-full md:w-[500px] max-h-[350px] rounded-b-md' alt="" />
             </div>
 
-            <div className="flex items-center gap-6 p-6 my-8 overflow-hidden bg-white border-2 rounded-xl">
+            <div className="flex flex-col md:flex-row items-center gap-6 my-8 overflow-hidden bg-white border-2">
                 <img
                     src={Ilustration3}
-                    className="w-[500px] rounded-md object-cover"
+                    className="w-full md:w-[500px] rounded-md object-cover"
                     alt="Illustration"
                 />
-                <div className="px-6 text-md space-y-4">
+                <div className="p-4 md:px-6 text-md space-y-4">
                     <p className="text-xl font-bold mb-4">Features:</p>
                     <ul className="space-y-3">
                         <li>
@@ -43,9 +43,8 @@ function Hero2() {
                 </div>
             </div>
 
-
-            <div className='flex items-center overflow-hidden text-white bg-white border bg-gradient-to-br from-blue-800 to-purple-900 rounded-xl'>
-                <div className="px-6 text-md space-y-4">
+            <div className='flex flex-col md:flex-row items-center overflow-hidden text-white bg-white border bg-gradient-to-br from-blue-800 to-purple-900 rounded-xl'>
+                <div className="px-4 py-4 md:px-6 text-md space-y-4">
                     <h1 className="text-lg font-bold mb-2">Why Choose Us:</h1>
                     <ul className="space-y-3">
                         <li>
@@ -62,7 +61,7 @@ function Hero2() {
                         </li>
                     </ul>
                 </div>
-                <img src={Ilustration2} className='w-[500px] rounded-r-md' alt="" />
+                <img src={Ilustration2} className='w-full md:w-[500px] rounded-b-md ' alt="" />
             </div>
         </div>
     )

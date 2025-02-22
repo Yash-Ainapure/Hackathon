@@ -26,8 +26,8 @@ function Auth() {
 
 
   return (
-    <div className='flex flex-col justify-center max-w-full ' >
-      <div className='px-4 py-4 pl-20 border'>
+    <div className='flex flex-col justify-center max-w-screen ' >
+      <div className='px-4 py-1 pt-2 border flex justify-center items-center flex-col'>
         <img src="" alt="" />
         {/* <h1 className='text-3xl font-bold '>CoLab</h1> */}
         <HyperText
@@ -36,7 +36,7 @@ function Auth() {
         />
 
       </div>
-      <div className='flex items-center justify-around gap-4 ' id='get-started'>
+      <div className='flex w-full flex-col md:flex-row items-center justify-center md:justify-around gap-4 ' id='get-started'>
         {
           (authType === "Login") ? <Login type={setAuthType} /> : <SignUp type={setAuthType} />
 

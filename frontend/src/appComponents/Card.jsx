@@ -157,7 +157,7 @@ export default function Card(props) {
             const response = await axios.delete(`${BACKEND_URL}/api/projects/delete-project`, {
                 data: { projectId: projectId }, // Add project ID or any required data
             });
-            // console.log('Project deleted:', response.data);
+            console.log('Project deleted:', response.data);
         } catch (error) {
             console.error('Error deleting project:', error);
         }
@@ -169,6 +169,7 @@ export default function Card(props) {
             // console.log("Delete project in progress", project._id, project.name);
 
             try {
+                console.log("Project Delete ID :- "+project._id)
                 await deleteProject(project._id); // Wait for deletion to complete
                 // console.log("Project deleted successfully.");
                 props.fetch(); // Fetch new data only if deletion was successful

@@ -18,8 +18,8 @@ export default function YourWork({ projects, searchQuery, fetch }) {
   );
 
   // Separate projects into "Your Projects" and "Shared Projects"
-  const yourProjects = filteredProjects.filter(project => project.ownerName === user.name);
-  const sharedProjects = filteredProjects.filter(project => project.ownerName !== user.name);
+  const yourProjects = filteredProjects.filter(project => project.owner === user._id);
+  const sharedProjects = filteredProjects.filter(project => project.owner !== user._id);
 
 const [projectName, setProjectName] = useState("");
   const [description, setDescription] = useState("");

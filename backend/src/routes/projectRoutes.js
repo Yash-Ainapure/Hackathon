@@ -10,7 +10,9 @@ const {
   fetchProjects,
   fetchProjectMembers2,
   updateGithubInfo,
-  deleteProject
+  deleteProject,
+  updateProject,
+  removeMemberFromProjectV2
 } = require("../controllers/projectController");
 
 // Middleware for token verification (not used here, but keep if needed)
@@ -33,6 +35,8 @@ router.delete("/remove-member", removeMemberFromProject);
 router.post("/add-members", addMembersToProject);
 router.post("/github-update", updateGithubInfo);
 router.delete('/delete-project', deleteProject)
+router.put('/update-project/:id',updateProject)
+router.post('/remove-member-v2',removeMemberFromProjectV2);
 
 module.exports = router;
  

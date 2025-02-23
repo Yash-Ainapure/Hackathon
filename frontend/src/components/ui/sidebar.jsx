@@ -143,6 +143,7 @@ export const SidebarLink = ({
           localStorage.removeItem('auth-token');
           localStorage.removeItem('user-token');
         }
+        setOpen(!open);
       }}
       {...props}
     >

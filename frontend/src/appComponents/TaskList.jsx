@@ -254,9 +254,9 @@ useEffect(() => {
 
 
   return (
-    <div className='flex flex-col px-20 justify-top '>
+    <div className='flex flex-col px-4 md:pr-20 justify-top'>
       <div>
-        <div className='py-5 flex items-center'>
+        <div className='py-2 border-b md:py-5 flex items-center flex-wrap'>
           <p
             className='py-2 px-1 font-semibold cursor-pointer hover:underline'
             onClick={() => navigate('/home')}
@@ -269,10 +269,10 @@ useEffect(() => {
       {/* <p>{JSON.stringify(project)}</p>   */}
       
 
-        <div className='p-2 text-xl font-semibold text-slate-900'>List</div>
+        <div className='p-2 text-lg md:text-xl font-semibold text-slate-900'>Task List</div>
         
       </div>
-      <div className='w-[100%]'>
+      <div className='w-full'>
         <Paper sx={{ height: '100%', width: '100%' }}>
         <DataGrid
             processRowUpdate={processRowUpdate}

@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator");
 const User = require("../models/User");
+const Project = require("../models/Project");
 
 // ? Register a new user
 const registerUser = async (req, res) => {
@@ -61,9 +62,10 @@ const fetchUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-    const { _id, name, email, jobInfo, profilePic ,firstName, lastName } = req.body.user;
+    const { _id, name, email, jobInfo, profilePic, firstName, lastName } = req.body.user;
     console.log(req.body);
-    const fullName = firstName +" "+lastName;
+    const fullName = firstName + " " + lastName;
+
     if (!_id) {
       return res.status(400).json({ error: "User ID is required" });
     }
@@ -74,12 +76,10 @@ const updateUser = async (req, res) => {
     }
 
     // Update user fields if provided
-    
-
-    user.name = (fullName!=" ")?fullName: name || user.name;
+    user.name = fullName.trim() ? fullName : name || user.name;
     user.email = email || user.email;
 
-    // Check if jobInfo is an object with a title property
+    // Update jobInfo if provided
     if (jobInfo && typeof jobInfo === "object" && jobInfo.title) {
       user.jobInfo = jobInfo.title;
     } else if (typeof jobInfo === "string") {
@@ -88,11 +88,27 @@ const updateUser = async (req, res) => {
 
     // Update the profilePic if provided
     if (profilePic) {
-      user.profilePic = profilePic; // Store the uploaded profile picture URL
+      user.profilePic = profilePic;
     }
 
     // Save the updated user
     await user.save();
+
+    // **Update Projects Collection**
+    await Project.updateMany(
+      { owner: _id },  // Find projects where the user is the owner
+      { $set: { ownerName: user.name } } // Update ownerName field
+    );
+
+    await Project.updateMany(
+      { projectAdmins: _id }, // Find projects where user is an admin
+      { $set: { "projectAdmins.$": _id } } // Update projectAdmins array
+    );
+
+    await Project.updateMany(
+      { projectMembers: _id }, // Find projects where user is a member
+      { $set: { "projectMembers.$": _id } } // Update projectMembers array
+    );
 
     res.status(200).json({ message: "User updated successfully", user });
   } catch (error) {
@@ -101,8 +117,11 @@ const updateUser = async (req, res) => {
   }
 };
 
+
 // ? Login user
 const loginUser = async (req, res) => {
+  console.log("Request Came");
+  
   const errors = validationResult(req);
   let success = false;
 

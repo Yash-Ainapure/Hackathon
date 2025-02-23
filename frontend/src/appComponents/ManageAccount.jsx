@@ -18,13 +18,7 @@ const ManageAccount = () => {
     firstName: "",
     lastName: "",
     email: "",
-    jobInfo: "",
-    address: {
-      street: "",
-      city: "",
-      region: "",
-      postalCode: "",
-    },
+    jobInfo: ""
   });
 
   const [preview, setPreview] = useState(null);
@@ -36,18 +30,10 @@ const ManageAccount = () => {
     setUser((prevUser) => ({
       ...prevUser,
       [name]: value,
+      
     }));
-  };
+    console.log(user)
 
-  const handleAddressChange = (e) => {
-    const { name, value } = e.target;
-    setUser((prevUser) => ({
-      ...prevUser,
-      address: {
-        ...prevUser.address,
-        [name]: value,
-      },
-    }));
   };
 
   const handleFileChange = (e) => {
@@ -105,6 +91,8 @@ const ManageAccount = () => {
 
   useEffect(() => {
     if (location.state?.user) {
+      user.firstName = location.state.user.name.split(" ")[0];
+      user.lastName = location.state.user.name.split(" ")[1];
       setUser((prevUser) => ({
         ...prevUser,
         ...location.state.user,
@@ -114,6 +102,7 @@ const ManageAccount = () => {
         },
       }));
     }
+    
   }, [location]);
 
   return (
@@ -123,14 +112,14 @@ const ManageAccount = () => {
       <div className="flex justify-center my-6 px-4 sm:px-6 lg:px-8">
         <form
           onSubmit={handleSubmit}
-          className="border-2 w-full max-w-2xl  shadow-xl p-6 sm:p-10 md:p-20 rounded-2xl"
+          className="border-2 w-full max-w-2xl  shadow-xl p-6 sm:p-10 md:p-10 rounded-2xl"
         >
           <div className="space-y-6">
-            <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-              <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+            
+              <h1 className="text-3xl  text-center font-bold tracking-tight text-gray-900">
                 Manage Account
               </h1>
-            </div>
+            
             <div className="border-b border-gray-900/10 pb-6">
               <h2 className="text-base font-semibold leading-7 text-gray-900">
                 Profile
@@ -159,7 +148,7 @@ const ManageAccount = () => {
                         type="text"
                         placeholder="yourname"
                         autoComplete="name"
-                        value={user.name}
+                        value={user.name.split(" ").join('_')}
                         readOnly={true}
                         onChange={handleChange}
                         className="block flex-1 border-0 cursor-not-allowed bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 focus:outline-none focus:ring-0"
@@ -297,75 +286,6 @@ const ManageAccount = () => {
                   <p className="mt-3 text-sm leading-6 text-gray-600">
                     Write a few sentences about your job profile.
                   </p>
-                </div>
-
-                <div className="col-span-full">
-                  <label
-                    htmlFor="street-address"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    Street address
-                  </label>
-                  <input
-                    id="street-address"
-                    name="street"
-                    type="text"
-                    autoComplete="street-address"
-                    value={user.address.street}
-                    onChange={handleAddressChange}
-                    className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none sm:text-sm sm:leading-6"
-                  />
-                </div>
-
-                <div className="sm:col-span-3">
-                  <label
-                    htmlFor="city"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    City
-                  </label>
-                  <input
-                    id="city"
-                    name="city"
-                    type="text"
-                    value={user.address.city}
-                    onChange={handleAddressChange}
-                    className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none sm:text-sm sm:leading-6"
-                  />
-                </div>
-
-                <div className="sm:col-span-3">
-                  <label
-                    htmlFor="region"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    Region
-                  </label>
-                  <input
-                    id="region"
-                    name="region"
-                    type="text"
-                    value={user.address.region}
-                    onChange={handleAddressChange}
-                    className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none sm:text-sm sm:leading-6"
-                  />
-                </div>
-
-                <div className="sm:col-span-3">
-                  <label
-                    htmlFor="postal-code"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    Postal code
-                  </label>
-                  <input
-                    id="postal-code"
-                    name="postalCode"
-                    type="text"
-                    value={user.address.postalCode}
-                    onChange={handleAddressChange}
-                    className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none sm:text-sm sm:leading-6"
-                  />
                 </div>
               </div>
             </div>

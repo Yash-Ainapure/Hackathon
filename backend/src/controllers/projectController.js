@@ -226,7 +226,35 @@ const updateGithubInfo = async (req, res) => {
 };
 
 
+const updateProject = async (req, res) => {
+  try {
+    const projectId = req.params.id;
+    console.log(projectId);
+    
+    const {name, projectDescription, startDate, endDate } = req.body;
 
+    if (!projectId) {
+      return res.status(400).json({ message: "Project ID is required" });
+    }
+
+    const project = await Project.findById(projectId);
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    if (name) project.name = name;
+    if (projectDescription) project.projectDescription = projectDescription;
+    if (startDate) project.startDate = startDate;
+    if (endDate) project.endDate = endDate;
+
+    await project.save();
+
+    res.status(200).json({ message: "Project updated successfully", project });
+  } catch (error) {
+    console.error("Error updating project:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
 
 
 // Get projects by user ID
@@ -363,6 +391,8 @@ const removeMemberFromProject = async (req, res) => {
 
 // ? Delete a project
 // ? Deletes the project id from all the member's collection who are part of the project then deletes the project
+const mongoose = require("mongoose");
+
 const deleteProject = async (req, res) => {
   try {
     const { projectId } = req.body;
@@ -370,29 +400,59 @@ const deleteProject = async (req, res) => {
       return res.status(400).json({ message: "Project ID is required" });
     }
 
-    const project = await Project.findById(projectId);
+    const objectId = new mongoose.Types.ObjectId(projectId); // Convert to ObjectId
+
+    const project = await Project.findById(objectId);
     if (!project) {
       return res.status(404).json({ message: "Project not found" });
     }
 
     const { projectMembers, projectAdmins } = project;
+    console.log("Admins:", projectAdmins);
+    console.log("Members:", projectMembers);
 
-    // Update each admin by removing the project ID
-    for (const admin of projectAdmins) {
-      await User.findByIdAndUpdate(admin, { $pull: { projects: projectId } });
-    }
+    // Remove projectId from admins and members in a single query
+    await User.updateMany({ _id: { $in: projectAdmins } }, { $pull: { projects: objectId } });
+    await User.updateMany({ _id: { $in: projectMembers } }, { $pull: { projects: objectId } });
 
-    // Update each member by removing the project ID
-    for (const member of projectMembers) {
-      await User.findByIdAndUpdate(member, { $pull: { projects: projectId } });
-    }
-
-    // Finally, delete the project itself
-    await Project.findByIdAndDelete(projectId);
+    // Delete the project
+    await Project.findByIdAndDelete(objectId);
 
     res.status(200).json({ message: "Project deleted successfully" });
   } catch (error) {
     console.error("Error deleting project:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+const removeMemberFromProjectV2 = async (req, res) => {
+  try {
+    const { projectId, email } = req.body;
+    if (!projectId || !email) {
+      return res.status(400).json({ message: "Project ID and email are required" });
+    }
+
+    const project = await Project.findById(projectId);
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    console.log(user)
+    project.projectMembers.pull(user._id);
+    project.projectAdmins.pull(user._id);
+    await project.save();
+    console.log(projectId)
+    const objectId = new mongoose.Types.ObjectId(projectId);
+    user.projects.pull(objectId);
+    await user.save();
+
+    res.status(200).json({ message: "Member removed successfully" });
+  } catch (error) {
+    console.error("Error removing member from project:", error);
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -402,9 +462,11 @@ module.exports = {
   getProjectByUserId,
   addMembersToProject,
   removeMemberFromProject,
+  removeMemberFromProjectV2,
   fetchProjectMembers,
   fetchProjects,
   deleteProject,
   fetchProjectMembers2,
   updateGithubInfo,
+  updateProject,
 };

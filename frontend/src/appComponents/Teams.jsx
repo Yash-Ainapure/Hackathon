@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/DeleteOutlined';
-import SaveIcon from '@mui/icons-material/Save';
-import CancelIcon from '@mui/icons-material/Close';
-import { useProject } from './ProjectContext';
-import '.././App.css'
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import SaveIcon from "@mui/icons-material/Save";
+import CancelIcon from "@mui/icons-material/Close";
+import { useProject } from "./ProjectContext";
+import ".././App.css";
+import axios from "axios";
 const BACKEND_URL = import.meta.env.VITE_API_URL;
 
 import {
@@ -17,16 +17,16 @@ import {
   GridToolbarContainer,
   GridActionsCellItem,
   GridRowEditStopReasons,
-} from '@mui/x-data-grid';
+} from "@mui/x-data-grid";
 import {
   randomTraderName,
   randomId,
   randomArrayItem,
-} from '@mui/x-data-grid-generator';
-import { ownerDocument } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+} from "@mui/x-data-grid-generator";
+import { ownerDocument } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
-const roles = ['Administrator', 'Member'];
+const roles = ["Administrator", "Member"];
 const randomRole = () => {
   return randomArrayItem(roles);
 };
@@ -50,7 +50,6 @@ const initialRows = [
     email: "pawanmalgavi@gmail.com",
     role: randomRole(),
   },
-
 ];
 
 function EditToolbar({ setIsOpen }) {
@@ -59,8 +58,6 @@ function EditToolbar({ setIsOpen }) {
   const handleClick = () => {
     setIsOpen(true);
   };
-
-
 
   return (
     <GridToolbarContainer>
@@ -72,7 +69,6 @@ function EditToolbar({ setIsOpen }) {
 }
 
 export default function Teams() {
-
   const [rows, setRows] = React.useState();
   const [rowModesModel, setRowModesModel] = React.useState({});
   const navigate = useNavigate();
@@ -91,7 +87,23 @@ export default function Teams() {
   };
 
   const handleDeleteClick = (id) => () => {
-    setRows(rows.filter((row) => row.id !== id));
+    console.log() // delete implement
+    const rowToDelete = rows.find((row) => row.id === id);
+    console.log(rowToDelete.email);
+    
+    if (rowToDelete) {
+      
+      axios.post(`${BACKEND_URL}/api/projects/remove-member-v2`, {
+      projectId: project._id,
+      email: rowToDelete.email,
+      })
+      .then(() => {
+      setRows(rows.filter((row) => row.id !== id));
+      })
+      .catch((error) => {
+      console.error("Error removing member:", error);
+      });
+    }
   };
 
   const handleCancelClick = (id) => () => {
@@ -117,41 +129,74 @@ export default function Teams() {
     handleSaveClick();
   };
 
-
-
   const columns = [
-    { field: 'id', headerName: 'id', width: 250, editable: true },
-    { field: 'name', headerName: 'Name', width: 250, editable: true },
+    { field: "id", headerName: "id", width: 250, editable: true },
+    { field: "name", headerName: "Name", width: 250, editable: true },
     {
-      field: 'email',
-      headerName: 'Email',
-      type: 'text',
+      field: "email",
+      headerName: "Email",
+      type: "text",
       width: 250,
-      align: 'left',
-      headerAlign: 'left',
+      align: "left",
+      headerAlign: "left",
       editable: true,
     },
     {
-      field: 'role',
-      headerName: 'Role',
+      field: "role",
+      headerName: "Role",
       width: 220,
       editable: false,
-      type: 'text',
+      type: "text",
     },
     {
-      field: 'actions',
-      type: 'actions',
-      headerName: 'Actions',
+      field: "actions",
+      type: "actions",
+      headerName: "Actions",
       width: 100,
-      cellClassName: 'actions',
+      cellClassName: "actions",
       getActions: ({ id }) => {
         const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
 
-
-
+        return [
+          <GridActionsCellItem
+            icon={<DeleteIcon />}
+            label="Delete"
+            onClick={handleDeleteClick(id)}
+            color="inherit"
+          />,
+        ];
+      },
+    },
+  ];
+  const mobileColumns = [
+    { field: "id", headerName: "id", width: 90, editable: true },
+    { field: "name", headerName: "Name", width: 130, editable: true },
+    {
+      field: "email",
+      headerName: "Email",
+      type: "text",
+      width: 240,
+      align: "left",
+      headerAlign: "left",
+      editable: true,
+    },
+    {
+      field: "role",
+      headerName: "Role",
+      width: 110,
+      editable: false,
+      type: "text",
+    },
+    {
+      field: "actions",
+      type: "actions",
+      headerName: "Actions",
+      width: 80,
+      cellClassName: "actions",
+      getActions: ({ id }) => {
+        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
 
         return [
-
           <GridActionsCellItem
             icon={<DeleteIcon />}
             label="Delete"
@@ -169,17 +214,16 @@ export default function Teams() {
     setIsOpen(false); // Close the modal when the close button is clicked
   };
 
-
   const [emails, setEmails] = useState([]);
-  const [inputValue, setInputValue] = useState('');
-  const [role, setRole] = useState('');
+  const [inputValue, setInputValue] = useState("");
+  const [role, setRole] = useState("");
   const { project } = useProject();
   const [projectMembers, setProjectMembers] = useState([]);
   // Function to add email
   const addEmail = (email) => {
     if (email && validateEmail(email)) {
       setEmails((prevEmails) => [...prevEmails, email]);
-      setInputValue(''); // Clear input after adding
+      setInputValue(""); // Clear input after adding
     }
   };
 
@@ -196,18 +240,20 @@ export default function Teams() {
 
   // Handle key press (Enter, Comma, or Semicolon)
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter' || e.key === ',' || e.key === ';') {
+    if (e.key === "Enter" || e.key === "," || e.key === ";") {
       e.preventDefault(); // Prevent default behavior
       addEmail(inputValue.trim());
     }
   };
 
-
   const fetchProjectMembers = async () => {
     try {
-      const response = await axios.post(`${BACKEND_URL}/api/projects/fetchProjectMembers`, {
-        projectId: project._id,
-      });
+      const response = await axios.post(
+        `${BACKEND_URL}/api/projects/fetchProjectMembers`,
+        {
+          projectId: project._id,
+        }
+      );
       // console.log("bis Project Members:", response.data);
       setProjectMembers(response.data);
     } catch (error) {
@@ -215,12 +261,11 @@ export default function Teams() {
     }
   };
 
-
   const handleAddMembers = async () => {
     // If there's an email in the input, add it to the emails array
     if (inputValue) {
       addEmail(inputValue.trim());
-      setInputValue(''); // Clear the input
+      setInputValue(""); // Clear the input
     }
 
     // Only proceed with the API call if there's at least one email
@@ -228,7 +273,7 @@ export default function Teams() {
 
     // console.log("Data received:", emails, " ", role);
 
-    const userObject = localStorage.getItem('user-object');
+    const userObject = localStorage.getItem("user-object");
     if (!userObject) {
       console.error("User object not found in localStorage");
       return;
@@ -247,25 +292,29 @@ export default function Teams() {
     };
 
     try {
-      const response = await axios.post(`${BACKEND_URL}/api/projects/add-members`, data);
+      const response = await axios.post(
+        `${BACKEND_URL}/api/projects/add-members`,
+        data
+      );
       // console.log(response);
       if (response.status === 200) {
         // console.log('Members added successfully', response.data);
         setEmails([]); // Clear emails after adding
-        setInputValue(''); // Clear input
+        setInputValue(""); // Clear input
         closeModal();
 
         // Refresh the project members list
         fetchProjectMembers();
       } else {
-        console.log('Error adding members');
+        console.log("Error adding members");
       }
     } catch (error) {
-      console.error('Error adding members:', error.response ? error.response.data : error.message);
+      console.error(
+        "Error adding members:",
+        error.response ? error.response.data : error.message
+      );
     }
   };
-
-
 
   // Load project members initially
   useEffect(() => {
@@ -277,7 +326,6 @@ export default function Teams() {
   const [matchingMember, setMatchingMember] = useState(null);
 
   // Ensure projectMembers and members exist
-
 
   useEffect(() => {
     // Update rows for DataGrid
@@ -295,7 +343,9 @@ export default function Teams() {
     // Find matching member
     const user = JSON.parse(localStorage.getItem("user-object"));
     if (members && Array.isArray(members)) {
-      const foundMember = members.find((member) => member.email === user?.email);
+      const foundMember = members.find(
+        (member) => member.email === user?.email
+      );
       setMatchingMember(foundMember || null); // Update state with found member
     } else {
       console.error(
@@ -304,44 +354,47 @@ export default function Teams() {
     }
   }, [projectMembers]);
 
+  const filteredColumnsMobile =
+      matchingMember?.role === "Admin"
+        ? mobileColumns // Keep all columns for Admin
+        : mobileColumns.filter((column) => column.field !== "actions");
 
+  const filteredColumns =
+    matchingMember?.role === "Admin"
+      ? columns // Keep all columns for Admin
+      : columns.filter((column) => column.field !== "actions");
 
-  const filteredColumns = matchingMember?.role === "Admin"
-    ? columns // Keep all columns for Admin
-    : columns.filter((column) => column.field !== "actions");
+      
 
   return (
-    <div>
-
-      <div className='px-32 py-20'>
-        <div className='flex items-center'>
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="py-6 md:py-6 sm:py-20">
+        <div className="flex items-center flex-wrap border-b">
           <p
-            className='py-2 px-1 font-semibold cursor-pointer hover:underline'
-            onClick={() => navigate('/home')}
+            className="py-2 px-1 font-semibold cursor-pointer hover:underline"
+            onClick={() => navigate("/home")}
           >
             Projects
           </p>
-          <p className='py-2 px-1'>/</p>
-          <p className='py-2 px-1 font-semibold'>{project ? project.name : "Loading..."}</p>
-
+          <p className="py-2 px-1">/</p>
+          <p className="py-2 px-1 font-semibold">
+            {project ? project.name : "Loading..."}
+          </p>
         </div>
-        <h1 className='text-xl font-medium my-4'>Manage Teams Here</h1>
-        {/* <p>{JSON.stringify(project)}</p> */}
-        {/* <p>{projectMembers ? JSON.stringify(projectMembers) : "Loading project members..."}</p> */}
-        <Box
+        <h1 className="text-xl font-medium my-4">Manage Teams Here</h1>
+        <Box className="hidden md:block"
           sx={{
             height: 500,
-            width: '100%',
-            '& .actions': {
-              color: 'text.secondary',
+            width: "100%",
+            "& .actions": {
+              color: "text.secondary",
             },
-            '& .textPrimary': {
-              color: 'text.primary',
+            "& .textPrimary": {
+              color: "text.primary",
             },
             backgroundColor: "white",
           }}
         >
-
           {matchingMember && (
             <DataGrid
               rows={rows}
@@ -366,82 +419,117 @@ export default function Teams() {
             />
           )}
         </Box>
+        <Box className="block md:hidden"
+          sx={{
+            height: 500,
+            width: "100%",
+            "& .actions": {
+              color: "text.secondary",
+            },
+            "& .textPrimary": {
+              color: "text.primary",
+            },
+            backgroundColor: "white",
+          }}
+        >
+          {matchingMember && (
+            <DataGrid
+              rows={rows}
+              columns={filteredColumnsMobile}
+              editMode="row"
+              rowModesModel={rowModesModel}
+              onRowModesModelChange={handleRowModesModelChange}
+              onRowEditStop={handleRowEditStop}
+              processRowUpdate={processRowUpdate}
+              slots={{
+                toolbar:
+                  matchingMember?.role === "Admin"
+                    ? () => <EditToolbar setIsOpen={setIsOpen} />
+                    : null,
+              }}
+              slotProps={{
+                toolbar: { setRows, setRowModesModel },
+              }}
+              sx={{
+                padding: "30px",
+              }}
+            />
+          )}
+        </Box>
       </div>
 
-
-      {isOpen && (<div className='fixed inset-0 z-[50] flex items-center justify-center bg-black bg-opacity-50'>
-        <div className='relative bg-white rounded-lg w-full max-w-lg p-10 shadow-lg'>
-          {/* Close Button */}
-          <button
-            className='absolute top-3 right-3 text-gray-500 hover:text-gray-800'
-            onClick={closeModal}
-          >
-            &#10005; {/* Close Icon */}
-          </button>
-
-          <p className='text-lg font-semibold mb-5'>Add People to My Project</p>
-          <label className='block text-sm'>Emails</label>
-          <p className='block text-xs font-thin '>You can add multiple members at once.</p>
-          <input
-            type='text'
-            className='w-full p-2 border border-gray-300 rounded my-2'
-            placeholder='e.g harshpatil@gmail.com'
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            onKeyDown={handleKeyDown} // Trigger on key press
-          />
-          <div
-            className='overflow-x-auto whitespace-nowrap flex items-center mt-2 space-x-2 custom-scrollbar'
-          >
-            {emails.map((email, index) => (
-              <div
-                key={index}
-                className='bg-gray-200 text-sm flex items-center px-2 py-1 rounded mb-2'
-              >
-                {email}
-                <span
-                  className='ml-2 text-slate-500 cursor-pointer'
-                  onClick={() => removeEmail(index)} // Remove email on click
-                >
-                  &times;
-                </span>
-              </div>
-            ))}
-          </div>
-
-          {/* <div className='mt-2'>
-                    <strong>Emails array:</strong> {JSON.stringify(emails)}
-                  </div> */}
-          <label className='block text-sm '>Role</label>
-          <select
-            className='w-full p-2 border border-gray-300 rounded my-2'
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-          >
-            <option value='' disabled>Select the role</option>
-            <option value='admin'>Admin</option>
-            <option value='member'>Members</option>
-          </select>
-
-          <div className='flex justify-end mt-6'>
+      {isOpen && (
+        <div className="fixed inset-0 z-[50] flex items-center justify-center bg-black bg-opacity-50 px-8">
+          <div className="relative bg-white rounded-lg w-full max-w-lg p-4 sm:p-10 shadow-lg">
             <button
-              className='bg-gray-300 text-gray-700 px-4 py-2 rounded mr-2 hover:bg-gray-400'
+              className="absolute top-3 right-3 text-gray-500 hover:text-gray-800"
               onClick={closeModal}
             >
-              Cancel
+              &#10005;
             </button>
-            <button
-              className='bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700'
-              onClick={handleAddMembers} // Add members on click
-            >
-              {emails.length === 0 ? 'Add Member' : 'Proceed'}
-            </button>
-          </div>
 
+            <p className="text-lg font-semibold mb-5">
+              Add People to My Project
+            </p>
+            <label className="block text-sm">Emails</label>
+            <p className="block text-xs font-thin">
+              You can add multiple members at once.
+            </p>
+            <input
+              type="text"
+              className="w-full p-2 border border-gray-300 rounded my-2"
+              placeholder="e.g harshpatil@gmail.com"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyDown={handleKeyDown}
+            />
+            <div className="overflow-x-auto whitespace-nowrap flex items-center mt-2 space-x-2 custom-scrollbar">
+              {emails.map((email, index) => (
+                <div
+                  key={index}
+                  className="bg-gray-200 text-sm flex items-center px-2 py-1 rounded mb-2"
+                >
+                  {email}
+                  <span
+                    className="ml-2 text-slate-500 cursor-pointer"
+                    onClick={() => removeEmail(index)}
+                  >
+                    &times;
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <label className="block text-sm">Role</label>
+            <select
+              className="w-full p-2 border border-gray-300 rounded my-2"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+            >
+              <option value="" disabled>
+                Select the role
+              </option>
+              <option value="admin">Admin</option>
+              <option value="member">Members</option>
+            </select>
+
+            <div className="flex justify-end mt-6">
+              <button
+                className="bg-gray-300 text-gray-700 px-4 py-2 rounded mr-2 hover:bg-gray-400"
+                onClick={closeModal}
+              >
+                Cancel
+              </button>
+              <button
+                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                onClick={handleAddMembers}
+              >
+                {emails.length === 0 ? "Add Member" : "Proceed"}
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
       )}
     </div>
   );
-
 }

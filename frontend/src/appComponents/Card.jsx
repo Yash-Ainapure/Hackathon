@@ -183,7 +183,7 @@ export default function Card(props) {
         <div
             id={props.key}
             onClick={goToProject}
-            className="flex flex-col border bg-white border-slate-300 p-8 m-4 w-[425px] rounded-md hover:border-slate-600 cursor-pointer relative group"
+            className="flex flex-col border bg-white border-slate-300 p-8 mt-4 mx-2 md:m-4 w-[550px] md:w-[425px] rounded-md hover:border-slate-600 cursor-pointer relative group"
         >
             <div className="flex gap-3 items-center rounded-md">
                 <img src={Banner} className="w-14 h-14 rounded-md" alt="Project Banner" />
@@ -194,7 +194,7 @@ export default function Card(props) {
             </div>
             <p className="text-left my-2 text-sm">{truncateString(props.summary)}</p>
             <p className="font-medium">Project Progress</p>
-            <div className="flex my-2 justify-around">
+            <div className="flex my-2 justify-around flex-col md:flex-row">
                 <div className="flex justify-between items-center">
                     <p className="mr-2 bg-gray-300 text-gray-800 border border-gray-900 rounded-lg px-2 font-extrabold font-mono text-sm">Todo</p>
                     <p>x{props.todoCount}</p>

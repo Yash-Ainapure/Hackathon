@@ -349,7 +349,7 @@ const removeMemberFromProject = async (req, res) => {
     if (!member) {
       return res.status(404).json({ message: "User not found" });
     }
-
+    
     project.projectMembers.pull(member._id);
     project.projectAdmins.pull(member._id);
     await project.save();

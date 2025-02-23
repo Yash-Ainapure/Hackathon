@@ -61,8 +61,9 @@ const fetchUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-    const { _id, name, email, jobInfo, profilePic } = req.body.user;
-
+    const { _id, name, email, jobInfo, profilePic ,firstName, lastName } = req.body.user;
+    console.log(req.body);
+    const fullName = firstName +" "+lastName;
     if (!_id) {
       return res.status(400).json({ error: "User ID is required" });
     }
@@ -73,7 +74,9 @@ const updateUser = async (req, res) => {
     }
 
     // Update user fields if provided
-    user.name = name || user.name;
+    
+
+    user.name = (fullName!=" ")?fullName: name || user.name;
     user.email = email || user.email;
 
     // Check if jobInfo is an object with a title property

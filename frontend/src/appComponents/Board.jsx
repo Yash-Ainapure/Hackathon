@@ -53,7 +53,7 @@ const Board = () => {
 
    const getListClasses = (key) => {
       const baseClasses =
-         "relative flex flex-col md:items-start items-center p-4 pt-12 overflow-x-hidden overflow-y-scroll scrollbar-hide bg-white border border-gray-300 rounded-lg w-[90%] font-semibold text-sm";
+         "relative flex flex-col items-center  overflow-x-hidden overflow-y-scroll md:scrollbar-hide bg-white border border-gray-300 rounded-lg w-[100%] font-semibold text-sm h-[50vh]";
 
       switch (key) {
          case "Todo":
@@ -70,13 +70,13 @@ const Board = () => {
    const getItemClasses = (key) => {
       switch (key) {
          case 'Todo':
-            return 'p-2 m-1 bg-cyan-100 border border-cyan-300 cursor-move w-[100%] rounded';
+            return 'p-4 m-1 bg-cyan-100 border border-cyan-300 cursor-move w-[100%] rounded';
          case 'InProgress':
-            return 'p-2 m-1 bg-purple-100 border border-purple-300 cursor-move w-[100%] rounded';
+            return 'p-4 m-1 bg-purple-100 border border-purple-300 cursor-move w-[100%] rounded';
          case 'Done':
-            return 'p-2 m-1 bg-green-100 border border-green-300 cursor-move w-[100%] rounded';
+            return 'p-4 m-1 bg-green-100 border border-green-300 cursor-move w-[100%] rounded';
          default:
-            return 'p-2 m-1 bg-neutral-100 border border-gray-300 cursor-move w-[100%] rounded';
+            return 'p-4 m-1 bg-neutral-100 border border-gray-300 cursor-move w-[100%] rounded';
       }
    };
 
@@ -168,11 +168,12 @@ const Board = () => {
 
       return (
          <div ref={drop} className={getListClasses(listKey)}>
-            <h2 className="absolute mb-2 text-lg font-semibold top-2 left-4 flex justify-between w-[90%]">
+            <div className="sticky py-2 px-6 mb-2 text-lg font-semibold top-[0px] flex justify-between w-[100%] bg-white rounded-t-lg shadow-md">
                <span>{listKey}</span> <span>x {children.length}</span>
-            </h2>
+            </div>
+            <div className='w-[90%]'>
             {children.length === 0 ? (
-               <div className="text-gray-400">
+               <div className="text-gray-400 pt-4">
                   {listKey === "Todo" && "No tasks in Todo"}
                   {listKey === "InProgress" && "No tasks in Progress"}
                   {listKey === "Done" && "No tasks in Done"}
@@ -180,6 +181,7 @@ const Board = () => {
             ) : (
                children
             )}
+            </div>
          </div>
       );
    };

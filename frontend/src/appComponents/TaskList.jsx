@@ -137,7 +137,7 @@ const TaskList = () => {
     dueDate: new Date(task.dueDate) || '',
   }));
 
-  const paginationModel = { page: 0, pageSize: 5 };
+  const paginationModel = { page: 0, pageSize: 10 };
 
   // Update project tasks on row update
   const processRowUpdate = async (updatedRow, originalRow) => {
@@ -281,7 +281,7 @@ useEffect(() => {
             rows={rows}
             columns={columns}
             initialState={{ pagination: { paginationModel } }}
-            pageSizeOptions={[5, 10]}
+            pageSizeOptions={[10, 15]}
             // checkboxSelection
             sx={{ border: 0 }}
         />

@@ -254,7 +254,7 @@ useEffect(() => {
 
 
   return (
-    <div className='flex flex-col px-4 md:pr-20 justify-top'>
+    <div className='flex flex-col px-4 md:pr-20 justify-top pb-10'>
       <div>
         <div className='py-2 border-b md:py-5 flex items-center flex-wrap'>
           <p
@@ -285,8 +285,6 @@ useEffect(() => {
             // checkboxSelection
             sx={{ border: 0 }}
         />
-
-
         </Paper>
       </div>
     </div>

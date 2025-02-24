@@ -169,7 +169,7 @@ export const LogoIcon = () => {
 // Dummy dashboard component with content
 const DashboardInner = () => {
   return (
-    <div className="w-full min-h-screen overflow-scroll border-l " style={{height:"90vh",overflow:"hidden"}}>
+    <div className="w-full min-h-screen overflow-scroll border-l " style={{height:"90vh"}}>
       <Outlet />
     </div>
   );

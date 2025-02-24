@@ -17,7 +17,7 @@ function Navbar(props) {
   const user = JSON.parse(localStorage.getItem("user-object"));
   const profilePicUrl = user.profilePic;
   // console.log('User:', user);
-  
+
   const [profileModal, setProfileModal] = useState(false);
   const [showNotificationModal, setShowNotificationModal] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -155,7 +155,7 @@ function Navbar(props) {
           <div className="md:hidden">
             <button onClick={() => setProfileModal(!profileModal)}>
               <img
-                className="w-8 h-8 object-cover rounded-full cursor-pointer"
+                className="w-10 h-10 object-cover rounded-full cursor-pointer"
                 src={
                   profilePicUrl
                     ? profilePicUrl
@@ -166,25 +166,27 @@ function Navbar(props) {
             </button>
           </div>
         </div>
-        {!props.componentHide && <div className="flex flex-col md:flex-row gap-4 mt-2 md:mt-0 w-full md:w-auto border-t pt-3 md:border-t-0 md:pt-0">
-          <div className="flex items-center justify-between gap-4 w-full md:w-auto ">
-            <div className="flex p-[1px] pl-2 bg-white border rounded-md shadow items-center w-full md:w-auto">
-              <SearchIcon className="flex-shrink-0 w-5 h-5 text-neutral-700 dark:text-neutral-200" />
-              <input
-                onChange={handleSearchChange}
-                className="pl-2 focus:outline-none focus:ring-0 py-2 w-full md:w-auto"
-                placeholder="Search Projects"
-                type="text"
-              />
+        {!props.componentHide && (
+          <div className="flex flex-col md:flex-row gap-4 mt-2 md:mt-0 w-full md:w-auto border-t pt-3 md:border-t-0 md:pt-0">
+            <div className="flex items-center justify-between gap-4 w-full md:w-auto ">
+              <div className="flex p-[1px] pl-2 bg-white border rounded-md shadow items-center w-full md:w-auto">
+                <SearchIcon className="flex-shrink-0 w-5 h-5 text-neutral-700 dark:text-neutral-200" />
+                <input
+                  onChange={handleSearchChange}
+                  className="pl-2 focus:outline-none focus:ring-0 py-2 w-full md:w-auto"
+                  placeholder="Search Projects"
+                  type="text"
+                />
+              </div>
+              <button
+                onClick={openModal}
+                className="hidden md:block px-4 py-2 font-semibold text-white rounded bg-sky-600 w-[30%] md:w-auto"
+              >
+                Create Project <span className="font-bold text-lg">+</span>
+              </button>
             </div>
-            <button
-              onClick={openModal}
-              className="hidden md:block px-4 py-2 font-semibold text-white rounded bg-sky-600 w-[30%] md:w-auto"
-            >
-             Create Project <span className="font-bold text-lg">+</span>
-            </button>
           </div>
-        </div> }
+        )}
         <div className="hidden md:flex items-center gap-4">
           <div className="pr-2" onClick={() => setProfileModal(true)}>
             <img
@@ -230,7 +232,9 @@ function Navbar(props) {
             />
             <div className="flex flex-col">
               <p className="font-roboto font-bold tracking-wide">{user.name}</p>
-              <p className="font-roboto tracking-wide text-sm md:text-md">{user.email}</p>
+              <p className="font-roboto tracking-wide text-sm md:text-md">
+                {user.email}
+              </p>
             </div>
           </div>
           <div className="my-3 border-t"></div>

@@ -8,8 +8,10 @@ import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { TouchBackend } from 'react-dnd-touch-backend';
 import { isMobile } from 'react-device-detect';
-
-
+import { IoArrowBackCircleSharp } from "react-icons/io5";
+import { TbArrowBack } from "react-icons/tb";
+import { BiArrowBack } from "react-icons/bi";
+import { isDragActive } from 'framer-motion';
 const BACKEND_URL = import.meta.env.VITE_API_URL;
 const initialLists = {
    Todo: [],
@@ -167,6 +169,7 @@ const Board = () => {
       }));
 
       return (
+         
          <div ref={drop} className={getListClasses(listKey)}>
             <div className="sticky py-2 px-6 mb-2 text-lg font-semibold top-[0px] flex justify-between w-[100%] bg-white rounded-t-lg shadow-md">
                <span>{listKey}</span> <span>x {children.length}</span>
@@ -191,10 +194,10 @@ const Board = () => {
          <div className="flex flex-col min-h-screen p-4 justify-top">
             <div className='flex items-center'>
                <p
-                  className='py-2 px-1 font-semibold cursor-pointer hover:underline'
+                  className='py-2 px-1 font-semibold cursor-pointer hover:underline flex items-center gap-2'
                   onClick={() => navigate('/home')}
                >
-                  Projects
+                  <BiArrowBack className=''/>Projects
                </p>
                <p className='py-2 px-1'>/</p>
                <p className='py-2 px-1 font-semibold'>{project ? project.name : "Loading..."}</p>

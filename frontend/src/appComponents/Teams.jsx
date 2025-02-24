@@ -10,7 +10,8 @@ import { useProject } from "./ProjectContext";
 import ".././App.css";
 import axios from "axios";
 const BACKEND_URL = import.meta.env.VITE_API_URL;
-
+import { BiArrowBack } from "react-icons/bi";
+                  
 import {
   GridRowModes,
   DataGrid,
@@ -371,10 +372,11 @@ export default function Teams() {
       <div className="py-6 md:py-6 sm:py-20">
         <div className="flex items-center flex-wrap border-b">
           <p
-            className="py-2 px-1 font-semibold cursor-pointer hover:underline"
+            className="py-2 px-1 font-semibold cursor-pointer hover:underline flex items-center gap-2"
             onClick={() => navigate("/home")}
           >
-            Projects
+           
+                              <BiArrowBack className=''/>Projects
           </p>
           <p className="py-2 px-1">/</p>
           <p className="py-2 px-1 font-semibold">

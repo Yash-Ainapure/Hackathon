@@ -142,7 +142,7 @@ export default function Hero1() {
 
   return (
     <div className="h-[50rem] md:h-[40rem] [perspective:1000px] relative flex flex-col max-w-[350px] md:max-w-5xl mx-auto w-full items-center justify-start my-20">
-      <Tabs tabs={tabs}  />
+      <Tabs tabs={tabs}/>
     </div>
   );
 }

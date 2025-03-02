@@ -36,6 +36,7 @@ const TaskList = () => {
       width: 250,
       editable: true,
       renderCell: (params) => {
+        
         const selectedOption = assigneeOptions.find(
           (option) => option.value === params.value
         );
@@ -61,49 +62,52 @@ const TaskList = () => {
           </Box>
         );
       },
-      renderEditCell: (params) => (
-        <Select
-          value={params.value || ""}
-          onChange={(event) =>
-            params.api.setEditCellValue({
-              id: params.id,
-              field: params.field,
-              value: event.target.value,
-            })
-          }
-          fullWidth
-          renderValue={(selected) => {
-            const selectedOption = assigneeOptions.find(
-              (option) => option.value === selected
-            );
-            return selectedOption ? (
-              <Box display="flex" alignItems="center">
+      renderEditCell: (params) => {
+        console.log(params);
+        return (
+          <Select
+            value={params.value || ""}
+            onChange={(event) =>
+              params.api.setEditCellValue({
+                id: params.id,
+                field: params.field,
+                value: event.target.value,
+              })
+            }
+            fullWidth
+            renderValue={(selected) => {
+              const selectedOption = assigneeOptions.find(
+                (option) => option.value === selected
+              );
+              return selectedOption ? (
+                <Box display="flex" alignItems="center">
+                  <Avatar
+                    src={selectedOption.image}
+                    alt={selectedOption.label}
+                    sx={{ width: 24, height: 24, marginRight: 1 }}
+                  />
+                  <Typography variant="body2">{selectedOption.label}</Typography>
+                </Box>
+              ) : (
+                <Typography variant="body2" color="textSecondary">
+                  Unassigned
+                </Typography>
+              );
+            }}
+          >
+            {assigneeOptions.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
                 <Avatar
-                  src={selectedOption.image}
-                  alt={selectedOption.label}
+                  src={option.image}
+                  alt={option.label}
                   sx={{ width: 24, height: 24, marginRight: 1 }}
                 />
-                <Typography variant="body2">{selectedOption.label}</Typography>
-              </Box>
-            ) : (
-              <Typography variant="body2" color="textSecondary">
-                Unassigned
-              </Typography>
-            );
-          }}
-        >
-          {assigneeOptions.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              <Avatar
-                src={option.image}
-                alt={option.label}
-                sx={{ width: 24, height: 24, marginRight: 1 }}
-              />
-              {option.label}
-            </MenuItem>
-          ))}
-        </Select>
-      ),
+                {option.label}
+              </MenuItem>
+            ))}
+          </Select>
+        );
+      },
     },
     {
       field: "reporter",
@@ -111,11 +115,12 @@ const TaskList = () => {
       width: 250,
       editable: false,
       renderCell: (params) => {
-        const reporter = params.value; // Assuming reporter is a name or object
+        
+        const reporter = params.value; 
         return (
           <Box className="flex items-center justify-start h-full">
             <Avatar
-              src="https://example.com/reporter-avatar.jpg" // Add the actual avatar URL for the reporter
+              src="https://example.com/reporter-avatar.jpg"
               alt={reporter}
               sx={{ width: 24, height: 24, marginRight: 1 }}
             />
@@ -130,38 +135,46 @@ const TaskList = () => {
       width: 400,
       editable: true,
     },
-    {
+    { 
       field: "dueDate",
       headerName: "Due Date",
       width: 150,
       editable: true,
       type: "date",
-      valueGetter: (params) =>
-        params.value instanceof Date ? params.value : new Date(params.value),
-      valueFormatter: (params) =>
-        params.value ? new Date(params.value).toLocaleDateString() : "",
+      valueGetter: (params) => {
+        
+        return params;
+      },
+      valueFormatter: (params) => {
+        
+        return params.value ? params.value : params.value;
+      },
     },
   ];
+  
+//valueFormatter: (params) =>
+  //params.value ? new Date(params.value).toLocaleDateString() : "",
+
   // Create rows for DataGrid from project tasks
-  const rows = projectTasks.map((task, index) =>
-    // console.log("due date", new Date(task.dueDate).toISOString().split('T')[0]),
-    ({
-      id: index + 1, // Use index for unique ID
-      taskid: task.taskid,
-      taskName: task.taskName,
-      status: project.toDO.includes(task)
-        ? "To Do"
-        : project.inProgress.includes(task)
-        ? "In Progress"
-        : project.completed.includes(task)
-        ? "Completed"
-        : "Unknown", // Fallback status
-      assignedTo: task.assignedTo || "",
-      reporter: task.reporter,
-      taskDescription: task.taskDescription,
-      dueDate: new Date(task.dueDate) || "",
-    })
-  );
+  // Create rows for DataGrid from project tasks
+  
+  // console.log(new Date("2025-01-29T18:30:00.000Z"));
+  const rows = projectTasks.map((task, index) => ({
+    id: index + 1, // Use index for unique ID
+    taskid: task.taskid,
+    taskName: task.taskName,
+    status: project.toDO.includes(task)
+      ? "To Do"
+      : project.inProgress.includes(task)
+      ? "In Progress"
+      : project.completed.includes(task)
+      ? "Completed"
+      : "Unknown", // Fallback status
+    assignedTo: task.assignedTo || "",
+    reporter: task.reporter,
+    taskDescription: task.taskDescription,
+    dueDate: task.dueDate, // Hardcoded date string
+  }));
 
   const paginationModel = { page: 0, pageSize: 10 };
 
@@ -169,7 +182,8 @@ const TaskList = () => {
   const processRowUpdate = async (updatedRow, originalRow) => {
     // Clone `projectTasks` to avoid direct mutation
     const updatedTasks = [...projectTasks];
-
+    // console.log("allah : "+updatedRow.dueDate);
+    
     // Find the index of the task being updated
     const taskIndex = updatedTasks.findIndex(
       (task) => task.taskid === originalRow.taskid
@@ -178,6 +192,8 @@ const TaskList = () => {
     // console.log("index=", taskIndex, "originalRow=", originalRow, "updatedRow=", updatedRow);
 
     if (taskIndex !== -1) {
+      // console.log("asdasd")
+      // console.log(new Date(updatedRow.dueDate).toISOString().split("T")[0])
       // Update the task with the new data from `updatedRow`
       updatedTasks[taskIndex] = {
         ...updatedTasks[taskIndex],
@@ -186,7 +202,7 @@ const TaskList = () => {
         assignedTo: updatedRow.assignedTo,
         reporter: updatedRow.reporter,
         taskDescription: updatedRow.taskDescription,
-        dueDate: updatedRow.dueDate,
+        dueDate: new Date(new Date(updatedRow.dueDate).setDate(new Date(updatedRow.dueDate).getDate() + 1)).toISOString().split("T")[0],
       };
 
       // Update `projectTasks` state

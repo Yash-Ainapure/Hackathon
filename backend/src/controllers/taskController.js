@@ -214,15 +214,21 @@ const deleteTask = async (req, res) => {
   const { taskId } = req.params;
 
   try {
-    // Find the task and remove it
-    const result = await Task.findByIdAndDelete(taskId);
+    // Remove task from any project lists (toDO, inProgress, completed)
+    const result = await Project.updateMany(
+      {},
+      {
+        $pull: {
+          toDO: { taskid: taskId },
+          inProgress: { taskid: taskId },
+          completed: { taskid: taskId },
+        },
+      }
+    );
 
-    if (!result) {
-      return res.status(404).json({ message: "Task not found" });
+    if (result.modifiedCount === 0) {
+      return res.status(404).json({ message: "Task not found in any project" });
     }
-
-    // Remove the task from the project's toDo list
-    await Project.updateMany({ toDO: taskId }, { $pull: { toDO: taskId } });
 
     res.status(200).json({ message: "Task deleted successfully" });
   } catch (error) {
@@ -230,6 +236,10 @@ const deleteTask = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+module.exports = deleteTask;
+
+
 
 module.exports = {
   createTask,

@@ -11,6 +11,7 @@ import { isMobile } from 'react-device-detect';
 import { IoArrowBackCircleSharp } from "react-icons/io5";
 import { TbArrowBack } from "react-icons/tb";
 import { BiArrowBack } from "react-icons/bi";
+import { MdDelete } from "react-icons/md";
 import { isDragActive } from 'framer-motion';
 const BACKEND_URL = import.meta.env.VITE_API_URL;
 const initialLists = {
@@ -152,12 +153,37 @@ const Board = () => {
          }),
       }));
 
+      const deleteTask = async () => {
+         try {
+            console.log(task)
+            await axios.delete(`${BACKEND_URL}/api/tasks/deleteTask/${task.taskid}`);
+            setLists((prevLists) => {
+               const updatedLists = { ...prevLists };
+               updatedLists[listKey] = updatedLists[listKey].filter(
+                  (t) => t.taskid !== task.taskid
+               );
+               updateProjectData(updatedLists);
+               return updatedLists;
+            });
+         } catch (error) {
+            console.error("Error deleting task:", error);
+         }
+      };
+
       return (
          <div
             ref={drag}
             className={`${getItemClasses(listKey)} ${isDragging ? 'opacity-50' : ''}`}
          >
-            {task.taskName}
+            <div className="flex justify-between items-center">
+               <span>{task.taskName}</span>
+               <button
+                  onClick={deleteTask}
+                  className="ml-2 text-red-500 hover:text-red-700"
+               >
+                  <MdDelete className=''/>
+               </button>
+            </div>
          </div>
       );
    };

@@ -11,7 +11,7 @@ const formatDate = (date) => {
   return `${year}-${month}-${day}`;
 };
 
-// Create a new task
+// ! Create a new task
 const createTask = async (req, res) => {
   const {
     taskName,
@@ -49,7 +49,6 @@ const createTask = async (req, res) => {
 };
 
 // ? Function to add a task to the project's toDo array
-// TODO: Task's name should be added to the project's toDo array instead of task's id
 const addTasksToProject = async (projectId, taskId) => {
   try {
     const updatedProject = await Project.findByIdAndUpdate(
@@ -121,12 +120,6 @@ const getAllTasks = async (req, res) => {
     const inProgressIds = project.inProgress;
     const completedIds = project.completed;
 
-    // console.log("Project found with task IDs:", {
-    //   toDOIds,
-    //   inProgressIds,
-    //   completedIds,
-    // });
-
     const taskQueries = [];
 
     if (toDOIds && toDOIds.length > 0) {
@@ -156,12 +149,6 @@ const getAllTasks = async (req, res) => {
       taskQueries
     );
 
-    // console.log("Tasks retrieved:", {
-    //   toDOTasks,
-    //   inProgressTasks,
-    //   completedTasks,
-    // });
-
     // Return the tasks grouped by status
     res.status(200).json({
       toDO: toDOTasks,
@@ -174,14 +161,8 @@ const getAllTasks = async (req, res) => {
   }
 };
 
-// TODO: Whether the task name should be added or task ids is to be checked
 const updateTaskStatus = async (req, res) => {
   const { projectId, toDO, inProgress, completed } = req.body;
-  // console.log("Recieved data:",toDO, inProgress, completed);
-  // Simple validation for required fields
-  if (!projectId || !Array.isArray(toDO) || !Array.isArray(inProgress) || !Array.isArray(completed)) {
-    return res.status(400).json({ error: "Invalid input data" });
-  }
 
   try {
     // Find the project by ID
@@ -206,8 +187,6 @@ const updateTaskStatus = async (req, res) => {
     res.status(500).json({ error: "Server error updating task status" });
   }
 };
-
-
 
 // Delete a task
 const deleteTask = async (req, res) => {
@@ -238,8 +217,6 @@ const deleteTask = async (req, res) => {
 };
 
 module.exports = deleteTask;
-
-
 
 module.exports = {
   createTask,

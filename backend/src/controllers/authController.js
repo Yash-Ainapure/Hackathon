@@ -120,7 +120,6 @@ const updateUser = async (req, res) => {
 
 // ? Login user
 const loginUser = async (req, res) => {
-  console.log("Request Came");
   
   const errors = validationResult(req);
   let success = false;

@@ -11,7 +11,7 @@ import ".././App.css";
 import axios from "axios";
 const BACKEND_URL = import.meta.env.VITE_API_URL;
 import { BiArrowBack } from "react-icons/bi";
-                  
+
 import {
   GridRowModes,
   DataGrid,
@@ -88,22 +88,24 @@ export default function Teams() {
   };
 
   const handleDeleteClick = (id) => () => {
-    console.log() // delete implement
+    console.log(); // delete implement
     const rowToDelete = rows.find((row) => row.id === id);
     console.log(rowToDelete.email);
-    
-    if (rowToDelete) {
-      
-      axios.post(`${BACKEND_URL}/api/projects/remove-member-v2`, {
-      projectId: project._id,
-      email: rowToDelete.email,
-      })
-      .then(() => {
-      setRows(rows.filter((row) => row.id !== id));
-      })
-      .catch((error) => {
-      console.error("Error removing member:", error);
-      });
+    let confirm = window.confirm("Are you sure you want to remove this member?");
+    if (confirm) {
+      if (rowToDelete) {
+        axios
+          .post(`${BACKEND_URL}/api/projects/remove-member-v2`, {
+            projectId: project._id,
+            email: rowToDelete.email,
+          })
+          .then(() => {
+            setRows(rows.filter((row) => row.id !== id));
+          })
+          .catch((error) => {
+            console.error("Error removing member:", error);
+          });
+      }
     }
   };
 
@@ -356,16 +358,14 @@ export default function Teams() {
   }, [projectMembers]);
 
   const filteredColumnsMobile =
-      matchingMember?.role === "Admin"
-        ? mobileColumns // Keep all columns for Admin
-        : mobileColumns.filter((column) => column.field !== "actions");
+    matchingMember?.role === "Admin"
+      ? mobileColumns // Keep all columns for Admin
+      : mobileColumns.filter((column) => column.field !== "actions");
 
   const filteredColumns =
     matchingMember?.role === "Admin"
       ? columns // Keep all columns for Admin
       : columns.filter((column) => column.field !== "actions");
-
-      
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -375,8 +375,8 @@ export default function Teams() {
             className="py-2 px-1 font-semibold cursor-pointer hover:underline flex items-center gap-2"
             onClick={() => navigate("/home")}
           >
-           
-                              <BiArrowBack className=''/>Projects
+            <BiArrowBack className="" />
+            Projects
           </p>
           <p className="py-2 px-1">/</p>
           <p className="py-2 px-1 font-semibold">
@@ -384,7 +384,8 @@ export default function Teams() {
           </p>
         </div>
         <h1 className="text-xl font-medium my-4">Manage Teams Here</h1>
-        <Box className="hidden md:block"
+        <Box
+          className="hidden md:block"
           sx={{
             height: 500,
             width: "100%",
@@ -421,7 +422,8 @@ export default function Teams() {
             />
           )}
         </Box>
-        <Box className="block md:hidden"
+        <Box
+          className="block md:hidden"
           sx={{
             height: 500,
             width: "100%",

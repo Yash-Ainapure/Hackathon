@@ -22,6 +22,7 @@
     "@tsparticles/engine": "^3.5.0",
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.5.0",
+    "@vercel/analytics": "^1.5.0",
     "agora-rtc-sdk-ng": "^4.22.1",
     "axios": "^1.7.6",
     "chart.js": "^4.4.6",

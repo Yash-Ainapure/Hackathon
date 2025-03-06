@@ -18,10 +18,12 @@ import Home from "./pages/Home";
 import VideoStream from "./videoCC/VideoStream";
 import ManageAccount from "./appComponents/ManageAccount";
 import { ProjectProvider } from './appComponents/ProjectContext';
+import { Analytics } from "@vercel/analytics/react";
 function App() {
   const dispatch = useDispatch();
 
   return (
+    <>
     <Router>
       <ProjectProvider>
         <Routes>
@@ -43,6 +45,8 @@ function App() {
         </Routes>
       </ProjectProvider>
     </Router>
+    <Analytics />
+    </>
   );
 }
 

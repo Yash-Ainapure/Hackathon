@@ -181,7 +181,7 @@ const Board = () => {
                   onClick={deleteTask}
                   className="ml-2 text-red-500 hover:text-red-700"
                >
-                  <MdDelete className=''/>
+                  <MdDelete className='' />
                </button>
             </div>
          </div>
@@ -195,21 +195,21 @@ const Board = () => {
       }));
 
       return (
-         
+
          <div ref={drop} className={getListClasses(listKey)}>
             <div className="sticky py-2 px-6 mb-2 text-lg font-semibold top-[0px] flex justify-between w-[100%] bg-white rounded-t-lg shadow-md">
                <span>{listKey}</span> <span>x {children.length}</span>
             </div>
             <div className='w-[90%]'>
-            {children.length === 0 ? (
-               <div className="text-gray-400 pt-4">
-                  {listKey === "Todo" && "No tasks in Todo"}
-                  {listKey === "InProgress" && "No tasks in Progress"}
-                  {listKey === "Done" && "No tasks in Done"}
-               </div>
-            ) : (
-               children
-            )}
+               {children.length === 0 ? (
+                  <div className="text-gray-400 pt-4">
+                     {listKey === "Todo" && "No tasks in Todo"}
+                     {listKey === "InProgress" && "No tasks in Progress"}
+                     {listKey === "Done" && "No tasks in Done"}
+                  </div>
+               ) : (
+                  children
+               )}
             </div>
          </div>
       );
@@ -223,7 +223,7 @@ const Board = () => {
                   className='py-2 px-1 font-semibold cursor-pointer hover:underline flex items-center gap-2'
                   onClick={() => navigate('/home')}
                >
-                  <BiArrowBack className=''/>Projects
+                  <BiArrowBack className='' />Projects
                </p>
                <p className='py-2 px-1'>/</p>
                <p className='py-2 px-1 font-semibold'>{project ? project.name : "Loading..."}</p>
@@ -236,6 +236,12 @@ const Board = () => {
                      type="text"
                      className="md:w-full w-full p-2 mx-1 border border-gray-300 rounded"
                      placeholder="What needs to be done?"
+                     onKeyDown={(e) => {
+                        if (e.key === 'Enter' && newTask.trim() !== '') {  // Ensure newTask isn't empty
+                           e.preventDefault();
+                           addNewTask();
+                        }
+                     }}
                   />
                   <button
                      onClick={(e) => {

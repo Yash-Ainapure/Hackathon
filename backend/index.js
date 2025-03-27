@@ -48,6 +48,12 @@ app.get("/", (req, res) => {
   res.send("Welcome to the Task Manager API");
 });
 
+// Route for cronjob to keep server alive
+app.get("/keep_alive", (req, res) => {
+  console.log("Cron job request received at:", new Date().toISOString());
+  res.status(200).send("Server is alive");
+});
+
 // Routes
 app.use("/api/auth", require("./src/routes/authRoutes"));
 app.use("/api/projects", require("./src/routes/projectRoutes"));

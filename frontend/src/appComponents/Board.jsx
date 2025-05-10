@@ -29,6 +29,7 @@ const Board = () => {
    const [lists, setLists] = useState(initialLists);
    const [newTask, setNewTask] = useState('');
    const { project, setProject } = useProject();
+   const [showMenu, setShowMenu] = useState(null);
 
    useEffect(() => {
       if (project && project.toDO && project.inProgress && project.completed) {
@@ -56,7 +57,7 @@ const Board = () => {
 
    const getListClasses = (key) => {
       const baseClasses =
-         "relative flex flex-col items-center  overflow-x-hidden overflow-y-scroll md:scrollbar-hide bg-white border border-gray-300 rounded-lg w-[100%] font-semibold text-sm h-[50vh]";
+         "relative flex flex-col items-center  overflow-x-hidden overflow-y-scroll md:scrollbar-hide bg-white border border-gray-300 rounded-lg w-[100%] font-semibold text-sm h-[60vh] md:h-[50vh]";
 
       switch (key) {
          case "Todo":
@@ -70,6 +71,18 @@ const Board = () => {
       }
    };
 
+   const getTabClass = (key) => {
+      switch (key) {
+         case "Todo":
+            return "text-cyan-600";
+         case "InProgress":
+            return "text-purple-600";
+         case "Done":
+            return "text-green-600";
+         default:
+            return "text-gray-600";
+   };
+}
    const getItemClasses = (key) => {
       switch (key) {
          case 'Todo':
@@ -175,18 +188,93 @@ const Board = () => {
 
       return (
          <div
-            ref={drag}
-            className={`${getItemClasses(listKey)} ${isDragging ? 'opacity-50' : ''}`}
+         ref={drag}
+         className={`${getItemClasses(listKey)} ${isDragging ? 'opacity-50' : ''}`}
          >
-            <div className="flex justify-between items-center">
-               <span>{task.taskName}</span>
+         <div className="flex justify-between items-center">
+            <span>{task.taskName}</span>
+            {isMobile ? (
+            <div className="relative">
                <button
-                  onClick={deleteTask}
-                  className="hidden group-hover:block transition-all duration-300 ease-in-out"
+               className="text-gray-500 hover:text-gray-700"
+               onClick={(e) => {
+                  e.stopPropagation();
+                  setShowMenu((prev) => (prev === task.taskid ? null : task.taskid));
+               }}
                >
-                  <RxCross2 className='w-4 h-4' />
+               &#x22EE;
                </button>
+               {showMenu === task.taskid && (
+               <div
+                  className="absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded shadow-lg z-10"
+                  onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the menu
+               >
+                  {listKey !== 'Todo' && (
+                  <button
+                     onClick={() => {
+                     setShowMenu(null);
+                     updateListsOnDrop({ task, fromList: listKey }, 'Todo');
+                     }}
+                     className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+                  >
+                     Move to Todo
+                  </button>
+                  )}
+                  {listKey !== 'InProgress' && (
+                  <button
+                     onClick={() => {
+                     setShowMenu(null);
+                     updateListsOnDrop({ task, fromList: listKey }, 'InProgress');
+                     }}
+                     className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+                  >
+                     Move to InProgress
+                  </button>
+                  )}
+                  {listKey !== 'Done' && (
+                  <button
+                     onClick={() => {
+                     setShowMenu(null);
+                     updateListsOnDrop({ task, fromList: listKey }, 'Done');
+                     }}
+                     className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+                  >
+                     Move to Done
+                  </button>
+                  )}
+                  <button
+                  onClick={() => {
+                     setShowMenu(null);
+                     deleteTask();
+                  }}
+                  className="block w-full px-4 py-2 text-left text-red-500 hover:bg-gray-100"
+                  >
+                  Delete
+                  </button>
+                  {listKey === 'Done' && (
+                  <button
+                     onClick={() => {
+                     setShowMenu(null);
+                     // Add archive functionality here
+                     console.log('Archive task:', task);
+                     }}
+                     className="block w-full px-4 py-2 text-left text-gray-500 hover:bg-gray-100"
+                  >
+                     Archive
+                  </button>
+                  )}
+               </div>
+               )}
             </div>
+            ) : (
+            <button
+               onClick={deleteTask}
+               className="hidden group-hover:block transition-all duration-300 ease-in-out"
+            >
+               <RxCross2 className="w-4 h-4" />
+            </button>
+            )}
+         </div>
          </div>
       );
    };
@@ -218,10 +306,12 @@ const Board = () => {
       );
    };
 
+   const [activeTab, setActiveTab] = useState('Todo');
+
    return (
       <DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
          <div className="flex flex-col min-h-screen p-4 justify-top">
-            <div className='flex items-center'>
+            <div className='md:flex items-center hidden'>
                <p
                   className='py-2 px-1 font-semibold cursor-pointer hover:underline flex items-center gap-2'
                   onClick={() => navigate('/home')}
@@ -231,8 +321,8 @@ const Board = () => {
                <p className='py-2 px-1'>/</p>
                <p className='py-2 px-1 font-semibold'>{project ? project.name : "Loading..."}</p>
             </div>
-            <div className='flex justify-center mt-10'>
-               <div className='flex md:w-[40vw]'>
+            <div className='flex justify-center md:mt-10'>
+               <div className='flex md:w-[40vw] w-full'>
                   <input
                      value={newTask}
                      onChange={(e) => setNewTask(e.target.value)}
@@ -258,15 +348,40 @@ const Board = () => {
                </div>
             </div>
 
-            <div className='flex justify-start md:items-start items-center flex-col md:flex-row gap-5 mt-8 md:mt-10 h-[75vh] md:overflow-x-auto'>
-               {Object.keys(lists).map((key) => (
-                  <List key={key} listKey={key}>
-                     {lists[key].map((item, index) => (
-                        <Task key={index} task={item} listKey={key} />
+            {isMobile ? (
+               <div className="mt-8">
+                  <div className="flex justify-around border-b border-gray-300">
+                     {Object.keys(lists).map((key) => (
+                        <button
+                           key={key}
+                           onClick={() => setActiveTab(key)}
+                           className={`py-2 px-4 font-semibold ${
+                              activeTab === key ? `border-b-2 ${getTabClass(key)}` : 'text-gray-500'
+                           }`}
+                        >
+                           {key}
+                        </button>
                      ))}
-                  </List>
-               ))}
-            </div>
+                  </div>
+                  <div className="mt-4">
+                     <List listKey={activeTab}>
+                        {lists[activeTab].map((item, index) => (
+                           <Task key={index} task={item} listKey={activeTab} />
+                        ))}
+                     </List>
+                  </div>
+               </div>
+            ) : (
+               <div className='flex justify-start md:items-start items-center flex-col md:flex-row gap-5 mt-8 md:mt-10 h-[75vh] md:overflow-x-auto'>
+                  {Object.keys(lists).map((key) => (
+                     <List key={key} listKey={key}>
+                        {lists[key].map((item, index) => (
+                           <Task key={index} task={item} listKey={key} />
+                        ))}
+                     </List>
+                  ))}
+               </div>
+            )}
          </div>
       </DndProvider>
    );

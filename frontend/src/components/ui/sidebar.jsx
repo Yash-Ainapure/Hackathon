@@ -4,9 +4,10 @@ import { NavLink } from "react-router-dom";
 import { useState, createContext, useContext } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { IconMenu2, IconX } from "@tabler/icons-react";
-
+import { BiArrowBack } from "react-icons/bi";
+import { useNavigate } from 'react-router-dom';
 const SidebarContext = createContext(undefined);
-
+import { useProject } from '../../appComponents/ProjectContext';
 export const useSidebar = () => {
   const context = useContext(SidebarContext);
   if (!context) {
@@ -82,13 +83,25 @@ export const MobileSidebar = ({
   ...props
 }) => {
   const { open, setOpen } = useSidebar();
+const navigate = useNavigate();
+  const { project, setProject } = useProject();
   return (<>
     <div
       className={cn(
-        "h-10 px-4 py-4 flex flex-row md:hidden  items-center justify-between bg-neutral-100 dark:bg-neutral-800 w-full"
+        "h-12 px-4 py-4 flex flex-row md:hidden  items-center justify-between bg-neutral-100 dark:bg-neutral-800 w-full"
       )}
       {...props}>
-      <div className="z-20 flex justify-end w-full">
+      <div className="z-20 flex justify-between items-center w-full ">
+          <div className='flex items-center '>
+               <p
+                  className='py-2 px-1 font-semibold cursor-pointer hover:underline flex items-center gap-2'
+                  onClick={() => navigate('/home')}
+               >
+                  <BiArrowBack className='' />Projects
+               </p>
+               <p className='py-2 px-1'>/</p>
+               <p className='py-2 px-1 font-semibold'>{project ? project.name : "Loading..."}</p>
+            </div>
         <IconMenu2
           className="text-neutral-800 dark:text-neutral-200"
           onClick={() => setOpen(!open)} />

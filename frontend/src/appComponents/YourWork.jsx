@@ -126,7 +126,7 @@ const [isModalOpen, setIsModalOpen] = useState(false);
         </div>
       )}
         {/* Your Projects Section */}
-        <h2 className='py-5 text-2xl font-medium text-gray-700 border-y border-gray-400 flex justify-between items-center'>
+        <h2 className='py-5 text-2xl font-medium text-gray-700 border-b border-gray-400 flex justify-between items-center'>
           <FlipWords words={yourWorkWords} />
           <button
               onClick={openModal}
@@ -156,7 +156,7 @@ const [isModalOpen, setIsModalOpen] = useState(false);
         </div>
 
         {/* Shared Projects Section */}
-        <h2 className='py-5 text-2xl font-medium text-gray-700 border-y border-gray-400 mt-10'>
+        <h2 className='py-5 text-2xl font-medium text-gray-700 border-b border-gray-400 mt-10'>
           <FlipWords words={sharedWorkWords} />
         </h2>
         <div className='flex flex-wrap justify-center'>

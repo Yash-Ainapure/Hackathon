@@ -11,7 +11,7 @@ import { isMobile } from 'react-device-detect';
 import { IoArrowBackCircleSharp } from "react-icons/io5";
 import { TbArrowBack } from "react-icons/tb";
 import { BiArrowBack } from "react-icons/bi";
-import { MdDelete } from "react-icons/md";
+import { RxCross2 } from "react-icons/rx";
 import { isDragActive } from 'framer-motion';
 const BACKEND_URL = import.meta.env.VITE_API_URL;
 const initialLists = {
@@ -73,13 +73,13 @@ const Board = () => {
    const getItemClasses = (key) => {
       switch (key) {
          case 'Todo':
-            return 'p-4 m-1 bg-cyan-100 border border-cyan-300 cursor-move w-[100%] rounded';
+            return 'p-4 m-1 bg-cyan-100 border border-cyan-300 cursor-move w-[100%] rounded group';
          case 'InProgress':
-            return 'p-4 m-1 bg-purple-100 border border-purple-300 cursor-move w-[100%] rounded';
+            return 'p-4 m-1 bg-purple-100 border border-purple-300 cursor-move w-[100%] rounded group';
          case 'Done':
-            return 'p-4 m-1 bg-green-100 border border-green-300 cursor-move w-[100%] rounded';
+            return 'p-4 m-1 bg-green-100 border border-green-300 cursor-move w-[100%] rounded group';
          default:
-            return 'p-4 m-1 bg-neutral-100 border border-gray-300 cursor-move w-[100%] rounded';
+            return 'p-4 m-1 bg-neutral-100 border border-gray-300 cursor-move w-[100%] rounded group';
       }
    };
 
@@ -154,19 +154,22 @@ const Board = () => {
       }));
 
       const deleteTask = async () => {
+         const confirmDelete = window.confirm("Are you sure you want to delete this task?");
+         if (!confirmDelete) return;
+
          try {
-            console.log(task)
-            await axios.delete(`${BACKEND_URL}/api/tasks/deleteTask/${task.taskid}`);
-            setLists((prevLists) => {
-               const updatedLists = { ...prevLists };
-               updatedLists[listKey] = updatedLists[listKey].filter(
-                  (t) => t.taskid !== task.taskid
-               );
-               updateProjectData(updatedLists);
-               return updatedLists;
-            });
+         console.log(task);
+         await axios.delete(`${BACKEND_URL}/api/tasks/deleteTask/${task.taskid}`);
+         setLists((prevLists) => {
+            const updatedLists = { ...prevLists };
+            updatedLists[listKey] = updatedLists[listKey].filter(
+            (t) => t.taskid !== task.taskid
+            );
+            updateProjectData(updatedLists);
+            return updatedLists;
+         });
          } catch (error) {
-            console.error("Error deleting task:", error);
+         console.error("Error deleting task:", error);
          }
       };
 
@@ -179,9 +182,9 @@ const Board = () => {
                <span>{task.taskName}</span>
                <button
                   onClick={deleteTask}
-                  className="ml-2 text-red-500 hover:text-red-700"
+                  className="hidden group-hover:block transition-all duration-300 ease-in-out"
                >
-                  <MdDelete className='' />
+                  <RxCross2 className='w-4 h-4' />
                </button>
             </div>
          </div>
